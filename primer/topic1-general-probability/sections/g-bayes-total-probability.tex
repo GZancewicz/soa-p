@@ -1,0 +1,596 @@
+\section{Outcome (g): Law of total probability and Bayes' theorem}
+
+\subsection{What the outcome asks}
+
+The exam partitions a population into classes (risk classes of drivers, smokers and
+non-smokers, suppliers of a part, diseased and healthy patients) and gives the proportion of
+the population in each class. These proportions are the \emph{prior} probabilities. Each
+class has its own conditional rate of some outcome (an accident, a death, a defect, a positive
+test), and the question runs in one of two directions. The forward direction is the law of
+total probability: combine the class proportions and the class rates to find the overall rate
+of the outcome. The reverse direction is Bayes' theorem: given that the outcome occurred,
+find the probability that the individual came from a particular class. Almost every question
+on this outcome adds one twist: two years of experience that are independent only within a
+class, a class proportion left as an unknown to be solved from a given overall rate, or
+conditioning on the outcome \emph{not} occurring.
+
+\subsection{Law of total probability}
+
+Events $B_1, B_2, \dots, B_n$ form a \emph{partition} of the sample space if they are
+mutually exclusive ($B_i \cap B_j = \emptyset$ for $i \neq j$) and exhaustive
+($B_1 \cup \dots \cup B_n = S$). Every outcome lies in exactly one $B_i$. The simplest
+partition is $\{B, \cc{B}\}$.
+
+\begin{keyfact}[Law of total probability]
+If $B_1, \dots, B_n$ partition the sample space and $\Prob(B_i) > 0$ for every $i$, then for
+any event $A$,
+\[
+\Prob(A) \;=\; \sum_{i=1}^{n} \Prob(A \mid B_i)\,\Prob(B_i)
+\;=\; \Prob(A \mid B_1)\Prob(B_1) + \dots + \Prob(A \mid B_n)\Prob(B_n).
+\]
+Two-event case:
+\[
+\Prob(A) \;=\; \Prob(A \mid B)\,\Prob(B) + \Prob(A \mid \cc{B})\,\Prob(\cc{B}).
+\]
+In words: the overall rate of $A$ is the weighted average of the class rates of $A$, the
+weights being the class proportions.
+\end{keyfact}
+
+\textbf{Proof.} Because the $B_i$ partition $S$, the event $A$ decomposes into the disjoint
+pieces $A \cap B_1, \dots, A \cap B_n$, so $\Prob(A) = \sum_i \Prob(A \cap B_i)$ by
+finite additivity. By the multiplication rule, $\Prob(A \cap B_i) = \Prob(A \mid B_i)\Prob(B_i)$.
+Substituting gives the formula. \qed
+
+\textbf{Tree view.} The formula is a two-level tree. The first level branches on the class,
+with branch probabilities $\Prob(B_i)$; the second level branches on whether $A$ occurs,
+with branch probabilities $\Prob(A \mid B_i)$ and $\Prob(\cc{A} \mid B_i) = 1 - \Prob(A \mid B_i)$.
+Multiply along each path to get a joint probability, then add the paths that end in $A$.
+\begin{itemize}[nosep,leftmargin=2em]
+  \item $B_1$ with probability $\Prob(B_1)$
+  \begin{itemize}[nosep]
+    \item $A$: path probability $\Prob(B_1)\Prob(A \mid B_1)$
+    \item $\cc{A}$: path probability $\Prob(B_1)\bigl(1 - \Prob(A \mid B_1)\bigr)$
+  \end{itemize}
+  \item $B_2$ with probability $\Prob(B_2)$
+  \begin{itemize}[nosep]
+    \item $A$: path probability $\Prob(B_2)\Prob(A \mid B_2)$
+    \item $\cc{A}$: path probability $\Prob(B_2)\bigl(1 - \Prob(A \mid B_2)\bigr)$
+  \end{itemize}
+  \item $\vdots$
+  \item $B_n$ with probability $\Prob(B_n)$
+  \begin{itemize}[nosep]
+    \item $A$: path probability $\Prob(B_n)\Prob(A \mid B_n)$
+    \item $\cc{A}$: path probability $\Prob(B_n)\bigl(1 - \Prob(A \mid B_n)\bigr)$
+  \end{itemize}
+\end{itemize}
+The $2n$ path probabilities sum to 1. $\Prob(A)$ is the sum of the $n$ paths ending in $A$;
+$\Prob(\cc{A})$ is the sum of the $n$ paths ending in $\cc{A}$.
+
+\subsection{Bayes' theorem}
+
+Bayes' theorem reverses the direction of conditioning. The data give
+$\Prob(A \mid B_i)$ (the rate of the outcome within a class); the question asks for
+$\Prob(B_i \mid A)$ (the probability of the class given the outcome).
+
+\begin{keyfact}[Bayes' theorem]
+Two events, with $\Prob(A) > 0$ and $0 < \Prob(B) < 1$:
+\[
+\Prob(B \mid A) \;=\; \frac{\Prob(A \mid B)\,\Prob(B)}{\Prob(A)}
+\;=\; \frac{\Prob(A \mid B)\,\Prob(B)}{\Prob(A \mid B)\,\Prob(B) + \Prob(A \mid \cc{B})\,\Prob(\cc{B})}.
+\]
+Partition $B_1, \dots, B_n$:
+\[
+\Prob(B_k \mid A) \;=\; \frac{\Prob(A \mid B_k)\,\Prob(B_k)}{\displaystyle\sum_{i=1}^{n} \Prob(A \mid B_i)\,\Prob(B_i)}.
+\]
+In words:
+\[
+\text{posterior} \;=\; \frac{\text{prior} \times \text{likelihood}}{\text{sum over all classes of (prior} \times \text{likelihood)}}.
+\]
+Here the prior is $\Prob(B_k)$, the likelihood is $\Prob(A \mid B_k)$, and the denominator is
+$\Prob(A)$ from the law of total probability.
+\end{keyfact}
+
+\textbf{Derivation.} By the definition of conditional probability,
+$\Prob(B_k \mid A) = \Prob(A \cap B_k)/\Prob(A)$. The numerator is
+$\Prob(A \mid B_k)\Prob(B_k)$ by the multiplication rule, and the denominator is
+$\sum_i \Prob(A \mid B_i)\Prob(B_i)$ by the law of total probability. \qed
+
+Two consequences are worth keeping in view. First, the posterior probabilities
+$\Prob(B_i \mid A)$ for $i = 1, \dots, n$ sum to 1, because the numerators sum to the
+denominator. Second, the ratio of two posteriors is
+\[
+\frac{\Prob(B_j \mid A)}{\Prob(B_k \mid A)} = \frac{\Prob(B_j)\,\Prob(A \mid B_j)}{\Prob(B_k)\,\Prob(A \mid B_k)},
+\]
+because the denominator cancels. The observation $A$ multiplies each class's prior odds by
+that class's likelihood.
+
+\subsection{The table method}
+
+Every question on this outcome can be organised in one table with one row per class. The
+steps:
+\begin{enumerate}[nosep,leftmargin=2em]
+  \item List the classes $B_i$ (they must cover everyone and not overlap).
+  \item Write the prior $\Prob(B_i)$ in column 2. The column must sum to 1.
+  \item Write the likelihood $\Prob(A \mid B_i)$ in column 3, where $A$ is the event
+        actually observed. If the observed event is ``no accident'', column 3 holds
+        $1 - (\text{accident rate})$.
+  \item Multiply across: joint $\Prob(A \cap B_i) = \Prob(B_i)\,\Prob(A \mid B_i)$ in column 4.
+  \item Sum column 4. The sum is $\Prob(A)$ (law of total probability).
+  \item Divide each joint by the column sum: posterior $\Prob(B_i \mid A)$ in column 5
+        (Bayes' theorem). Column 5 must sum to 1.
+\end{enumerate}
+
+\textbf{Worked table.} A health insurer classifies its policyholders as smokers (20\%),
+former smokers (30\%), and never-smokers (50\%). The probability of a claim in a year is 0.30
+for a smoker, 0.20 for a former smoker, and 0.10 for a never-smoker. A randomly chosen
+policyholder files a claim. Find the probability that the policyholder is a smoker.
+
+\begin{center}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Class $B_i$ & Prior $\Prob(B_i)$ & Likelihood $\Prob(A \mid B_i)$ & Joint $\Prob(A \cap B_i)$ & Posterior $\Prob(B_i \mid A)$ \\
+\midrule
+Smoker        & 0.20 & 0.30 & $0.20 \times 0.30 = 0.06$ & $0.06/0.17 = 0.3529$ \\
+Former smoker & 0.30 & 0.20 & $0.30 \times 0.20 = 0.06$ & $0.06/0.17 = 0.3529$ \\
+Never-smoker  & 0.50 & 0.10 & $0.50 \times 0.10 = 0.05$ & $0.05/0.17 = 0.2941$ \\
+\midrule
+Total         & 1.00 &      & $\Prob(A) = 0.17$          & 1.0000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The overall claim rate is $\Prob(A) = 0.17$, and $\Prob(\text{smoker} \mid \text{claim}) = 0.06/0.17 = 0.3529$.
+Note that the prior for smokers was 0.20; observing a claim raised it to 0.35.
+
+\textbf{Natural frequencies.} When the priors are proportions of a population, the same
+computation can be done by counting in a hypothetical population. Take 1000 policyholders.
+\begin{itemize}[nosep,leftmargin=2em]
+  \item Smokers: $0.20 \times 1000 = 200$ people, of whom $0.30 \times 200 = 60$ file a claim.
+  \item Former smokers: $0.30 \times 1000 = 300$ people, of whom $0.20 \times 300 = 60$ file a claim.
+  \item Never-smokers: $0.50 \times 1000 = 500$ people, of whom $0.10 \times 500 = 50$ file a claim.
+\end{itemize}
+Total claimants: $60 + 60 + 50 = 170$. Of the 170 claimants, 60 are smokers, so
+$\Prob(\text{smoker} \mid \text{claim}) = 60/170 = 0.3529$. The counts are the joint column
+multiplied by 1000; the arithmetic is the same, but the counts are harder to get wrong under
+time pressure. Use 10\,000 or 100\,000 when the rates are small (a prevalence of 0.001, say)
+so that every count is a whole number.
+
+\subsection{Worked examples}
+
+\begin{example}[Three risk classes of drivers]
+An auto insurer classifies its drivers as standard, preferred, or ultra-preferred. Of the
+insurer's drivers, 60\% are standard, 30\% are preferred, and 10\% are ultra-preferred. In a
+given year, the probability of an accident is 0.10 for a standard driver, 0.05 for a
+preferred driver, and 0.01 for an ultra-preferred driver. A driver chosen at random has an
+accident during the year. Calculate the probability that the driver is ultra-preferred.
+\par\smallskip\noindent (A) 0.001\qquad (B) 0.010\qquad (C) 0.013\qquad (D) 0.076\qquad (E) 0.132
+\end{example}
+\begin{solution}
+Let $A$ be the event of an accident. Build the table.
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Class & Prior & Likelihood & Joint \\
+\midrule
+Standard        & 0.60 & 0.10 & 0.060 \\
+Preferred       & 0.30 & 0.05 & 0.015 \\
+Ultra-preferred & 0.10 & 0.01 & 0.001 \\
+\midrule
+Total           & 1.00 &      & $\Prob(A) = 0.076$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(\text{ultra} \mid A) = \frac{0.001}{0.076} = 0.0132.
+\]
+Answer (C). Choice (A) is the joint probability, not the posterior; choice (D) is $\Prob(A)$.
+Note the base-rate effect: ultra-preferred drivers are 10\% of the population but only 1.3\%
+of the drivers who have accidents.
+\end{solution}
+
+\begin{example}[Medical test with low prevalence]
+A blood test for a disease has sensitivity 0.95 (the probability of a positive result given
+that the disease is present) and specificity 0.90 (the probability of a negative result given
+that the disease is absent). The disease is present in 1\% of the population. A person chosen
+at random tests positive. Calculate the probability that the person has the disease.
+\par\smallskip\noindent (A) 0.009\qquad (B) 0.088\qquad (C) 0.095\qquad (D) 0.475\qquad (E) 0.950
+\end{example}
+\begin{solution}
+Let $D$ be disease present and $T$ a positive test. The likelihood of a positive test in the
+healthy class is the false-positive rate $1 - \text{specificity} = 0.10$.
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Class & Prior & $\Prob(T \mid \cdot)$ & Joint \\
+\midrule
+Disease    & 0.01 & 0.95 & 0.0095 \\
+No disease & 0.99 & 0.10 & 0.0990 \\
+\midrule
+Total      & 1.00 &      & $\Prob(T) = 0.1085$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(D \mid T) = \frac{0.0095}{0.1085} = 0.0876.
+\]
+Answer (B). In natural frequencies with 10\,000 people: 100 have the disease and 95 of them
+test positive; 9\,900 do not and 990 of them test positive; $95/(95 + 990) = 0.0876$. A test
+that is 95\% sensitive and 90\% specific still leaves a positive result with under a 9\%
+chance of disease, because the healthy class is 99 times larger than the diseased class and
+its false positives dominate. Choice (E) confuses $\Prob(T \mid D)$ with $\Prob(D \mid T)$.
+\end{solution}
+
+\begin{example}[Claim in year two given no claim in year one]
+An insurer has two classes of policyholders. Low-risk policyholders make up 70\% of the
+insured population and have probability 0.10 of a claim in any given year. High-risk
+policyholders make up the remaining 30\% and have probability 0.40 of a claim in any given
+year. For each policyholder, claims in different years are independent given the
+policyholder's class. A policyholder chosen at random has no claim in the first year.
+Calculate the probability that the policyholder has a claim in the second year.
+\par\smallskip\noindent (A) 0.135\qquad (B) 0.167\qquad (C) 0.190\qquad (D) 0.210\qquad (E) 0.250
+\end{example}
+\begin{solution}
+Let $N_1$ be no claim in year 1 and $C_2$ a claim in year 2. Then
+$\Prob(C_2 \mid N_1) = \Prob(N_1 \cap C_2)/\Prob(N_1)$, and both numerator and denominator
+are computed by total probability over the classes. Within a class the years are independent,
+so $\Prob(N_1 \cap C_2 \mid \text{class}) = \Prob(N_1 \mid \text{class})\,\Prob(C_2 \mid \text{class})$.
+\begin{center}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Class & Prior & $\Prob(N_1 \mid \cdot)$ & Joint $\Prob(N_1 \cap \cdot)$ & $\Prob(N_1 \cap C_2 \cap \cdot)$ \\
+\midrule
+Low  & 0.70 & 0.90 & 0.630 & $0.630 \times 0.10 = 0.063$ \\
+High & 0.30 & 0.60 & 0.180 & $0.180 \times 0.40 = 0.072$ \\
+\midrule
+Total & 1.00 & & $\Prob(N_1) = 0.810$ & $\Prob(N_1 \cap C_2) = 0.135$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(C_2 \mid N_1) = \frac{0.135}{0.810} = 0.1667.
+\]
+Answer (B). An equivalent route is to update the class probabilities first:
+$\Prob(\text{low} \mid N_1) = 0.630/0.810 = 7/9$ and $\Prob(\text{high} \mid N_1) = 2/9$; then
+$\Prob(C_2 \mid N_1) = (7/9)(0.10) + (2/9)(0.40) = 0.1667$. Choice (C) is the unconditional
+one-year claim rate $0.7(0.10) + 0.3(0.40) = 0.19$; the clean first year shifts weight toward
+the low-risk class and lowers the second-year rate. The years are \emph{not} unconditionally
+independent, so $\Prob(C_2 \mid N_1) \neq \Prob(C_2)$.
+\end{solution}
+
+\begin{example}[Unknown class proportion]
+An insurer issues policies to two types of policyholders. Type A policyholders have
+probability 0.05 of a claim in a year; type B policyholders have probability 0.20. The
+insurer's overall claim rate is 0.11 per policyholder per year. A policyholder chosen at
+random files a claim. Calculate the probability that the policyholder is type B.
+\par\smallskip\noindent (A) 0.40\qquad (B) 0.60\qquad (C) 0.67\qquad (D) 0.73\qquad (E) 0.80
+\end{example}
+\begin{solution}
+Let $x = \Prob(\text{A})$, so $\Prob(\text{B}) = 1 - x$. The law of total probability gives
+\[
+0.11 = 0.05x + 0.20(1 - x) = 0.20 - 0.15x
+\quad\Longrightarrow\quad
+x = \frac{0.09}{0.15} = 0.60.
+\]
+So 60\% are type A and 40\% are type B. Now apply Bayes' theorem; the denominator is the
+given overall rate 0.11, so there is nothing further to add up:
+\[
+\Prob(\text{B} \mid \text{claim}) = \frac{0.40 \times 0.20}{0.11} = \frac{0.08}{0.11} = 0.7273.
+\]
+Answer (D). Choice (A) is the prior for type B; choice (B) is the proportion of type A.
+\end{solution}
+
+\begin{example}[Classes given as a ratio]
+A company has twice as many male employees as female employees. In a given year, 6\% of male
+employees and 9\% of female employees file a disability claim. An employee chosen at random
+files a disability claim. Calculate the probability that the employee is female.
+\par\smallskip\noindent (A) 0.333\qquad (B) 0.400\qquad (C) 0.429\qquad (D) 0.500\qquad (E) 0.600
+\end{example}
+\begin{solution}
+``Twice as many male as female'' means the ratio male : female is $2 : 1$, so the priors are
+$\Prob(M) = 2/3$ and $\Prob(F) = 1/3$. (The same information stated as odds ``$2$ to $1$
+in favour of male'' converts the same way: odds $a : b$ means probabilities $a/(a+b)$ and
+$b/(a+b)$.)
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Class & Prior & Likelihood & Joint \\
+\midrule
+Male   & $2/3$ & 0.06 & 0.04 \\
+Female & $1/3$ & 0.09 & 0.03 \\
+\midrule
+Total  & 1 & & 0.07 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(F \mid \text{claim}) = \frac{0.03}{0.07} = 0.4286.
+\]
+Answer (C). Using natural frequencies with 300 employees: 200 males with 12 claims, 100
+females with 9 claims; $9/21 = 0.4286$. Choice (A) is the prior. Choice (E) comes from
+using the wrong ratio (treating female as the larger class).
+\end{solution}
+
+\begin{example}[Which supplier]
+A manufacturer buys a component from three suppliers. Supplier A provides 50\% of the
+components, supplier B provides 30\%, and supplier C provides 20\%. The proportion of
+defective components is 2\% for supplier A, 3\% for supplier B, and 5\% for supplier C. A
+component chosen at random from inventory is found to be defective. Calculate the probability
+that it came from supplier C.
+\par\smallskip\noindent (A) 0.200\qquad (B) 0.310\qquad (C) 0.345\qquad (D) 0.400\qquad (E) 0.500
+\end{example}
+\begin{solution}
+\begin{center}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Supplier & Prior & Likelihood & Joint & Posterior \\
+\midrule
+A & 0.50 & 0.02 & 0.010 & $0.010/0.029 = 0.345$ \\
+B & 0.30 & 0.03 & 0.009 & $0.009/0.029 = 0.310$ \\
+C & 0.20 & 0.05 & 0.010 & $0.010/0.029 = 0.345$ \\
+\midrule
+Total & 1.00 & & 0.029 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+$\Prob(\text{C} \mid \text{defective}) = 0.010/0.029 = 0.3448$. Answer (C). Choice (B) is the
+posterior for supplier B, a distractor for a candidate who reads the wrong row. In natural
+frequencies with 1000 components: A supplies 500 with 10 defects, B supplies 300 with 9,
+C supplies 200 with 10; $10/29$.
+\end{solution}
+
+\begin{example}[Conditioning on the complement]
+An insurer's drivers fall into three age groups: 30\% are young, 50\% are middle-aged, and
+20\% are senior. The probability of an accident in a year is 0.20 for a young driver, 0.08
+for a middle-aged driver, and 0.12 for a senior driver. A driver chosen at random has no
+accident during the year. Calculate the probability that the driver is young.
+\par\smallskip\noindent (A) 0.240\qquad (B) 0.274\qquad (C) 0.300\qquad (D) 0.484\qquad (E) 0.516
+\end{example}
+\begin{solution}
+The observed event is $\cc{A}$, no accident. The likelihood in each row is
+$\Prob(\cc{A} \mid \text{class}) = 1 - \Prob(A \mid \text{class})$, in every row.
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Class & Prior & $\Prob(\cc{A} \mid \cdot)$ & Joint \\
+\midrule
+Young  & 0.30 & 0.80 & 0.240 \\
+Middle & 0.50 & 0.92 & 0.460 \\
+Senior & 0.20 & 0.88 & 0.176 \\
+\midrule
+Total  & 1.00 & & $\Prob(\cc{A}) = 0.876$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(\text{young} \mid \cc{A}) = \frac{0.240}{0.876} = 0.2740.
+\]
+Answer (B). Choice (D), 0.484, is $\Prob(\text{young} \mid A) = 0.060/0.124$, the answer to
+the opposite question; choice (E) is $1 - 0.484$, which is $\Prob(\text{not young} \mid A)$
+and not $\Prob(\text{young} \mid \cc{A})$. A clean year lowers the probability of the young
+class from 0.30 to 0.27, a smaller shift than an accident produces, because a clean year is
+common in every class.
+\end{solution}
+
+\begin{example}[Observation spanning two years]
+An insurer classifies 80\% of its policyholders as good risks and 20\% as bad risks. In each
+year a good risk has probability 0.05 of at least one claim and a bad risk has probability
+0.25. Given the class, claim activity in different years is independent. A policyholder
+chosen at random has at least one claim during a two-year period. Calculate the probability
+that the policyholder is a bad risk.
+\par\smallskip\noindent (A) 0.200\qquad (B) 0.400\qquad (C) 0.529\qquad (D) 0.556\qquad (E) 0.714
+\end{example}
+\begin{solution}
+Let $E$ be the event of at least one claim in two years. Within a class,
+$\Prob(E \mid \text{class}) = 1 - (1 - p)^2$ where $p$ is the class's one-year rate, using
+conditional independence.
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Class & Prior & $\Prob(E \mid \cdot)$ & Joint \\
+\midrule
+Good & 0.80 & $1 - 0.95^2 = 0.0975$ & 0.0780 \\
+Bad  & 0.20 & $1 - 0.75^2 = 0.4375$ & 0.0875 \\
+\midrule
+Total & 1.00 & & $\Prob(E) = 0.1655$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(\text{bad} \mid E) = \frac{0.0875}{0.1655} = 0.5287.
+\]
+Answer (C). Choice (D), 0.556, is $\Prob(\text{bad} \mid \text{claim in a single year}) = 0.05/0.09$;
+the likelihood must match the event actually observed, which here covers two years.
+\end{solution}
+
+\subsection{Traps}
+
+\begin{trap}[Answering $\Prob(A \mid B)$ when $\Prob(B \mid A)$ is asked]
+The data always give the rate of the outcome within each class, $\Prob(A \mid B_i)$. The
+question almost always asks for the class given the outcome, $\Prob(B_i \mid A)$. These are
+different numbers: in the medical-test example, $\Prob(T \mid D) = 0.95$ while
+$\Prob(D \mid T) = 0.088$. Before computing, write down in symbols which event is observed
+(goes to the right of the bar) and which is asked for (goes to the left). The answer choices
+routinely include the likelihood as a distractor.
+\end{trap}
+
+\begin{trap}[Forgetting a class in the denominator]
+The denominator of Bayes' theorem is $\Prob(A)$, the sum of prior times likelihood over
+\emph{every} class. Omitting a class (typically the third class in a three-class problem, or
+the ``no disease'' class in a test problem) makes the denominator too small and the posterior
+too large. Check that the prior column sums to 1 before summing the joint column. If the
+priors given in the problem do not sum to 1, the remaining mass belongs to a class the
+problem describes in words (``the remaining policyholders'') and that class must be in the
+table.
+\end{trap}
+
+\begin{trap}[Using the overall rate as a likelihood]
+The likelihood column holds class-specific rates $\Prob(A \mid B_i)$. The overall rate
+$\Prob(A)$ belongs in the total row, not in any class row. When a problem gives the overall
+rate together with all but one of the class rates or priors, the overall rate is there so
+that the missing quantity can be solved from the law of total probability, as in the
+unknown-proportion example. Once solved, the given overall rate is the Bayes denominator; do
+not recompute it from the table and get a different number through rounding.
+\end{trap}
+
+\begin{trap}[Conditional independence is given the class, not unconditional]
+In multi-year problems, ``claims in different years are independent'' means independent
+\emph{within each class}: $\Prob(C_1 \cap C_2 \mid B_i) = \Prob(C_1 \mid B_i)\Prob(C_2 \mid B_i)$.
+It does not mean $\Prob(C_1 \cap C_2) = \Prob(C_1)\Prob(C_2)$. Because the population mixes
+classes with different rates, a claim in year one raises the probability of the high-risk
+class and therefore raises the probability of a claim in year two:
+$\Prob(C_2 \mid C_1) > \Prob(C_2)$. A candidate who treats the years as unconditionally
+independent answers with the marginal one-year rate, which is always among the choices.
+Multiply the two years' probabilities inside each row of the table, never across the total
+row.
+\end{trap}
+
+\begin{trap}[Conditioning on $\cc{A}$ requires $1 - \text{likelihood}$ in every row]
+When the observed event is ``no accident'', ``tested negative'', or ``survived'', the
+likelihood in every row is $1 - \Prob(A \mid B_i)$, and the denominator is
+$\Prob(\cc{A}) = 1 - \Prob(A)$. Two wrong shortcuts appear in the choices:
+using the accident rates unchanged (which gives $\Prob(B_i \mid A)$), and computing
+$1 - \Prob(B_i \mid A)$ (which is $\Prob(\cc{B_i} \mid A)$, the complement on the wrong
+side of the bar). Neither equals $\Prob(B_i \mid \cc{A})$. For a negative medical test the
+likelihoods are $1 - \text{sensitivity}$ in the disease row and the specificity in the
+healthy row.
+\end{trap}
+
+\begin{trap}[Normalising by the wrong total]
+The posterior is the joint probability divided by the sum of the joint column, not by the
+prior, not by the likelihood, and not by 1. Dividing the joint by the class prior returns the
+likelihood; dividing by the likelihood returns the prior; leaving it undivided gives
+$\Prob(A \cap B_i)$, which the choices usually include (0.001 in the driver example, 0.018 in
+a test example). The posterior column must sum to 1; if it does not, the divisor is wrong.
+\end{trap}
+
+\subsection{Practice problems}
+
+\begin{practice}
+An insurer classifies its policyholders as low risk (45\%), medium risk (35\%), and high
+risk (20\%). The probability of a claim in a year is 0.02 for low risk, 0.05 for medium
+risk, and 0.10 for high risk. A policyholder chosen at random files a claim. Calculate the
+probability that the policyholder is high risk.
+\par\smallskip\noindent (A) 0.200\qquad (B) 0.387\qquad (C) 0.430\qquad (D) 0.465\qquad (E) 0.500
+\end{practice}
+
+\begin{practice}
+A screening test for a condition has sensitivity 0.90 and specificity 0.95. The condition
+is present in 2\% of the population screened. A person screened at random tests positive.
+Calculate the probability that the person has the condition.
+\par\smallskip\noindent (A) 0.018\qquad (B) 0.067\qquad (C) 0.269\qquad (D) 0.474\qquad (E) 0.900
+\end{practice}
+
+\begin{practice}
+An insurer's policyholders are 60\% class A, with annual claim probability 0.10, and 40\%
+class B, with annual claim probability 0.30. Given the class, claims in different years are
+independent. A policyholder chosen at random has a claim in year one. Calculate the
+probability that the policyholder has a claim in year two.
+\par\smallskip\noindent (A) 0.180\qquad (B) 0.200\qquad (C) 0.233\qquad (D) 0.250\qquad (E) 0.300
+\end{practice}
+
+\begin{practice}
+A factory produces a part on two machines. Parts from machine 1 are defective with
+probability 0.02 and parts from machine 2 are defective with probability 0.05. The
+proportion of all parts that are defective is 0.032. A part chosen at random is defective.
+Calculate the probability that it was produced on machine 2.
+\par\smallskip\noindent (A) 0.400\qquad (B) 0.500\qquad (C) 0.600\qquad (D) 0.625\qquad (E) 0.750
+\end{practice}
+
+\begin{practice}
+An auto insurer has three times as many preferred drivers as standard drivers. In a year,
+a standard driver has an accident with probability 0.12 and a preferred driver with
+probability 0.04. A driver chosen at random has an accident. Calculate the probability that
+the driver is standard.
+\par\smallskip\noindent (A) 0.250\qquad (B) 0.333\qquad (C) 0.500\qquad (D) 0.667\qquad (E) 0.750
+\end{practice}
+
+\begin{practice}
+Of a life insurer's policyholders, 25\% are smokers and 75\% are non-smokers. The
+probability of dying within the year is 0.05 for a smoker and 0.01 for a non-smoker. A
+policyholder chosen at random survives the year. Calculate the probability that the
+policyholder is a smoker.
+\par\smallskip\noindent (A) 0.238\qquad (B) 0.242\qquad (C) 0.250\qquad (D) 0.375\qquad (E) 0.625
+\end{practice}
+
+\begin{practice}
+A distributor stocks a component from four suppliers. Supplier A provides 40\% of the
+stock with a 1\% defect rate, supplier B provides 30\% with a 2\% defect rate, supplier C
+provides 20\% with a 3\% defect rate, and supplier D provides 10\% with a 5\% defect rate.
+A component chosen at random is defective. Calculate the probability that it came from
+supplier A.
+\par\smallskip\noindent (A) 0.100\qquad (B) 0.190\qquad (C) 0.286\qquad (D) 0.400\qquad (E) 0.476
+\end{practice}
+
+\begin{practice}
+An insurer's policyholders are 30\% young and 70\% not young. The probability that a young
+policyholder files a claim in a year is 0.15. The overall probability that a policyholder
+files a claim in a year is 0.09. A policyholder chosen at random files no claim during the
+year. Calculate the probability that the policyholder is young.
+\par\smallskip\noindent (A) 0.064\qquad (B) 0.255\qquad (C) 0.280\qquad (D) 0.300\qquad (E) 0.500
+\end{practice}
+
+\subsection{Answers to practice problems}
+
+\begin{enumerate}[nosep,leftmargin=2em]
+  \item \textbf{(C)}. Joint probabilities $0.45(0.02) = 0.0090$, $0.35(0.05) = 0.0175$,
+        $0.20(0.10) = 0.0200$; total $0.0465$. $\Prob(\text{high} \mid \text{claim}) = 0.0200/0.0465 = 0.430$.
+  \item \textbf{(C)}. Joint: $0.02(0.90) = 0.018$ and $0.98(0.05) = 0.049$; total $0.067$.
+        $\Prob(D \mid T) = 0.018/0.067 = 0.269$. Choice (A) is the joint, (B) is $\Prob(T)$.
+  \item \textbf{(C)}. $\Prob(C_1) = 0.6(0.10) + 0.4(0.30) = 0.18$;
+        $\Prob(C_1 \cap C_2) = 0.6(0.10)^2 + 0.4(0.30)^2 = 0.006 + 0.036 = 0.042$;
+        $\Prob(C_2 \mid C_1) = 0.042/0.18 = 0.233$. Choice (A) is the unconditional rate.
+  \item \textbf{(D)}. With $x = \Prob(\text{machine 1})$: $0.02x + 0.05(1 - x) = 0.032$ gives
+        $x = 0.60$. $\Prob(\text{machine 2} \mid \text{def}) = 0.40(0.05)/0.032 = 0.020/0.032 = 0.625$.
+  \item \textbf{(C)}. Priors $\Prob(\text{std}) = 1/4$, $\Prob(\text{pref}) = 3/4$. Joint:
+        $0.25(0.12) = 0.03$ and $0.75(0.04) = 0.03$; total $0.06$. $\Prob(\text{std} \mid A) = 0.03/0.06 = 0.500$.
+  \item \textbf{(B)}. Survival likelihoods $0.95$ and $0.99$. Joint: $0.25(0.95) = 0.2375$ and
+        $0.75(0.99) = 0.7425$; total $0.98$. $\Prob(\text{smoker} \mid \text{survive}) = 0.2375/0.98 = 0.242$.
+        Choice (E) is $\Prob(\text{smoker} \mid \text{die}) = 0.0125/0.02$; choice (D) is its complement.
+  \item \textbf{(B)}. Joint: $0.004$, $0.006$, $0.006$, $0.005$; total $0.021$.
+        $\Prob(\text{A} \mid \text{def}) = 0.004/0.021 = 0.190$. Choice (C) is the posterior for B or C.
+  \item \textbf{(C)}. First solve for the not-young rate $y$: $0.3(0.15) + 0.7y = 0.09$ gives
+        $y = 0.045/0.7 = 0.0643$. Then $\Prob(\text{no claim}) = 1 - 0.09 = 0.91$ and
+        $\Prob(\text{young} \mid \text{no claim}) = 0.3(0.85)/0.91 = 0.255/0.91 = 0.280$.
+        Choice (A) is $y$; choice (B) is the joint probability.
+\end{enumerate}
+
+\subsection{One-page summary}
+
+\begin{itemize}[nosep,leftmargin=2em]
+  \item A partition $B_1, \dots, B_n$: mutually exclusive, exhaustive, priors sum to 1.
+        The two-class case is $\{B, \cc{B}\}$.
+  \item Law of total probability: $\Prob(A) = \sum_i \Prob(A \mid B_i)\Prob(B_i)$.
+        Two classes: $\Prob(A) = \Prob(A \mid B)\Prob(B) + \Prob(A \mid \cc{B})\Prob(\cc{B})$.
+        The overall rate is the prior-weighted average of the class rates.
+  \item Bayes' theorem: $\Prob(B_k \mid A) = \dfrac{\Prob(A \mid B_k)\Prob(B_k)}{\sum_i \Prob(A \mid B_i)\Prob(B_i)}$.
+        Posterior $=$ prior $\times$ likelihood, divided by the sum of prior $\times$ likelihood
+        over all classes. Posteriors sum to 1.
+  \item Table method: (1) one row per class; (2) prior column, sums to 1; (3) likelihood
+        column $\Prob(\text{observed event} \mid \text{class})$; (4) joint $=$ prior $\times$
+        likelihood; (5) sum the joint column to get $\Prob(\text{observed event})$;
+        (6) posterior $=$ joint $/$ column sum.
+  \item Natural frequencies: take 1000 or 10\,000 people, count each class, count the
+        outcome within each class, and divide the count in the target class by the total
+        count with the outcome.
+  \item Observed event on the right of the bar, asked-for event on the left. The data give
+        $\Prob(A \mid B_i)$; the question asks $\Prob(B_i \mid A)$.
+  \item Conditioning on $\cc{A}$ (no claim, negative test, survived): likelihood
+        $1 - \Prob(A \mid B_i)$ in every row; denominator $1 - \Prob(A)$.
+        Negative test: disease row $1 - \text{sensitivity}$, healthy row $=$ specificity.
+  \item Sensitivity $= \Prob(T \mid D)$; specificity $= \Prob(\cc{T} \mid \cc{D})$;
+        false-positive rate $= 1 - \text{specificity}$. Low prevalence makes $\Prob(D \mid T)$
+        small even for an accurate test.
+  \item Two years: independence holds within a class only. Multiply year probabilities inside
+        each row: $\Prob(C_1 \cap C_2 \mid B_i) = p_i^2$, $\Prob(N_1 \cap C_2 \mid B_i) = (1 - p_i)p_i$,
+        $\Prob(\text{at least one claim} \mid B_i) = 1 - (1 - p_i)^2$. Then
+        $\Prob(C_2 \mid C_1) = \Prob(C_1 \cap C_2)/\Prob(C_1)$, each side by total probability.
+        Equivalent: update the class posteriors after year one, then average the year-two rates.
+  \item Unknown proportion: set $\Prob(B_1) = x$, write the given overall rate as
+        $\sum_i \Prob(A \mid B_i)\Prob(B_i)$, solve for $x$, then use the given overall rate as
+        the Bayes denominator.
+  \item Ratios and odds: ``$k$ times as many in class 1 as class 2'' or odds $k : 1$ means
+        priors $k/(k+1)$ and $1/(k+1)$.
+  \item Distractors to recognise: the likelihood, the joint probability, the overall rate,
+        the prior, the posterior of a neighbouring class, and the complement on the wrong
+        side of the bar.
+\end{itemize}

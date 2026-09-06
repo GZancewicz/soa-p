@@ -1,0 +1,484 @@
+\section{Outcome (a): Sets, sample spaces, events, and the axioms of probability}
+
+\subsection{What the outcome asks}
+
+The exam does not ask you to recite definitions. It tests whether you can convert
+a word problem into set notation, fill a two-event or three-event Venn diagram from
+partial information, and apply the axioms and their direct consequences (complement
+rule, inclusion-exclusion, monotonicity) to produce a number. The most common
+question gives four to seven proportions of policyholders holding various coverages
+and asks for the proportion in one region of the diagram or in a union of regions
+(``none'', ``exactly one'', ``at most one'', ``auto but not home''). A second type
+gives two probabilities with no other information and asks for the largest or
+smallest value a third probability can take; that is solved with the axioms alone.
+The arithmetic is short; points are lost in the translation from English to sets.
+
+\subsection{Definitions}
+
+\paragraph{Sample space, outcomes, events.}
+The \emph{sample space} $S$ of a random experiment (select a policyholder at
+random, observe next year's claims) is the set of all possible results; each element of $S$ is
+an \emph{outcome}. An \emph{event} is a subset of $S$. $A$ \emph{occurs} when the observed outcome lies in $A$. $S$ is the certain
+event and $\emptyset$ the impossible event.
+
+\paragraph{Set operations.}
+For events $A, B \subseteq S$:
+\begin{itemize}[nosep]
+  \item Union $A \cup B$: outcomes in $A$ or $B$ or both. English: ``$A$ or $B$'',
+        ``at least one of $A$, $B$''.
+  \item Intersection $A \cap B$ (also written $AB$): outcomes in both. English:
+        ``$A$ and $B$'', ``both''.
+  \item Complement $\cc{A} = S \setminus A$: outcomes not in $A$. English: ``not $A$''.
+  \item Difference $A \setminus B = A \cap \cc{B}$: outcomes in $A$ but not in $B$.
+        English: ``$A$ but not $B$'', ``$A$ only'' (when only two events are in play).
+  \item $A$ and $B$ are \emph{disjoint} (mutually exclusive) when $A \cap B = \emptyset$;
+        $A \subseteq B$ when every outcome of $A$ is in $B$, so $A$ occurring forces $B$.
+\end{itemize}
+Union and intersection distribute over each other:
+$A \cap (B \cup C) = (A\cap B) \cup (A \cap C)$. Any event $A$ splits as the
+disjoint union $A = (A \cap B) \cup (A \cap \cc{B})$; this identity is used constantly.
+
+\begin{keyfact}[De Morgan's laws]
+\[
+  \cc{(A \cup B)} = \cc{A} \cap \cc{B},
+  \qquad
+  \cc{(A \cap B)} = \cc{A} \cup \cc{B}.
+\]
+In words: ``neither $A$ nor $B$'' is the complement of ``at least one'';
+``not both'' is the complement of ``both''. The same pattern holds for any number
+of events: the complement of a union is the intersection of the complements, and
+the complement of an intersection is the union of the complements.
+\end{keyfact}
+
+\paragraph{Set functions and the collection of events.}
+A \emph{set function} is a function whose inputs are sets. The number of elements
+$|A|$, the length of an interval, and probability are all set functions.
+The domain of a probability is a collection $\mathcal{F}$ of subsets of $S$, the
+\emph{events}. $\mathcal{F}$ must contain $S$, must contain $\cc{A}$ whenever it
+contains $A$, and must contain $A_1 \cup A_2 \cup \cdots$ whenever it contains
+each $A_i$; a collection with these closure properties is a \emph{sigma-field}
+(or sigma-algebra). When $S$ is finite, $\mathcal{F}$ is every subset of $S$; on the exam, every set
+you can describe is an event.
+
+\paragraph{Probability as a set function.}
+A \emph{probability} is a set function $\Prob : \mathcal{F} \to \mathbb{R}$
+satisfying three axioms (Kolmogorov, 1933).
+
+\begin{keyfact}[The three axioms of probability]
+\begin{enumerate}[nosep,label=\textbf{A\arabic*.}]
+  \item Nonnegativity: $\Prob(A) \ge 0$ for every event $A$.
+  \item Normalisation: $\Prob(S) = 1$.
+  \item Countable additivity: if $A_1, A_2, \ldots$ are pairwise disjoint
+        ($A_i \cap A_j = \emptyset$ for $i \ne j$), then
+        \[
+          \Prob\bigl(A_1 \cup A_2 \cup \cdots\bigr) = \Prob(A_1) + \Prob(A_2) + \cdots .
+        \]
+\end{enumerate}
+\end{keyfact}
+
+Everything else in this outcome is a consequence of the three axioms.
+
+\begin{keyfact}[Consequences of the axioms]
+\begin{enumerate}[nosep,label=\textbf{C\arabic*.}]
+  \item $\Prob(\emptyset) = 0$.
+  \item Finite additivity: for pairwise disjoint $A_1, \ldots, A_n$,
+        $\Prob(A_1 \cup \cdots \cup A_n) = \sum_{i=1}^{n} \Prob(A_i)$.
+  \item Complement rule: $\Prob(\cc{A}) = 1 - \Prob(A)$.
+  \item Monotonicity: if $A \subseteq B$ then $\Prob(A) \le \Prob(B)$ and
+        $\Prob(B \setminus A) = \Prob(B) - \Prob(A)$.
+  \item $0 \le \Prob(A) \le 1$.
+  \item Difference rule: $\Prob(A \cap \cc{B}) = \Prob(A) - \Prob(A \cap B)$.
+  \item Inclusion-exclusion, two events:
+        \[
+          \Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B).
+        \]
+  \item Inclusion-exclusion, three events:
+        \begin{align*}
+          \Prob(A \cup B \cup C) = {}& \Prob(A) + \Prob(B) + \Prob(C) \\
+          & - \Prob(A\cap B) - \Prob(A \cap C) - \Prob(B \cap C) \\
+          & + \Prob(A \cap B \cap C).
+        \end{align*}
+  \item Boole's inequality: $\Prob(A_1 \cup \cdots \cup A_n) \le \sum_{i=1}^{n}\Prob(A_i)$.
+  \item Bonferroni's inequality: $\Prob(A \cap B) \ge \Prob(A) + \Prob(B) - 1$.
+\end{enumerate}
+\end{keyfact}
+
+Each consequence comes from writing a set as a disjoint union and applying A3:
+$S = A \cup \cc{A}$ gives C3; $B = A \cup (B \setminus A)$ gives C4 and C5;
+$A = (A\cap B) \cup (A\cap\cc{B})$ gives C6; $A \cup B = A \cup (B \cap \cc{A})$
+gives C7, and C7 applied twice gives C8. When the exam asks which statements
+``must be true'', the answer is one of C1--C10 or an axiom.
+
+\subsection{Venn diagram method}
+
+A Venn diagram partitions $S$ into disjoint regions, so the probability of any
+event is the sum of the regions it contains (C2). Name the events, fill the regions
+from the innermost intersection outward, then read off the requested set as a sum
+of regions.
+
+\paragraph{Two events (four regions).}
+The four regions are $A\cap B$, $A \cap \cc{B}$, $\cc{A} \cap B$, and
+$\cc{A} \cap \cc{B}$. A $2\times 2$ table is the fastest bookkeeping; row and column
+totals are the marginal probabilities, and the grand total is $1$.
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & $B$ & $\cc{B}$ & Total \\
+\midrule
+$A$      & $\Prob(A \cap B)$        & $\Prob(A \cap \cc{B})$        & $\Prob(A)$ \\
+$\cc{A}$ & $\Prob(\cc{A} \cap B)$   & $\Prob(\cc{A} \cap \cc{B})$   & $\Prob(\cc{A})$ \\
+\midrule
+Total    & $\Prob(B)$               & $\Prob(\cc{B})$               & $1$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Any three independent pieces of information determine the whole table.
+
+\paragraph{Three events (eight regions).}
+Fill in the order shown. Each region's probability is obtained by subtracting
+regions already known from a given total.
+\begin{center}
+\begin{tabular}{@{}clll@{}}
+\toprule
+Order & Region & Description & How to compute \\
+\midrule
+1 & $A \cap B \cap C$                   & all three          & given, or found last from the total \\
+2 & $A \cap B \cap \cc{C}$              & $A$ and $B$ only   & $\Prob(A\cap B) - \Prob(A\cap B\cap C)$ \\
+3 & $A \cap \cc{B} \cap C$              & $A$ and $C$ only   & $\Prob(A\cap C) - \Prob(A\cap B\cap C)$ \\
+4 & $\cc{A} \cap B \cap C$              & $B$ and $C$ only   & $\Prob(B\cap C) - \Prob(A\cap B\cap C)$ \\
+5 & $A \cap \cc{B} \cap \cc{C}$         & $A$ only           & $\Prob(A) - (\text{regions } 1,2,3)$ \\
+6 & $\cc{A} \cap B \cap \cc{C}$         & $B$ only           & $\Prob(B) - (\text{regions } 1,2,4)$ \\
+7 & $\cc{A} \cap \cc{B} \cap C$         & $C$ only           & $\Prob(C) - (\text{regions } 1,3,4)$ \\
+8 & $\cc{A} \cap \cc{B} \cap \cc{C}$    & none               & $1 - (\text{regions } 1\text{--}7)$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+When the problem gives ``none'' instead of ``all three'', the same table is solved
+in reverse: the sum of regions 1--7 equals $1 - \Prob(\text{none})$, which with
+inclusion-exclusion determines $\Prob(A \cap B \cap C)$.
+
+\paragraph{From English to sets.}
+The two tables below are the translation dictionary; every phrase in them appears
+in exam questions. Write $p_A = \Prob(A)$, $p_B = \Prob(B)$, $p_{AB} = \Prob(A \cap B)$.
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+English phrase (two events) & Set expression & Probability \\
+\midrule
+$A$ or $B$; at least one            & $A \cup B$                                 & $p_A + p_B - p_{AB}$ \\
+$A$ and $B$; both                   & $A \cap B$                                 & $p_{AB}$ \\
+not $A$                             & $\cc{A}$                                   & $1 - p_A$ \\
+neither $A$ nor $B$                 & $\cc{A} \cap \cc{B} = \cc{(A\cup B)}$      & $1 - p_A - p_B + p_{AB}$ \\
+not both; at most one               & $\cc{A} \cup \cc{B} = \cc{(A\cap B)}$      & $1 - p_{AB}$ \\
+$A$ but not $B$; $A$ only           & $A \cap \cc{B}$                            & $p_A - p_{AB}$ \\
+exactly one of $A$, $B$             & $(A\cap\cc{B}) \cup (\cc{A}\cap B)$        & $p_A + p_B - 2p_{AB}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+For three events write $\Sigma_1 = \Prob(A)+\Prob(B)+\Prob(C)$,
+$\Sigma_2 = \Prob(A\cap B)+\Prob(A\cap C)+\Prob(B\cap C)$, and
+$T = \Prob(A\cap B\cap C)$. Region numbers refer to the eight-region table.
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+English phrase (three events) & Set expression & Probability \\
+\midrule
+at least one                        & $A \cup B \cup C$                          & $\Sigma_1 - \Sigma_2 + T$ \\
+none                                & $\cc{A}\cap\cc{B}\cap\cc{C}$               & $1 - \Sigma_1 + \Sigma_2 - T$ \\
+all three                           & $A \cap B \cap C$                          & $T$ \\
+$A$ only                            & $A \cap \cc{B} \cap \cc{C}$                & $\Prob(A) - \Prob(AB) - \Prob(AC) + T$ \\
+exactly one                         & regions 5, 6, 7                            & $\Sigma_1 - 2\Sigma_2 + 3T$ \\
+exactly two                         & regions 2, 3, 4                            & $\Sigma_2 - 3T$ \\
+at least two                        & regions 1, 2, 3, 4                         & $\Sigma_2 - 2T$ \\
+at most one                         & complement of ``at least two''             & $1 - \Sigma_2 + 2T$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+Every three-event formula is a sum of regions from the eight-region table; when in
+doubt, fill the regions and add.
+
+\subsection{Worked examples}
+
+\begin{example}[Three-event coverage survey, none of the three]
+An insurance company surveys its policyholders about three types of coverage:
+auto, homeowners, and life. The survey finds that 40\% have auto coverage, 35\%
+have homeowners coverage, and 25\% have life coverage. It also finds that 15\%
+have both auto and homeowners, 10\% have both auto and life, 8\% have both
+homeowners and life, and 5\% have all three coverages.
+
+Calculate the percentage of policyholders with none of the three coverages.
+
+(A) 22\% \quad (B) 28\% \quad (C) 33\% \quad (D) 38\% \quad (E) 72\%
+\end{example}
+\begin{solution}
+Let $A$, $H$, $L$ be the events that a randomly chosen policyholder has auto,
+homeowners, and life coverage. ``None of the three'' is $\cc{(A\cup H\cup L)}$, so
+by the complement rule and three-event inclusion-exclusion,
+\[
+  \Prob(A \cup H \cup L) = 0.40 + 0.35 + 0.25 - 0.15 - 0.10 - 0.08 + 0.05 = 0.72,
+\]
+and $\Prob(\text{none}) = 1 - 0.72 = 0.28$.
+
+Answer: (B).
+\end{solution}
+
+\begin{example}[Exactly one of three]
+An insurance agency's records show that, for a randomly selected customer,
+\begin{itemize}[nosep]
+  \item the probability of having auto coverage is $0.50$, homeowners coverage
+        $0.40$, and life coverage $0.30$;
+  \item the probability of having both auto and homeowners is $0.20$, both auto
+        and life is $0.15$, and both homeowners and life is $0.10$;
+  \item the probability of having all three is $0.05$.
+\end{itemize}
+Calculate the probability that a randomly selected customer has exactly one of the
+three coverages.
+
+(A) 0.35 \quad (B) 0.40 \quad (C) 0.45 \quad (D) 0.50 \quad (E) 0.55
+\end{example}
+\begin{solution}
+Fill the eight regions in the standard order. All three: $0.05$.
+Pairs only: auto--homeowners $0.20 - 0.05 = 0.15$; auto--life $0.15 - 0.05 = 0.10$;
+homeowners--life $0.10 - 0.05 = 0.05$.
+Singles only: auto $0.50 - 0.15 - 0.10 - 0.05 = 0.20$;
+homeowners $0.40 - 0.15 - 0.05 - 0.05 = 0.15$; life $0.30 - 0.10 - 0.05 - 0.05 = 0.10$.
+None: $1 - 0.80 = 0.20$.
+
+Exactly one is the sum of the three ``only'' regions: $0.20 + 0.15 + 0.10 = 0.45$.
+
+Formula check: $\Sigma_1 - 2\Sigma_2 + 3T = 1.20 - 2(0.45) + 3(0.05) = 1.20 - 0.90 + 0.15 = 0.45$.
+
+Answer: (C).
+\end{solution}
+
+\begin{example}[Bounding a probability from the axioms alone]
+For a randomly selected claim from an auto insurer's files, the probability that
+the claim involves bodily injury is $0.60$ and the probability that it involves
+property damage is $0.70$. No other information about the claims is available.
+
+Determine the smallest possible value of the probability that a claim involves
+both bodily injury and property damage.
+
+(A) 0 \quad (B) 0.10 \quad (C) 0.30 \quad (D) 0.42 \quad (E) 0.60
+\end{example}
+\begin{solution}
+Let $B$ be bodily injury and $D$ be property damage. Inclusion-exclusion gives
+$\Prob(B \cap D) = \Prob(B) + \Prob(D) - \Prob(B \cup D) = 1.30 - \Prob(B \cup D)$.
+Since $\Prob(B \cup D) \le 1$ (C5), $\Prob(B \cap D) \ge 1.30 - 1 = 0.30$. The
+value $0.30$ is attained when $B \cup D = S$, so it is the minimum. (This is
+Bonferroni's inequality, C10.)
+
+The largest possible value is $\min(0.60, 0.70) = 0.60$, attained when
+$B \subseteq D$ (C4). The choice $0.42 = (0.60)(0.70)$ assumes independence, which
+is not given.
+
+Answer: (C).
+\end{solution}
+
+\begin{example}[Complements and De Morgan]
+A property insurer's records show that, for a randomly selected policyholder, the
+probability of not having auto coverage is $0.65$, the probability of not having
+homeowners coverage is $0.55$, and the probability of having neither coverage is
+$0.35$.
+
+Calculate the probability that a randomly selected policyholder has both auto and
+homeowners coverage.
+
+(A) 0.10 \quad (B) 0.15 \quad (C) 0.20 \quad (D) 0.35 \quad (E) 0.45
+\end{example}
+\begin{solution}
+Let $A$ and $H$ be auto and homeowners coverage. Translate each statement.
+$\Prob(\cc{A}) = 0.65$ so $\Prob(A) = 0.35$.
+$\Prob(\cc{H}) = 0.55$ so $\Prob(H) = 0.45$.
+``Neither'' is $\cc{A} \cap \cc{H} = \cc{(A \cup H)}$ by De Morgan, so
+$\Prob(A \cup H) = 1 - 0.35 = 0.65$.
+Then
+\[
+  \Prob(A \cap H) = \Prob(A) + \Prob(H) - \Prob(A \cup H) = 0.35 + 0.45 - 0.65 = 0.15 .
+\]
+Table check: $A \cap \cc{H} = 0.35 - 0.15 = 0.20$, $\cc{A} \cap H = 0.45 - 0.15 = 0.30$,
+neither $= 0.35$; the four regions sum to $0.15 + 0.20 + 0.30 + 0.35 = 1.00$.
+
+Answer: (B).
+\end{solution}
+
+\begin{example}[Translating ``only'', ``none'', ``no customer has both'', ``at most one'']
+An insurance agency has 200 customers. Each customer has some combination of auto,
+homeowners, and renters coverage, or none of them. The agency's records show:
+\begin{itemize}[nosep]
+  \item 120 customers have auto coverage;
+  \item 60 customers have homeowners coverage and 50 have renters coverage; no
+        customer has both homeowners and renters coverage;
+  \item 65 customers have auto coverage only;
+  \item 25 customers have none of the three coverages.
+\end{itemize}
+Calculate the number of customers who have at most one of the three coverages.
+
+(A) 55 \quad (B) 65 \quad (C) 120 \quad (D) 145 \quad (E) 175
+\end{example}
+\begin{solution}
+Let $A$, $H$, $R$ be the three coverages and work with counts out of 200.
+``No customer has both homeowners and renters'' means $H \cap R = \emptyset$, so
+$A \cap H \cap R$ is also empty and every two-coverage customer has auto plus one
+other. ``Auto only'' is 65, so $120 - 65 = 55$ customers have auto plus another
+coverage; these are exactly the two-coverage customers. Since $H$ and $R$ are
+disjoint, $|H \cup R| = 60 + 50 = 110$, of whom 55 also have auto, leaving
+$110 - 55 = 55$ with homeowners only or renters only. Exactly one coverage:
+$65 + 55 = 120$. Check: $120 + 55 + 25 = 200$.
+
+``At most one'' is none or exactly one: $25 + 120 = 145$.
+
+Answer: (D).
+\end{solution}
+
+\subsection{Traps}
+
+\begin{trap}[``At least one'' versus ``exactly one'' versus ``at most one'']
+``At least one of $A$, $B$'' is $A \cup B$ and includes the intersection. ``Exactly
+one'' excludes the intersection: $\Prob(A) + \Prob(B) - 2\Prob(A\cap B)$. ``At most
+one'' is the complement of ``both'': $1 - \Prob(A \cap B)$. For three events,
+``at most one'' is not $1 - T$; it is $1 - (\Sigma_2 - 2T)$, the complement of ``at
+least two''. Likewise ``neither $A$ nor $B$'' is $\cc{(A\cup B)}$ while ``not both''
+is $\cc{(A \cap B)}$; De Morgan's laws tell you which is which. \end{trap}
+
+\begin{trap}[$\Prob(A \cap \cc{B})$ is not $\Prob(A) - \Prob(B)$]
+``$A$ but not $B$'' has probability $\Prob(A) - \Prob(A \cap B)$. Subtracting
+$\Prob(B)$ instead removes outcomes that were never in $A$. The identity
+$\Prob(B \setminus A) = \Prob(B) - \Prob(A)$ holds only when $A \subseteq B$.
+\end{trap}
+
+\begin{trap}[Assuming disjoint or independent when the problem does not say so]
+If a question gives $\Prob(A)$ and $\Prob(B)$ and asks for $\Prob(A \cup B)$ with
+no other information, the answer is not determined; it lies between
+$\max(\Prob(A),\Prob(B))$ and $\min(1, \Prob(A)+\Prob(B))$. Adding the probabilities
+assumes disjointness; multiplying them assumes independence. Use either only when
+the problem states it or the structure forces it (a policyholder cannot be both
+under 25 and over 65).
+\end{trap}
+
+\begin{trap}[``$A$ and $B$'' includes those who also have $C$]
+In a three-event problem, ``15\% have both auto and homeowners'' is
+$\Prob(A \cap H) = 0.15$, which includes the policyholders who also have life.
+The region ``auto and homeowners only'' is $\Prob(A\cap H) - \Prob(A\cap H\cap L)$.
+Conversely, when the problem says ``15\% have auto and homeowners but not life'',
+it is giving the region directly. Confusing the two shifts the answer by a multiple of $T$.
+\end{trap}
+
+\subsection{Practice problems}
+
+\begin{practice}
+A survey of homeowners insurance policyholders finds that 50\% have a security
+system, 35\% have a fire sprinkler system, and 25\% have a backup generator.
+Further, 15\% have both a security system and a sprinkler system, 10\% have both a
+security system and a generator, 5\% have both a sprinkler system and a generator,
+and 2\% have all three.
+
+Calculate the percentage of policyholders with none of the three.
+
+(A) 12\% \quad (B) 18\% \quad (C) 20\% \quad (D) 28\% \quad (E) 32\%
+\end{practice}
+
+\begin{practice}
+For a randomly selected policyholder, let $A$ be the event that the policyholder
+files a claim in the first policy year and $B$ the event that the policyholder
+files a claim in the second policy year. You are given
+$\Prob(\cc{A}) = 0.60$, $\Prob(B) = 0.35$, and $\Prob(A \cup B) = 0.60$.
+
+Calculate the probability that the policyholder files a claim in exactly one of the
+two years.
+
+(A) 0.30 \quad (B) 0.45 \quad (C) 0.55 \quad (D) 0.60 \quad (E) 0.75
+\end{practice}
+
+\begin{practice}
+For a randomly selected claim, the probability that the claim involves a rental
+vehicle is $0.75$ and the probability that it involves a towing charge is $0.65$.
+No other information is available.
+
+Determine the largest possible value of the probability that the claim involves
+neither a rental vehicle nor a towing charge.
+
+(A) 0 \quad (B) 0.0875 \quad (C) 0.25 \quad (D) 0.35 \quad (E) 0.40
+\end{practice}
+
+\begin{practice}
+An insurer classifies each policy by whether it has a young driver ($Y$), a
+sports car ($S$), and an accident in the past three years ($C$). For a randomly
+selected policy,
+\begin{gather*}
+  \Prob(Y) = 0.30,\quad \Prob(S) = 0.25,\quad \Prob(C) = 0.20,\\
+  \Prob(Y\cap S) = 0.10,\quad \Prob(Y \cap C) = 0.08,\quad \Prob(S \cap C) = 0.06,\quad
+  \Prob(Y \cap S \cap C) = 0.04 .
+\end{gather*}
+Calculate the probability that a randomly selected policy has at most one of the
+three characteristics.
+
+(A) 0.16 \quad (B) 0.24 \quad (C) 0.76 \quad (D) 0.84 \quad (E) 0.90
+\end{practice}
+
+\begin{practice}
+The probability that a randomly selected auto policyholder lacks at least one of
+collision coverage and comprehensive coverage is $0.90$. The probability of having
+collision coverage is $0.45$ and the probability of having comprehensive coverage
+is $0.30$.
+
+Calculate the probability that the policyholder has at least one of the two
+coverages.
+
+(A) 0.10 \quad (B) 0.35 \quad (C) 0.55 \quad (D) 0.65 \quad (E) 0.75
+\end{practice}
+
+\begin{practice}
+Of 500 auto policyholders, 280 have collision coverage, 340 have comprehensive
+coverage, and 60 have neither.
+
+Calculate the number of policyholders who have collision coverage only.
+
+(A) 80 \quad (B) 100 \quad (C) 160 \quad (D) 180 \quad (E) 220
+\end{practice}
+
+\subsection{Answers to practice problems}
+
+\begin{enumerate}[nosep,label=\textbf{\arabic*.}]
+  \item \textbf{(B)}. $\Prob(\text{at least one}) = 1.10 - 0.30 + 0.02 = 0.82$,
+        so none is $0.18$.
+  \item \textbf{(B)}. $\Prob(A) = 0.40$; $\Prob(A\cap B) = 0.40 + 0.35 - 0.60 = 0.15$;
+        exactly one $= 0.40 + 0.35 - 2(0.15) = 0.45$ (equivalently $0.60 - 0.15$).
+  \item \textbf{(C)}. Neither $= 1 - \Prob(R \cup T)$, and $\Prob(R \cup T) \ge \max(0.75, 0.65) = 0.75$
+        by monotonicity, so neither $\le 0.25$, attained when $T \subseteq R$.
+        (0.0875 assumes independence, which is not given.)
+  \item \textbf{(D)}. At least two $= \Sigma_2 - 2T = 0.24 - 0.08 = 0.16$; at most one $= 0.84$.
+  \item \textbf{(D)}. ``Lacks at least one'' is $\cc{(C \cap M)}$, so $\Prob(C \cap M) = 0.10$;
+        $\Prob(C \cup M) = 0.45 + 0.30 - 0.10 = 0.65$.
+  \item \textbf{(B)}. At least one $= 440$; both $= 280 + 340 - 440 = 180$;
+        collision only $= 280 - 180 = 100$.
+\end{enumerate}
+
+\subsection{One-page summary}
+
+\begin{itemize}[nosep]
+  \item Sample space $S$: all outcomes. Event: a subset of $S$. Probability: a set
+        function on the events with $\Prob(A) \ge 0$, $\Prob(S) = 1$, and countable
+        additivity over pairwise disjoint events.
+  \item Consequences: $\Prob(\emptyset) = 0$; $\Prob(\cc{A}) = 1 - \Prob(A)$;
+        $A \subseteq B \Rightarrow \Prob(A) \le \Prob(B)$; $0 \le \Prob(A) \le 1$;
+        $\Prob(A \cap \cc{B}) = \Prob(A) - \Prob(A \cap B)$.
+  \item De Morgan: $\cc{(A \cup B)} = \cc{A} \cap \cc{B}$ (``neither'');
+        $\cc{(A \cap B)} = \cc{A} \cup \cc{B}$ (``not both'').
+  \item Inclusion-exclusion: $\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B)$;
+        $\Prob(A\cup B\cup C) = \Sigma_1 - \Sigma_2 + T$.
+  \item Exactly one of two: $\Prob(A) + \Prob(B) - 2\Prob(A\cap B)$.
+        Exactly one of three: $\Sigma_1 - 2\Sigma_2 + 3T$.
+        Exactly two of three: $\Sigma_2 - 3T$. At least two of three: $\Sigma_2 - 2T$.
+  \item Bounds with no other information: $\max(\Prob(A),\Prob(B)) \le \Prob(A \cup B) \le \min(1,\Prob(A)+\Prob(B))$
+        and $\max(0, \Prob(A)+\Prob(B)-1) \le \Prob(A\cap B) \le \min(\Prob(A),\Prob(B))$.
+        Boole: $\Prob(\bigcup A_i) \le \sum \Prob(A_i)$.
+  \item Venn bookkeeping: fill regions from the triple intersection outward (all
+        three; each pair only; each single only; none); every answer is a sum of regions.
+  \item Translation: ``or''/``at least one'' is union; ``and''/``both'' is
+        intersection; ``not'' is complement; ``but not'' and ``only'' subtract the
+        intersection; ``every policyholder has at least one'' means the union is $S$;
+        ``no one has both'' means disjoint.
+  \item Never assume disjointness or independence unless stated; check that the
+        regions sum to $1$ (or to the stated count).
+\end{itemize}

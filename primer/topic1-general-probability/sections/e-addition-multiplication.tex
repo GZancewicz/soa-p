@@ -1,0 +1,447 @@
+\section{Outcome (e): Addition and multiplication rules}
+
+\subsection{What the outcome asks}
+
+The exam tests two rules and the habit of choosing the right one. The addition rule
+(inclusion-exclusion) gives the probability that at least one of several events occurs; the exam
+states it for two or three events, usually with one quantity missing, and asks for that quantity or
+for a derived one such as ``neither'' or ``exactly one''. The multiplication rule (chain rule)
+gives the probability that several events occur in sequence, each conditioned on the ones before it;
+the exam uses it for draws without replacement and for claim histories over successive years.
+Many questions combine the two: split the outcome into disjoint cases with the addition rule, then
+compute each case with the multiplication rule. A tree diagram is the bookkeeping device for the
+multiplication rule, and its branches are the cases that the addition rule adds up.
+
+\subsection{Addition rule}
+
+\begin{keyfact}[General addition rule, two events]
+For any events $A$ and $B$,
+\[
+\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B).
+\]
+The subtraction removes the double count of outcomes that lie in both events. The rule holds
+whether or not $A$ and $B$ are independent or disjoint.
+\end{keyfact}
+
+\begin{keyfact}[General addition rule, three events]
+For any events $A$, $B$, $C$,
+\[
+\Prob(A \cup B \cup C) = \Prob(A) + \Prob(B) + \Prob(C)
+ - \Prob(A \cap B) - \Prob(A \cap C) - \Prob(B \cap C)
+ + \Prob(A \cap B \cap C).
+\]
+Sign pattern: singles added, pairs subtracted, triple added. Seven terms on the right; the exam
+typically gives six of them (or the union) and asks for the seventh.
+\end{keyfact}
+
+Special cases reduce the number of terms.
+
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{Disjoint (mutually exclusive).} If $A \cap B = \emptyset$ then
+  $\Prob(A \cup B) = \Prob(A) + \Prob(B)$. For three pairwise disjoint events the union is the sum
+  of the three probabilities.
+  \item \textbf{Independent.} If $A$ and $B$ are independent then $\Prob(A \cap B) = \Prob(A)\Prob(B)$, so
+  $\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A)\Prob(B)$.
+  \item \textbf{Complement shortcut.} By De Morgan, $\cc{(A \cup B)} = \cc{A} \cap \cc{B}$, so
+  $\Prob(A \cup B) = 1 - \Prob(\cc{A} \cap \cc{B})$ and $\Prob(\text{neither}) = 1 - \Prob(A \cup B)$.
+  For $n$ events, $\Prob(\text{at least one}) = 1 - \Prob(\text{none})$; when the events are
+  independent this is $1 - \prod_{i=1}^{n}(1 - \Prob(A_i))$.
+  \item \textbf{Bound.} Without any information about intersections,
+  $\Prob(A_1 \cup \cdots \cup A_n) \le \sum_{i=1}^{n} \Prob(A_i)$ (Boole's inequality), with
+  equality only when the events are pairwise disjoint.
+\end{itemize}
+
+\begin{keyfact}[Exactly one of two events]
+\[
+\Prob(\text{exactly one of } A, B) = \Prob(A) + \Prob(B) - 2\,\Prob(A \cap B)
+ = \Prob(A \cup B) - \Prob(A \cap B).
+\]
+Given any two of $\Prob(A)+\Prob(B)$, $\Prob(A\cap B)$, $\Prob(A\cup B)$,
+$\Prob(\text{exactly one})$, the remaining ones follow.
+\end{keyfact}
+
+\begin{keyfact}[Counting identity for three events]
+Write $e_1$, $e_2$, $e_3$ for the probabilities that exactly one, exactly two, exactly three of
+$A, B, C$ occur. Then
+\[
+\Prob(A \cup B \cup C) = e_1 + e_2 + e_3, \qquad
+\Prob(A) + \Prob(B) + \Prob(C) = e_1 + 2e_2 + 3e_3.
+\]
+The second identity holds because an outcome in exactly $k$ of the events is counted $k$ times in
+the sum of the marginals. The exam uses these two linear equations to recover $e_2$ or $e_3$ from
+``at least one'' and ``exactly one'' data.
+\end{keyfact}
+
+\paragraph{Solving-for-unknown patterns.} The exam rarely asks for the union directly. The
+standard forms are:
+
+\begin{enumerate}[leftmargin=2em]
+  \item Given $\Prob(A \cup B)$, $\Prob(A)$, $\Prob(B)$: the intersection is
+  $\Prob(A \cap B) = \Prob(A) + \Prob(B) - \Prob(A \cup B)$.
+  \item Given $\Prob(\cc{A} \cap \cc{B})$ (``neither''): first $\Prob(A \cup B) = 1 - \Prob(\cc{A} \cap \cc{B})$,
+  then proceed as in pattern 1.
+  \item Given $\Prob(\text{exactly one})$ and the two marginals: $\Prob(A \cap B) =
+  \tfrac12\bigl[\Prob(A) + \Prob(B) - \Prob(\text{exactly one})\bigr]$.
+  \item Three events with six of the seven inclusion-exclusion terms and either the union or
+  ``none'' given: solve the seven-term equation for the missing term.
+  \item Three events with ``at least one'' and ``exactly one'' given together with the sum of the
+  marginals: solve the two linear equations in $e_2$ and $e_3$.
+\end{enumerate}
+
+\subsection{Multiplication rule}
+
+\begin{keyfact}[General multiplication rule, two events]
+For any events $A$ and $B$ with positive probability,
+\[
+\Prob(A \cap B) = \Prob(A)\,\Prob(B \mid A) = \Prob(B)\,\Prob(A \mid B).
+\]
+This is the definition of conditional probability rearranged. Use whichever ordering matches
+the information given.
+\end{keyfact}
+
+\begin{keyfact}[Chain rule, three or more events]
+\[
+\Prob(A_1 \cap A_2 \cap A_3) = \Prob(A_1)\,\Prob(A_2 \mid A_1)\,\Prob(A_3 \mid A_1 \cap A_2),
+\]
+and in general
+$\Prob(A_1 \cap \cdots \cap A_n) = \Prob(A_1) \prod_{k=2}^{n} \Prob(A_k \mid A_1 \cap \cdots \cap A_{k-1})$.
+Each factor is conditioned on everything that happened before it.
+\end{keyfact}
+
+\begin{keyfact}[Independence collapses the chain]
+If $A_1, \dots, A_n$ are mutually independent, every conditional factor equals the marginal and
+$\Prob(A_1 \cap \cdots \cap A_n) = \Prob(A_1)\Prob(A_2)\cdots\Prob(A_n)$.
+The product of marginals is a special case of the chain rule, not a separate rule. Multiply
+unconditional probabilities only when the problem states independence or the setup implies it
+(sampling with replacement, separate policyholders described as independent).
+\end{keyfact}
+
+\paragraph{Sequential sampling without replacement.} When items are drawn one at a time without
+replacement, the composition of the pool changes after each draw, so the draws are dependent. The
+chain rule handles this directly: the $k$th factor is the number of favourable items remaining
+divided by the number of items remaining. From a pool of $N$ items of which $m$ are of type $X$,
+\[
+\Prob(\text{first two both type } X) = \frac{m}{N}\cdot\frac{m-1}{N-1}, \qquad
+\Prob(\text{first is } X,\ \text{second is not}) = \frac{m}{N}\cdot\frac{N-m}{N-1}.
+\]
+
+\begin{keyfact}[Symmetry of draws without replacement]
+The unconditional probability that the $k$th draw is of type $X$ equals the probability that the
+first draw is of type $X$, namely $m/N$, for every $k \le N$. Every ordering of the $N$ items is
+equally likely, so the item in position $k$ is a uniformly random item from the pool. Once the
+results of earlier draws are known, the conditional probability changes.
+\end{keyfact}
+
+\paragraph{Tree diagrams.} A tree diagram lists the first event's outcomes as branches, then each
+second event's outcomes as sub-branches, and so on. Each branch is labelled with a conditional
+probability given the path that leads to it; the probability of a complete path is the product of
+its branch labels, which is exactly the chain rule. Because the paths are disjoint, the probability
+of any event is the sum of the probabilities of the paths in it, which is the addition rule for
+disjoint cases. As a table, the tree for a two-year claim history with
+$\Prob(C_1) = 0.20$, $\Prob(C_2 \mid C_1) = 0.35$, $\Prob(C_2 \mid \cc{C_1}) = 0.15$ has one row per path:
+
+\begin{center}
+\begin{tabular}{@{}llrr@{}}
+\toprule
+Year 1 (branch) & Year 2 (branch) & Product & Path probability \\
+\midrule
+Claim ($0.20$)    & Claim ($0.35$)    & $0.20 \times 0.35$ & $0.070$ \\
+Claim ($0.20$)    & No claim ($0.65$) & $0.20 \times 0.65$ & $0.130$ \\
+No claim ($0.80$) & Claim ($0.15$)    & $0.80 \times 0.15$ & $0.120$ \\
+No claim ($0.80$) & No claim ($0.85$) & $0.80 \times 0.85$ & $0.680$ \\
+\midrule
+ & & Total & $1.000$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The path probabilities sum to $1.000$, which is the standard check. Any event is a set of rows and
+its probability is the sum of those rows.
+
+\subsection{Combining the rules}
+
+The most common exam structure is a two-stage experiment: a classification or a first draw, then a
+second outcome whose probability depends on the first. The method is fixed: list the disjoint cases
+for the first stage (the branches of the tree), which must cover every possibility without
+overlapping; for each case compute $\Prob(\text{case}) \times \Prob(\text{target} \mid \text{case})$
+with the multiplication rule; add the results with the addition rule for disjoint events.
+Written out for cases $B_1, \dots, B_n$ that partition the sample space and a target event $A$,
+\[
+\Prob(A) = \sum_{i=1}^{n} \Prob(B_i)\,\Prob(A \mid B_i).
+\]
+This is the law of total probability. Outcome (g) develops it fully and adds Bayes' theorem for
+reversing the conditioning; for this outcome it is enough to recognise that ``split into cases,
+multiply along each path, add the paths'' is the same computation. Example: 70\% of policyholders
+are low risk with claim probability $0.10$ and 30\% are high risk with claim probability $0.30$;
+the probability that a randomly selected policyholder has a claim is
+$0.70 \times 0.10 + 0.30 \times 0.30 = 0.07 + 0.09 = 0.16$.
+
+A question that gives conditional probabilities along a chain and asks for ``at least one'' over
+the chain is usually fastest through the ``none'' path: multiply along it and subtract from 1.
+
+\subsection{Worked examples}
+
+\begin{example}[Three coverages, solve for the triple intersection]
+An insurer's policyholders may hold auto, homeowners, and life coverage. Among them, 60\% hold
+auto, 45\% hold homeowners, 30\% hold life, 25\% hold both auto and homeowners, 15\% hold both auto
+and life, 10\% hold both homeowners and life, and 5\% hold none of the three.
+Calculate the percentage of policyholders who hold all three coverages.
+\par\smallskip\noindent (A)~10\% \quad (B)~5\% \quad (C)~8\% \quad (D)~12\% \quad (E)~15\%
+\end{example}
+\begin{solution}
+Let $A$, $H$, $L$ be the events that a policyholder holds auto, homeowners, life. The
+complement of the union is ``none'', so $\Prob(A \cup H \cup L) = 1 - 0.05 = 0.95$. Three-event
+inclusion-exclusion with $x = \Prob(A \cap H \cap L)$:
+\[
+0.95 = 0.60 + 0.45 + 0.30 - 0.25 - 0.15 - 0.10 + x = 0.85 + x,
+\]
+so $x = 0.10$. Answer \textbf{(A)}.
+\end{solution}
+
+\begin{example}[Claims in two successive years]
+For a policyholder, the probability of at least one claim in year 1 is $0.20$. If the
+policyholder has a claim in year 1, the probability of a claim in year 2 is $0.35$; if there is
+no claim in year 1, the probability of a claim in year 2 is $0.15$.
+Calculate the probability that the policyholder has claims in both years or in neither year.
+\par\smallskip\noindent (A)~0.68 \quad (B)~0.70 \quad (C)~0.80 \quad (D)~0.75 \quad (E)~0.93
+\end{example}
+\begin{solution}
+Let $C_1$, $C_2$ be the claim events. By the multiplication rule,
+\begin{align*}
+\Prob(C_1 \cap C_2) &= \Prob(C_1)\Prob(C_2 \mid C_1) = 0.20 \times 0.35 = 0.07,\\
+\Prob(\cc{C_1} \cap \cc{C_2}) &= \Prob(\cc{C_1})\Prob(\cc{C_2} \mid \cc{C_1}) = 0.80 \times 0.85 = 0.68.
+\end{align*}
+``Both'' and ``neither'' are disjoint, so the addition rule gives $0.07 + 0.68 = 0.75$.
+Answer \textbf{(D)}. As a check, ``exactly one year'' is $0.20 \times 0.65 + 0.80 \times 0.15 = 0.25$
+and $0.75 + 0.25 = 1$.
+\end{solution}
+
+\begin{example}[Two policies of the same type]
+A portfolio contains 20 policies: 10 auto, 6 homeowners, and 4 life. An auditor selects two
+policies at random without replacement.
+Calculate the probability that the two selected policies are of the same type.
+\par\smallskip\noindent (A)~0.30 \quad (B)~0.35 \quad (C)~0.33 \quad (D)~0.38 \quad (E)~0.40
+\end{example}
+\begin{solution}
+``Same type'' splits into three disjoint cases: both auto, both homeowners, both life. Each case
+is a chain-rule product, and the cases are added:
+\[
+\frac{10}{20}\cdot\frac{9}{19} + \frac{6}{20}\cdot\frac{5}{19} + \frac{4}{20}\cdot\frac{3}{19}
+ = \frac{90 + 30 + 12}{380} = \frac{132}{380} = \frac{33}{95} \approx 0.3474.
+\]
+Answer \textbf{(B)}. Counting unordered pairs gives the same value, $(45 + 15 + 6)/190$.
+\end{solution}
+
+\begin{example}[Type of the second policy drawn]
+From the portfolio of the previous example (10 auto, 6 homeowners, 4 life), the auditor selects two
+policies at random without replacement.
+Calculate the probability that the second policy selected is a life policy.
+\par\smallskip\noindent (A)~0.15 \quad (B)~0.16 \quad (C)~0.19 \quad (D)~0.21 \quad (E)~0.20
+\end{example}
+\begin{solution}
+Condition on the first draw. Either the first policy is life (probability $4/20$, leaving 3 life
+among 19) or it is not (probability $16/20$, leaving 4 life among 19):
+\[
+\Prob(\text{second is life}) = \frac{4}{20}\cdot\frac{3}{19} + \frac{16}{20}\cdot\frac{4}{19}
+ = \frac{12 + 64}{380} = \frac{76}{380} = \frac{4}{20} = 0.20.
+\]
+Answer \textbf{(E)}. The result equals the first-draw probability $4/20$. This is not a coincidence:
+if nothing is known about the first draw, the second policy is a uniformly random policy from the
+20, so its type distribution is the same as the pool's. Algebraically,
+$\frac{m}{N}\cdot\frac{m-1}{N-1} + \frac{N-m}{N}\cdot\frac{m}{N-1} = \frac{m(N-1)}{N(N-1)} = \frac{m}{N}$.
+Recognising the symmetry saves the computation; the computation serves as a check.
+\end{solution}
+
+\begin{example}[Three coverages from ``at least one'' and ``exactly one'']
+A survey of an insurer's policyholders finds that 60\% hold auto coverage, 35\% hold homeowners
+coverage, and 20\% hold life coverage. Also, 80\% hold at least one of the three coverages and
+50\% hold exactly one.
+Calculate the percentage of policyholders who hold all three coverages.
+\par\smallskip\noindent (A)~0\% \quad (B)~10\% \quad (C)~5\% \quad (D)~15\% \quad (E)~25\%
+\end{example}
+\begin{solution}
+Let $e_1, e_2, e_3$ be the proportions holding exactly one, two, three coverages. ``At least one''
+gives $e_1 + e_2 + e_3 = 0.80$ and $e_1 = 0.50$, so $e_2 + e_3 = 0.30$. The sum of the marginals
+counts each policyholder once per coverage held:
+\[
+e_1 + 2e_2 + 3e_3 = 0.60 + 0.35 + 0.20 = 1.15
+ \quad\Longrightarrow\quad 2e_2 + 3e_3 = 0.65.
+\]
+Subtract twice the first equation from the second: $e_3 = 0.65 - 2(0.30) = 0.05$, and then
+$e_2 = 0.25$. Answer \textbf{(C)}. The individual pairwise intersections are neither needed nor
+determined by the data; only their sum $e_2 + 3e_3 = 0.40$ is.
+\end{solution}
+
+\begin{example}[Complement of a union from count data]
+Of 200 liability claims closed last year, 90 involved property damage, 60 involved bodily injury,
+and 120 involved property damage or bodily injury or both. A claim is selected at random.
+Calculate the probability that the selected claim involved neither property damage nor bodily
+injury.
+\par\smallskip\noindent (A)~0.40 \quad (B)~0.15 \quad (C)~0.25 \quad (D)~0.45 \quad (E)~0.60
+\end{example}
+\begin{solution}
+Work in counts, then convert. The union has 120 claims, so its complement has $200 - 120 = 80$
+claims and the probability is $80/200 = 0.40$. Answer \textbf{(A)}. The intersection is
+$90 + 60 - 120 = 30$ claims, and ``exactly one'' is $120 - 30 = 90$ claims. The 90 and 60 are
+counts, not percentages; treating them as proportions produces a nonsense answer.
+\end{solution}
+
+\begin{example}[Chain rule over three years]
+A policyholder's claim history is modelled year by year. The probability of no claim in year 1 is
+$0.80$. Given no claim in year 1, the probability of no claim in year 2 is $0.85$. Given no claim
+in years 1 and 2, the probability of no claim in year 3 is $0.90$.
+Calculate the probability that the policyholder has at least one claim during the three years.
+\par\smallskip\noindent (A)~0.29 \quad (B)~0.35 \quad (C)~0.45 \quad (D)~0.39 \quad (E)~0.55
+\end{example}
+\begin{solution}
+Let $N_k$ be the event of no claim in year $k$. By the chain rule,
+\[
+\Prob(N_1 \cap N_2 \cap N_3) = \Prob(N_1)\Prob(N_2 \mid N_1)\Prob(N_3 \mid N_1 \cap N_2)
+ = 0.80 \times 0.85 \times 0.90 = 0.612.
+\]
+At least one claim is the complement: $1 - 0.612 = 0.388$. Answer \textbf{(D)}. The problem gives no
+conditional probabilities after a claim, so the paths containing a claim cannot be computed and
+the complement route is the only one available.
+\end{solution}
+
+\subsection{Traps}
+
+\begin{trap}[Adding without subtracting the intersection]
+$\Prob(A \cup B) = \Prob(A) + \Prob(B)$ only when $A$ and $B$ are disjoint. Policyholders can hold
+two coverages and a claim can involve two causes. Unless the
+question says ``mutually exclusive'' or the events cannot occur together by construction, subtract
+$\Prob(A \cap B)$. A quick check: if $\Prob(A) + \Prob(B) > 1$, the events cannot be disjoint.
+\end{trap}
+
+\begin{trap}[Multiplying marginals without independence]
+$\Prob(A \cap B) = \Prob(A)\Prob(B)$ requires independence. Draws without replacement, successive
+years of the same policyholder's claims, and risk class followed by claim status are all dependent.
+The correct factor for the second event is the conditional probability given the first. If the
+question supplies $\Prob(B \mid A)$, it is telling you the events are not independent.
+\end{trap}
+
+\begin{trap}[Confusing the joint with the conditional]
+$\Prob(A \cap B)$ is the probability that both happen; $\Prob(B \mid A)$ is the probability of $B$
+in the world where $A$ has already happened. ``The probability that a policyholder with a claim
+in year 1 has a claim in year 2'' is $\Prob(C_2 \mid C_1)$. ``The probability that a policyholder
+has claims in both years'' is $\Prob(C_1 \cap C_2) = \Prob(C_1)\Prob(C_2 \mid C_1)$. The
+conditional is never smaller than the joint.
+\end{trap}
+
+\begin{trap}[Sign pattern in three-event inclusion-exclusion]
+Singles are added, pairwise intersections are subtracted, and the triple intersection is added
+back. The common errors are subtracting the triple intersection or omitting it. Write the full
+seven-term equation before substituting. Check the result: each pairwise intersection must be at
+least the triple intersection, and each marginal at least any pairwise intersection containing it.
+\end{trap}
+
+\begin{trap}[Counts, percentages, and the base]
+Some questions give raw counts (90 of 200 claims), some give percentages of the whole group, and
+some give percentages of a subgroup (``of those with auto coverage, 40\% also hold homeowners'').
+The third kind is a conditional probability, not a joint probability, and must be multiplied by
+the subgroup's proportion before it enters the addition rule. With counts, work in counts and
+divide by the total once at the end.
+\end{trap}
+
+\subsection{Practice problems}
+
+\begin{practice}
+An insurer's records show that 55\% of policyholders are male, 40\% are over age 50, and 20\% are
+males over age 50. A policyholder is selected at random.
+Calculate the probability that the selected policyholder is a female who is age 50 or younger.
+\par\smallskip\noindent (A)~0.05 \quad (B)~0.25 \quad (C)~0.20 \quad (D)~0.30 \quad (E)~0.45
+\end{practice}
+
+\begin{practice}
+Among an insurer's policyholders, 50\% hold auto coverage, 40\% hold homeowners coverage, 30\%
+hold life coverage, 20\% hold auto and homeowners, 15\% hold auto and life, 10\% hold homeowners
+and life, and 5\% hold all three.
+Calculate the percentage of policyholders who hold none of the three coverages.
+\par\smallskip\noindent (A)~10\% \quad (B)~15\% \quad (C)~25\% \quad (D)~30\% \quad (E)~20\%
+\end{practice}
+
+\begin{practice}
+A claims adjuster has 12 open files: 5 auto, 4 homeowners, and 3 life. The adjuster selects three
+files at random without replacement to review first.
+Calculate the probability that none of the three selected files is a life file.
+\par\smallskip\noindent (A)~0.30 \quad (B)~0.35 \quad (C)~0.38 \quad (D)~0.42 \quad (E)~0.45
+\end{practice}
+
+\begin{practice}
+A batch of 25 newly issued policies contains 7 with a data-entry error. A quality reviewer examines
+the policies one at a time in random order without replacement.
+Calculate the probability that the third policy examined contains an error.
+\par\smallskip\noindent (A)~0.28 \quad (B)~0.24 \quad (C)~0.26 \quad (D)~0.30 \quad (E)~0.32
+\end{practice}
+
+\begin{practice}
+For a policyholder, the probability of a claim in year 1 is $0.15$. In any year, if the
+policyholder had a claim in the preceding year, the probability of a claim is $0.40$; if the
+policyholder had no claim in the preceding year, the probability of a claim is $0.10$.
+Calculate the probability that the policyholder has a claim in exactly one of years 1 and 2.
+\par\smallskip\noindent (A)~0.135 \quad (B)~0.150 \quad (C)~0.200 \quad (D)~0.175 \quad (E)~0.235
+\end{practice}
+
+\begin{practice}
+Among an auto insurer's policyholders, 45\% carry collision coverage, 35\% carry comprehensive
+coverage, and 50\% carry exactly one of the two.
+Calculate the percentage of policyholders who carry both collision and comprehensive coverage.
+\par\smallskip\noindent (A)~5\% \quad (B)~15\% \quad (C)~10\% \quad (D)~20\% \quad (E)~30\%
+\end{practice}
+
+\begin{practice}
+A life insurer classifies applicants as standard, preferred, or substandard; 60\% of applicants are
+standard, 30\% are preferred, and 10\% are substandard. The probability of a claim within the
+first policy year is $0.08$ for a standard applicant, $0.03$ for a preferred applicant, and $0.20$
+for a substandard applicant.
+Calculate the probability that a randomly selected applicant has a claim within the first policy
+year.
+\par\smallskip\noindent (A)~0.058 \quad (B)~0.065 \quad (C)~0.085 \quad (D)~0.103 \quad (E)~0.077
+\end{practice}
+
+\subsection{Answers to practice problems}
+
+\begin{enumerate}[leftmargin=2em]
+  \item \textbf{(B)} $0.25$. $\Prob(M \cup O) = 0.55 + 0.40 - 0.20 = 0.75$; female and 50 or younger
+  is the complement of the union, $1 - 0.75 = 0.25$.
+  \item \textbf{(E)} $20\%$. Union $= 0.50 + 0.40 + 0.30 - 0.20 - 0.15 - 0.10 + 0.05 = 0.80$; none
+  $= 1 - 0.80 = 0.20$.
+  \item \textbf{(C)} $0.38$. Nine non-life files among 12: $\frac{9}{12}\cdot\frac{8}{11}\cdot\frac{7}{10}
+  = \frac{504}{1320} = \frac{21}{55} \approx 0.3818$.
+  \item \textbf{(A)} $0.28$. By symmetry of draws without replacement, the third policy is a uniformly
+  random policy from the batch, so the probability is $7/25 = 0.28$.
+  \item \textbf{(D)} $0.175$. Claim then no claim: $0.15 \times 0.60 = 0.090$; no claim then claim:
+  $0.85 \times 0.10 = 0.085$; disjoint, so add: $0.175$.
+  \item \textbf{(B)} $15\%$. Exactly one $= \Prob(A) + \Prob(B) - 2\Prob(A \cap B)$, so
+  $0.50 = 0.80 - 2x$ and $x = 0.15$.
+  \item \textbf{(E)} $0.077$. Split by class and multiply along each path:
+  $0.60(0.08) + 0.30(0.03) + 0.10(0.20) = 0.048 + 0.009 + 0.020 = 0.077$.
+\end{enumerate}
+
+\subsection{One-page summary}
+
+\begin{itemize}[leftmargin=2em]
+  \item Two events: $\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B)$. Always subtract
+  the intersection unless the events are disjoint.
+  \item Three events: add the three singles, subtract the three pairs, add the triple. Seven terms;
+  the exam hides one.
+  \item Complement of the union is ``neither'' or ``none'':
+  $\Prob(\cc{A} \cap \cc{B}) = 1 - \Prob(A \cup B)$. ``At least one'' $= 1 - \Prob(\text{none})$.
+  \item Exactly one of two events: $\Prob(A) + \Prob(B) - 2\Prob(A \cap B) = \Prob(A \cup B) - \Prob(A \cap B)$.
+  \item Three events with $e_1, e_2, e_3$ (exactly one, two, three): union $= e_1 + e_2 + e_3$ and
+  sum of marginals $= e_1 + 2e_2 + 3e_3$.
+  \item Multiplication rule: $\Prob(A \cap B) = \Prob(A)\Prob(B \mid A) = \Prob(B)\Prob(A \mid B)$.
+  Chain rule: $\Prob(A_1 \cap A_2 \cap A_3) = \Prob(A_1)\Prob(A_2 \mid A_1)\Prob(A_3 \mid A_1 \cap A_2)$;
+  each factor conditions on all earlier events.
+  \item Under independence every conditional factor becomes the marginal and the chain is a plain
+  product of marginals. Do not use the plain product otherwise.
+  \item Without replacement: $k$th factor is (favourable items remaining)/(items remaining).
+  Unconditionally, the $k$th draw has the same type distribution as the first: $m/N$.
+  \item Tree diagram: branch labels are conditional probabilities; a path's probability is the
+  product of its labels; an event's probability is the sum of its paths. Paths sum to 1.
+  \item Two-stage problems: split into disjoint cases, multiply along each case, add. This is the
+  law of total probability, $\Prob(A) = \sum_i \Prob(B_i)\Prob(A \mid B_i)$ (outcome (g)).
+  \item Joint versus conditional: $\Prob(A \cap B) = \Prob(A)\Prob(B \mid A) \le \Prob(B \mid A)$.
+  A percentage ``of those with $A$'' is a conditional probability. With counts, divide by the
+  total once at the end.
+\end{itemize}

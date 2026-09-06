@@ -1,0 +1,402 @@
+\section{Outcome (d): Mutually exclusive events}
+
+\subsection{What the outcome asks}
+
+The exam tests whether you can recognise when two or more events cannot occur together
+(mutually exclusive, or disjoint, events) and whether you then add their probabilities
+correctly. It also tests the reverse direction: given $\Prob(A)$, $\Prob(B)$ and
+$\Prob(A \cup B)$, decide whether the events are disjoint, or solve for whatever
+intersection probability makes the numbers consistent. Underneath both directions sits one
+technique that drives almost every Topic 1 problem: split the event you want into
+non-overlapping pieces, find the probability of each piece, and add. Partitions of the
+sample space (a family of disjoint events that together cover everything) are the standard
+tool for that split. The phrases ``exactly one'', ``at least one'', ``at most one'' and
+``none'' are all evaluated by writing the event as a union of disjoint pieces and adding.
+
+\subsection{Definitions and rules}
+
+Two events $A$ and $B$ are \emph{mutually exclusive} (equivalently \emph{disjoint}) if
+$A \cap B = \varnothing$, so they cannot both occur on the same trial. A family
+$A_1, A_2, \dots$ is \emph{pairwise disjoint} if $A_i \cap A_j = \varnothing$ for every
+$i \neq j$. A family is \emph{exhaustive} if its union is the whole sample space $S$. A
+family that is both pairwise disjoint and exhaustive is a \emph{partition} of $S$: every
+outcome lies in exactly one of the events.
+
+\begin{keyfact}[Addition rule for disjoint events]
+If $A \cap B = \varnothing$ then
+\[
+\Prob(A \cup B) = \Prob(A) + \Prob(B).
+\]
+More generally, if $A_1, \dots, A_n$ are pairwise disjoint then
+\[
+\Prob\!\left(\bigcup_{i=1}^{n} A_i\right) = \sum_{i=1}^{n} \Prob(A_i),
+\]
+and the same holds for a countably infinite family $A_1, A_2, \dots$ (countable
+additivity, one of the probability axioms). Additivity is the \emph{only} rule that lets you
+add probabilities directly; it applies exactly when the events are disjoint.
+\end{keyfact}
+
+\begin{keyfact}[Complement as a partition]
+For any event $A$, the pair $\{A, \cc{A}\}$ is a partition of $S$, so
+\[
+\Prob(A) + \Prob(\cc{A}) = 1, \qquad \Prob(\cc{A}) = 1 - \Prob(A).
+\]
+More generally, if $B_1, \dots, B_n$ partition $S$ then
+$\Prob(B_1) + \dots + \Prob(B_n) = 1$. This is how the exam hides one probability: it gives
+$n-1$ of them and expects you to recover the last one by subtraction.
+\end{keyfact}
+
+\begin{keyfact}[Disjoint decomposition identities]
+For any events $A$ and $B$ (disjoint or not), the following unions are unions of disjoint
+pieces, so their probabilities add:
+\begin{align*}
+A &= (A \cap B) \cup (A \cap \cc{B}),
+ & \Prob(A) &= \Prob(A \cap B) + \Prob(A \cap \cc{B}), \\
+A \cup B &= A \cup (B \cap \cc{A}),
+ & \Prob(A \cup B) &= \Prob(A) + \Prob(B \cap \cc{A}), \\
+A \cup B &= (A \cap \cc{B}) \cup (A \cap B) \cup (\cc{A} \cap B),
+ & \Prob(A \cup B) &= \Prob(A \cap \cc{B}) + \Prob(A \cap B) + \Prob(\cc{A} \cap B).
+\end{align*}
+The first line is the law of total probability in its simplest form: condition on whether
+$B$ happens or not. With a partition $B_1, \dots, B_n$ it reads
+$\Prob(A) = \sum_{i} \Prob(A \cap B_i)$.
+\end{keyfact}
+
+\begin{keyfact}[Inclusion--exclusion collapses when events are disjoint]
+For any two events, $\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B)$. For three,
+\[
+\Prob(A \cup B \cup C) = \Prob(A) + \Prob(B) + \Prob(C)
+ - \Prob(A \cap B) - \Prob(A \cap C) - \Prob(B \cap C) + \Prob(A \cap B \cap C).
+\]
+When the events are pairwise disjoint every intersection has probability $0$ and the
+formula reduces to plain addition. Conversely, if the given numbers satisfy
+$\Prob(A \cup B) = \Prob(A) + \Prob(B)$ then $\Prob(A \cap B) = 0$; if
+$\Prob(A \cup B) < \Prob(A) + \Prob(B)$ the events overlap with positive probability.
+\end{keyfact}
+
+\begin{keyfact}[Disjoint is not independent]
+If $A$ and $B$ are mutually exclusive and $\Prob(A) > 0$, $\Prob(B) > 0$, then $A$ and $B$
+are \emph{dependent}.
+
+\emph{Proof.} Disjointness gives $\Prob(A \cap B) = \Prob(\varnothing) = 0$, while
+$\Prob(A)\Prob(B) > 0$. Hence $\Prob(A \cap B) \neq \Prob(A)\Prob(B)$, which is the
+definition of dependence. Equivalently, $\Prob(A \mid B) = 0 \neq \Prob(A)$: knowing $B$
+occurred rules $A$ out completely. \qed
+\end{keyfact}
+
+The three adjectives the exam uses for a family of events answer three different questions.
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Term & Definition & Consequence for probabilities \\
+\midrule
+Mutually exclusive & $A \cap B = \varnothing$ & $\Prob(A \cap B) = 0$; $\Prob(A \cup B) = \Prob(A) + \Prob(B)$ \\
+Independent & $\Prob(A \cap B) = \Prob(A)\Prob(B)$ & $\Prob(A \mid B) = \Prob(A)$; can both occur \\
+Exhaustive & $A \cup B = S$ & $\Prob(A \cup B) = 1$; at least one always occurs \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Mutually exclusive is a statement about the \emph{sets} (they do not overlap). Independent
+is a statement about the \emph{numbers} (the product rule holds). Exhaustive is a statement
+about \emph{coverage} (nothing is left out). Any combination is possible except mutually
+exclusive together with independent when both probabilities are positive.
+
+\subsection{Disjoint decomposition as a technique}
+
+The standard move on a Topic 1 word problem is to rewrite the event asked for as a union of
+pieces that cannot overlap, then add the probabilities of the pieces. Two things make the
+move reliable. First, the pieces are usually intersections of the given events and their
+complements, so each piece is a single ``cell'' of the Venn diagram. Second, every cell
+probability can be recovered from the quantities the exam typically gives: the marginals
+$\Prob(A)$, $\Prob(B)$, $\Prob(C)$, the pairwise intersections and the triple intersection.
+
+\paragraph{Two events.} The four cells $A \cap B$, $A \cap \cc{B}$, $\cc{A} \cap B$ and
+$\cc{A} \cap \cc{B}$ have probabilities $\Prob(AB)$, $\Prob(A) - \Prob(AB)$,
+$\Prob(B) - \Prob(AB)$ and $1 - \Prob(A) - \Prob(B) + \Prob(AB)$, where $\Prob(AB)$
+abbreviates $\Prob(A \cap B)$. ``Exactly one'' is $(A \cap \cc{B}) \cup (\cc{A} \cap B)$,
+two disjoint cells, so its probability is $\Prob(A) + \Prob(B) - 2\Prob(AB)$. ``At least
+one'' adds the cell $A \cap B$ back in; ``at most one'' removes it from the whole space;
+``neither'' is the single cell $\cc{A} \cap \cc{B}$.
+
+\paragraph{Three events.} Let $S_1 = \Prob(A) + \Prob(B) + \Prob(C)$,
+$S_2 = \Prob(AB) + \Prob(AC) + \Prob(BC)$ and $S_3 = \Prob(ABC)$. The eight cells of the
+three-set Venn diagram are disjoint. ``Exactly two'' is the union of the three cells
+$A \cap B \cap \cc{C}$, $A \cap \cc{B} \cap C$ and $\cc{A} \cap B \cap C$; each pairwise
+intersection contains the triple intersection, so each cell has probability (pairwise)
+$- S_3$, and adding gives $S_2 - 3S_3$. Cell-by-cell reasoning of the same kind gives the
+rest of the list below.
+
+\begin{keyfact}[``Exactly'', ``at least'', ``at most'' formulas]
+Two events, with $\Prob(A \cap B)$ written $\Prob(AB)$:
+\begin{align*}
+\Prob(\text{exactly one}) &= \Prob(A) + \Prob(B) - 2\Prob(AB), \\
+\Prob(\text{at least one}) &= \Prob(A) + \Prob(B) - \Prob(AB), \\
+\Prob(\text{at most one}) &= 1 - \Prob(AB), \\
+\Prob(\text{none}) &= 1 - \Prob(A) - \Prob(B) + \Prob(AB).
+\end{align*}
+Three events, with $S_1 = \Prob(A) + \Prob(B) + \Prob(C)$,
+$S_2 = \Prob(AB) + \Prob(AC) + \Prob(BC)$ and $S_3 = \Prob(ABC)$:
+\begin{align*}
+\Prob(\text{exactly three}) &= S_3, \\
+\Prob(\text{exactly two}) &= S_2 - 3S_3, \\
+\Prob(\text{exactly one}) &= S_1 - 2S_2 + 3S_3, \\
+\Prob(\text{at least one}) &= S_1 - S_2 + S_3, \\
+\Prob(\text{at least two}) &= S_2 - 2S_3, \\
+\Prob(\text{at most one}) &= 1 - S_2 + 2S_3, \\
+\Prob(\text{none}) &= 1 - S_1 + S_2 - S_3.
+\end{align*}
+Check on any problem: exactly one $+$ exactly two $+$ exactly three $=$ at least one.
+\end{keyfact}
+
+When the given events are themselves mutually exclusive, $S_2 = S_3 = 0$ and every formula
+above collapses: ``at least one'' and ``exactly one'' coincide and equal $S_1$, ``at most
+one'' has probability $1$, and ``none'' has probability $1 - S_1$.
+
+\subsection{Worked examples}
+
+\begin{example}[Claim size bands]
+An insurer classifies each claim into exactly one of four size bands. The probability that a
+claim is small (under 1{,}000) is $0.42$, medium (from 1{,}000 to under 5{,}000) is $0.28$,
+and large (from 5{,}000 to under 25{,}000) is $0.18$. All other claims are catastrophic.
+Calculate the probability that a randomly selected claim is either medium or catastrophic.
+
+\smallskip\noindent (A)~$0.40$\hfill (B)~$0.46$\hfill (C)~$0.58$\hfill (D)~$0.34$\hfill (E)~$0.30$\hfill\mbox{}
+\end{example}
+\begin{solution}
+The four bands partition the sample space, so their probabilities sum to $1$:
+\[
+\Prob(\text{catastrophic}) = 1 - 0.42 - 0.28 - 0.18 = 0.12.
+\]
+Medium and catastrophic are disjoint bands, so the addition rule applies directly:
+\[
+\Prob(\text{medium} \cup \text{catastrophic}) = 0.28 + 0.12 = 0.40.
+\]
+Answer: \textbf{(A)}.
+\end{solution}
+
+\begin{example}[Are the events disjoint?]
+For a randomly chosen customer of an insurer, the probability of holding an auto policy is
+$0.35$, the probability of holding a homeowners policy is $0.45$, and the probability of
+holding at least one of the two is $0.70$. Calculate the probability that the customer holds
+both policies.
+
+\smallskip\noindent (A)~$0.00$\hfill (B)~$0.20$\hfill (C)~$0.15$\hfill (D)~$0.10$\hfill (E)~$0.05$\hfill\mbox{}
+\end{example}
+\begin{solution}
+Let $A$ be auto and $B$ be homeowners. If $A$ and $B$ were disjoint, $\Prob(A \cup B)$ would
+equal $0.35 + 0.45 = 0.80$. The stated value $0.70$ is smaller, so the events overlap and
+the general addition rule is required:
+\[
+\Prob(A \cap B) = \Prob(A) + \Prob(B) - \Prob(A \cup B) = 0.35 + 0.45 - 0.70 = 0.10.
+\]
+Answer: \textbf{(D)}. The gap between the disjoint-case value $0.80$ and the actual value
+$0.70$ is exactly the intersection probability.
+\end{solution}
+
+\begin{example}[Exactly one of two]
+A policyholder has both an auto policy and a homeowners policy with the same company. In a
+given year the probability of a claim on the auto policy is $0.40$, the probability of a claim
+on the homeowners policy is $0.25$, and the probability of claims on both is $0.10$.
+Calculate the probability that the policyholder files a claim on exactly one of the two
+policies.
+
+\smallskip\noindent (A)~$0.65$\hfill (B)~$0.45$\hfill (C)~$0.60$\hfill (D)~$0.35$\hfill (E)~$0.55$\hfill\mbox{}
+\end{example}
+\begin{solution}
+Let $A$ be an auto claim and $H$ a homeowners claim. ``Exactly one'' is the disjoint union
+$(A \cap \cc{H}) \cup (\cc{A} \cap H)$. Each piece is a marginal minus the intersection:
+\[
+\Prob(A \cap \cc{H}) = 0.40 - 0.10 = 0.30, \qquad
+\Prob(\cc{A} \cap H) = 0.25 - 0.10 = 0.15.
+\]
+Adding the disjoint pieces gives $0.30 + 0.15 = 0.45$, which matches the formula
+$\Prob(A) + \Prob(H) - 2\Prob(A \cap H) = 0.40 + 0.25 - 0.20 = 0.45$.
+Answer: \textbf{(B)}. Choice (E) is $\Prob(A \cup H) = 0.55$, the ``at least one'' answer.
+\end{solution}
+
+\begin{example}[Exactly two of three]
+A group health plan offers hospitalisation ($A$), dental ($B$) and vision ($C$) riders. For a
+randomly selected member, $\Prob(A \cap B) = 0.12$, $\Prob(A \cap C) = 0.09$,
+$\Prob(B \cap C) = 0.07$ and $\Prob(A \cap B \cap C) = 0.03$. Calculate the probability that
+the member holds exactly two of the three riders.
+
+\smallskip\noindent (A)~$0.25$\hfill (B)~$0.28$\hfill (C)~$0.22$\hfill (D)~$0.16$\hfill (E)~$0.19$\hfill\mbox{}
+\end{example}
+\begin{solution}
+``Exactly two'' is the disjoint union of three cells, each a pairwise intersection with the
+triple intersection removed:
+\begin{align*}
+\Prob(A \cap B \cap \cc{C}) &= 0.12 - 0.03 = 0.09, \\
+\Prob(A \cap \cc{B} \cap C) &= 0.09 - 0.03 = 0.06, \\
+\Prob(\cc{A} \cap B \cap C) &= 0.07 - 0.03 = 0.04.
+\end{align*}
+Sum: $0.09 + 0.06 + 0.04 = 0.19$. Equivalently $S_2 - 3S_3 = 0.28 - 0.09 = 0.19$.
+Answer: \textbf{(E)}. Choice (B) is $S_2$ itself, which triple-counts the members holding
+all three riders.
+\end{solution}
+
+\begin{example}[Mutually exclusive with an unknown]
+An applicant for life insurance is classified as either preferred or standard, never both,
+and some applicants are declined. Let $A$ be the event that an applicant is classified
+preferred and $B$ the event that an applicant is classified standard. The probability that an
+applicant is accepted (preferred or standard) is $0.60$, and an applicant is twice as likely
+to be classified preferred as standard. Calculate $\Prob(B)$.
+
+\smallskip\noindent (A)~$0.40$\hfill (B)~$0.30$\hfill (C)~$0.20$\hfill (D)~$0.15$\hfill (E)~$0.60$\hfill\mbox{}
+\end{example}
+\begin{solution}
+The problem states that $A$ and $B$ cannot both occur, so they are mutually exclusive and
+$\Prob(A \cup B) = \Prob(A) + \Prob(B)$. With $\Prob(A) = 2\Prob(B)$,
+\[
+0.60 = 2\Prob(B) + \Prob(B) = 3\Prob(B) \quad\Longrightarrow\quad \Prob(B) = 0.20,
+\]
+and $\Prob(A) = 0.40$. Answer: \textbf{(C)}. The probability of being declined is
+$1 - 0.60 = 0.40$, which is choice (A); read the question stem carefully.
+\end{solution}
+
+\subsection{Traps}
+
+\begin{trap}[Adding without disjointness]
+$\Prob(A \cup B) = \Prob(A) + \Prob(B)$ is valid only when $A \cap B = \varnothing$. If the
+problem does not state that the events cannot occur together (``exactly one of'', ``never
+both'', ``classified into one of the following categories''), use the general rule
+$\Prob(A) + \Prob(B) - \Prob(A \cap B)$. A quick sanity check: if the plain sum exceeds $1$,
+the events cannot be disjoint. If the sum is at most $1$, the events might still overlap;
+only the problem statement or a given intersection settles it.
+\end{trap}
+
+\begin{trap}[Disjoint is not independent]
+Students frequently treat ``mutually exclusive'' as a synonym for ``independent''. It is
+close to the opposite. Disjoint events with positive probability are always dependent,
+because $\Prob(A \cap B) = 0$ while $\Prob(A)\Prob(B) > 0$. When a question says ``mutually
+exclusive'', set every intersection to $0$; when it says ``independent'', set every
+intersection to the product of the marginals. Never do both.
+\end{trap}
+
+\begin{trap}[Conditioning on a disjoint event]
+If $A$ and $B$ are mutually exclusive and $\Prob(B) > 0$ then
+$\Prob(A \mid B) = \Prob(A \cap B)/\Prob(B) = 0$. Likewise
+$\Prob(A \cup \cc{B}) = \Prob(\cc{B})$ because $A \subseteq \cc{B}$. Answer choices in such
+questions are built from the numbers $\Prob(A)$ and $\Prob(B)$ to catch anyone who computes
+$\Prob(A)/\Prob(B)$ or $\Prob(A) + \Prob(\cc{B})$ mechanically.
+\end{trap}
+
+\begin{trap}[``Exactly'' versus ``at least'']
+``Exactly one'' excludes the intersection; ``at least one'' includes it. For two events the
+difference is exactly $\Prob(A \cap B)$, and the exam usually lists both values among the
+choices. For three events, ``exactly two'' is $S_2 - 3S_3$, not $S_2$: every pairwise
+intersection already contains the triple intersection, so $S_2$ counts the triple cell three
+times. ``At least two'' is $S_2 - 2S_3$, which keeps the triple cell once.
+\end{trap}
+
+\subsection{Practice problems}
+
+\begin{practice}
+Claims on a commercial property policy fall into exactly one of four bands. The probability a
+claim is under 500 is $0.35$, from 500 to under 2{,}000 is $0.40$, and 10{,}000 or more is
+$0.05$. Calculate the probability that a claim is at least 2{,}000.
+
+\smallskip\noindent (A)~$0.45$\hfill (B)~$0.20$\hfill (C)~$0.05$\hfill (D)~$0.25$\hfill (E)~$0.30$\hfill\mbox{}
+\end{practice}
+
+\begin{practice}
+For a randomly selected policyholder, the probability of filing a medical claim in a year is
+$0.30$, the probability of filing a prescription-drug claim is $0.50$, and the probability of
+filing at least one of the two is $0.65$. Calculate the probability that the policyholder
+files exactly one of the two types of claim.
+
+\smallskip\noindent (A)~$0.50$\hfill (B)~$0.35$\hfill (C)~$0.65$\hfill (D)~$0.45$\hfill (E)~$0.55$\hfill\mbox{}
+\end{practice}
+
+\begin{practice}
+Each policy in a portfolio is in exactly one of three risk classes: $A$, $B$ or $C$, or is
+unclassified. Let $A$, $B$ and $C$ also denote the events that a randomly chosen policy is in
+the respective class. You are given $\Prob(A) = 3\Prob(C)$, $\Prob(B) = 2\Prob(C)$ and
+$\Prob(A \cup B \cup C) = 0.90$. Calculate $\Prob(A \cup C)$.
+
+\smallskip\noindent (A)~$0.55$\hfill (B)~$0.45$\hfill (C)~$0.70$\hfill (D)~$0.75$\hfill (E)~$0.60$\hfill\mbox{}
+\end{practice}
+
+\begin{practice}
+A survey of policyholders finds that $50\%$ carry collision coverage ($A$), $40\%$ carry
+comprehensive coverage ($B$) and $30\%$ carry rental reimbursement ($C$). Also,
+$20\%$ carry both $A$ and $B$, $15\%$ carry both $A$ and $C$, $10\%$ carry both $B$ and $C$,
+and $5\%$ carry all three. Calculate the probability that a randomly selected policyholder
+carries exactly two of the three coverages.
+
+\smallskip\noindent (A)~$0.45$\hfill (B)~$0.30$\hfill (C)~$0.35$\hfill (D)~$0.25$\hfill (E)~$0.40$\hfill\mbox{}
+\end{practice}
+
+\begin{practice}
+For a randomly selected insured, let $A$ be the event of a claim on a first-party coverage
+and $B$ the event of a claim on a third-party coverage. You are given
+$\Prob(A \cap B) = 0.12$, $\Prob(A \cap \cc{B}) = 0.28$ and $\Prob(\cc{A} \cap B) = 0.18$.
+Calculate the probability that the insured has no claim on either coverage.
+
+\smallskip\noindent (A)~$0.60$\hfill (B)~$0.30$\hfill (C)~$0.40$\hfill (D)~$0.42$\hfill (E)~$0.58$\hfill\mbox{}
+\end{practice}
+
+\begin{practice}
+Events $A$ and $B$ are mutually exclusive with $\Prob(A) = 0.30$ and $\Prob(B) = 0.50$.
+Calculate $\Prob(A \cup \cc{B})$.
+
+\smallskip\noindent (A)~$0.50$\hfill (B)~$0.80$\hfill (C)~$0.30$\hfill (D)~$0.20$\hfill (E)~$0.65$\hfill\mbox{}
+\end{practice}
+
+\subsection{Answers to practice problems}
+
+\begin{enumerate}[label=\arabic*.,nosep]
+\item \textbf{(D)} The bands partition the sample space, so the missing band (2{,}000 to under
+      10{,}000) has probability $1 - 0.35 - 0.40 - 0.05 = 0.20$. At least 2{,}000 is the union
+      of the two disjoint top bands: $0.20 + 0.05 = 0.25$.
+\item \textbf{(A)} $\Prob(A \cap B) = 0.30 + 0.50 - 0.65 = 0.15$. Exactly one is
+      $\Prob(A \cup B) - \Prob(A \cap B) = 0.65 - 0.15 = 0.50$, or
+      $0.30 + 0.50 - 2(0.15) = 0.50$.
+\item \textbf{(E)} The classes are disjoint, so $3c + 2c + c = 6c = 0.90$ and $c = 0.15$.
+      Then $\Prob(A \cup C) = 3c + c = 4c = 0.60$.
+\item \textbf{(B)} $S_2 = 0.20 + 0.15 + 0.10 = 0.45$, $S_3 = 0.05$, and exactly two is
+      $S_2 - 3S_3 = 0.45 - 0.15 = 0.30$. Check: exactly one is
+      $1.20 - 0.90 + 0.15 = 0.45$, and $0.45 + 0.30 + 0.05 = 0.80 = S_1 - S_2 + S_3$.
+\item \textbf{(D)} The three given cells are disjoint and make up $A \cup B$, so
+      $\Prob(A \cup B) = 0.12 + 0.28 + 0.18 = 0.58$ and the answer is $1 - 0.58 = 0.42$.
+      (Here $\Prob(A) = 0.40$, $\Prob(B) = 0.30$ and $\Prob(A)\Prob(B) = 0.12 = \Prob(A \cap B)$,
+      so these events happen to be independent, and they are not disjoint.)
+\item \textbf{(A)} Since $A \cap B = \varnothing$, $A \subseteq \cc{B}$, so
+      $A \cup \cc{B} = \cc{B}$ and the probability is $1 - 0.50 = 0.50$. Choice (B) is
+      the wrong result $\Prob(A) + \Prob(\cc{B}) = 0.80$, which double counts $A$.
+\end{enumerate}
+
+\subsection{One-page summary}
+
+\begin{itemize}[nosep]
+\item Mutually exclusive (disjoint): $A \cap B = \varnothing$, so $\Prob(A \cap B) = 0$ and
+      $\Prob(A \mid B) = 0$. Pairwise disjoint: no two of the family overlap. Partition:
+      pairwise disjoint and exhaustive; probabilities sum to $1$.
+\item Addition rule: for disjoint events, $\Prob(A \cup B) = \Prob(A) + \Prob(B)$, and
+      $\Prob(\bigcup A_i) = \sum \Prob(A_i)$ for any finite or countable pairwise disjoint
+      family. This is the only situation in which probabilities add directly.
+\item General rule: $\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B)$. If the given
+      union equals the sum of the marginals, the events are disjoint; if it is smaller, the
+      shortfall is $\Prob(A \cap B)$.
+\item Complement: $\Prob(\cc{A}) = 1 - \Prob(A)$. A partition with one probability missing:
+      subtract the others from $1$.
+\item Decomposition identities: $\Prob(A) = \Prob(A \cap B) + \Prob(A \cap \cc{B})$;
+      $\Prob(A \cup B) = \Prob(A) + \Prob(\cc{A} \cap B)$;
+      $\Prob(A \cup B) = \Prob(A \cap \cc{B}) + \Prob(A \cap B) + \Prob(\cc{A} \cap B)$.
+\item Disjoint with positive probabilities implies dependent: $\Prob(A \cap B) = 0 \neq
+      \Prob(A)\Prob(B)$. Mutually exclusive, independent and exhaustive are three unrelated
+      properties.
+\item Two events: exactly one $= \Prob(A) + \Prob(B) - 2\Prob(AB)$; at least one
+      $= \Prob(A) + \Prob(B) - \Prob(AB)$; at most one $= 1 - \Prob(AB)$; none
+      $= 1 - \Prob(A) - \Prob(B) + \Prob(AB)$.
+\item Three events with $S_1, S_2, S_3$: exactly three $= S_3$; exactly two $= S_2 - 3S_3$;
+      exactly one $= S_1 - 2S_2 + 3S_3$; at least one $= S_1 - S_2 + S_3$; at least two
+      $= S_2 - 2S_3$; none $= 1 - S_1 + S_2 - S_3$.
+\item Technique: rewrite the target event as a union of Venn-diagram cells, compute each cell
+      from marginals and intersections, then add. Check that exactly one $+$ exactly two $+$
+      exactly three $=$ at least one.
+\item If $A$ and $B$ are disjoint then $A \subseteq \cc{B}$, so $\Prob(A \cup \cc{B}) =
+      \Prob(\cc{B})$ and $\Prob(A \cap \cc{B}) = \Prob(A)$.
+\end{itemize}

@@ -1,0 +1,531 @@
+\section{Outcome (f): Conditional probability}
+
+\subsection{What the outcome asks}
+
+The exam tests whether you can read the phrase ``given that'' (or one of its
+disguises) and respond by restricting the sample space to the conditioning event
+before you count or divide. Questions supply the information in one of a few
+forms: joint and marginal probabilities stated in words, a two-way table of
+counts or percentages, a Venn setup with two or three coverages, or a small
+population from which items are drawn. You compute $\Prob(A \mid B)$ from that
+information, and you apply the complement and addition rules \emph{inside} the
+conditional world when the question asks for ``not'' or ``or'' after ``given''.
+Questions that give $\Prob(A\mid B)$ and ask for $\Prob(B\mid A)$ across several
+classes are outcome (g) (Bayes and total probability); the definition that makes
+those work is the subject of this section, and the two-class version is solved
+here directly from the definition.
+
+\subsection{Definition and properties}
+
+\begin{keyfact}[Definition of conditional probability]
+For events $A$ and $B$ with $\Prob(B) > 0$,
+\[
+\Prob(A \mid B) \;=\; \frac{\Prob(A \cap B)}{\Prob(B)} .
+\]
+Read: the probability of $A$ given that $B$ has occurred. The denominator is the
+probability of the \emph{conditioning} event, the one named after ``given''.
+\end{keyfact}
+
+Interpretation. Conditioning on $B$ throws away every outcome outside $B$ and
+treats $B$ as the new sample space. Probabilities of outcomes inside $B$ are then
+rescaled by dividing by $\Prob(B)$ so that they again sum to $1$. Only the part
+of $A$ that lies inside $B$, namely $A \cap B$, survives the restriction.
+
+Because $\Prob(\,\cdot \mid B)$ is a genuine probability measure on the reduced
+sample space $B$, it satisfies all three axioms: $\Prob(A\mid B) \ge 0$,
+$\Prob(B \mid B) = 1$, and it is additive over disjoint events. Every rule
+derived from the axioms therefore has a conditional version, obtained by
+writing ``$\mid B$'' after every event.
+
+\begin{keyfact}[Conditional complement and addition rules]
+Holding the conditioning event $B$ fixed:
+\begin{align*}
+\Prob(\cc{A} \mid B) &= 1 - \Prob(A \mid B), \\
+\Prob(A \cup C \mid B) &= \Prob(A \mid B) + \Prob(C \mid B) - \Prob(A \cap C \mid B), \\
+\Prob(A \cap \cc{C} \mid B) &= \Prob(A \mid B) - \Prob(A \cap C \mid B).
+\end{align*}
+These hold because the event \emph{after} the bar is the same throughout.
+\end{keyfact}
+
+\begin{keyfact}[What is NOT true]
+Changing the event \emph{after} the bar is not a complement operation:
+\[
+\Prob(A \mid \cc{B}) \;\ne\; 1 - \Prob(A \mid B) \quad \text{in general.}
+\]
+$\Prob(A\mid B)$ and $\Prob(A\mid \cc{B})$ live on two different reduced sample
+spaces and need not be related at all. To get $\Prob(A \mid \cc{B})$ you need
+$\Prob(A \cap \cc{B})$ and $\Prob(\cc{B})$, typically via
+$\Prob(A \cap \cc{B}) = \Prob(A) - \Prob(A \cap B)$.
+\end{keyfact}
+
+\begin{keyfact}[Multiplication rule and chain rule]
+Rearranging the definition gives
+\[
+\Prob(A \cap B) = \Prob(B)\,\Prob(A \mid B) = \Prob(A)\,\Prob(B \mid A),
+\]
+and for three events
+\[
+\Prob(A \cap B \cap C) = \Prob(A)\,\Prob(B \mid A)\,\Prob(C \mid A \cap B).
+\]
+Conversely, conditioning on an intersection is the same definition with a
+compound conditioning event:
+\[
+\Prob(C \mid A \cap B) = \frac{\Prob(A \cap B \cap C)}{\Prob(A \cap B)} .
+\]
+\end{keyfact}
+
+\begin{keyfact}[Link to independence]
+If $\Prob(B) > 0$, then $A$ and $B$ are independent exactly when
+$\Prob(A \mid B) = \Prob(A)$, equivalently $\Prob(A \mid B) = \Prob(A \mid \cc{B})$.
+Knowing $B$ happened does not change the probability of $A$. If
+$\Prob(A \mid B) \ne \Prob(A)$ the events are dependent, and the multiplication
+rule must use the conditional probability, not the marginal.
+\end{keyfact}
+
+Two consequences. $\Prob(A \mid B)$ and $\Prob(B \mid A)$ share the numerator
+$\Prob(A \cap B)$ but have different denominators, so
+$\Prob(B \mid A) = \Prob(A \mid B)\,\Prob(B)/\Prob(A)$, which reverses a single
+condition whenever $\Prob(A)$ is given. If $A \subseteq B$ then
+$\Prob(A \mid B) = \Prob(A)/\Prob(B)$; if $A \cap B = \emptyset$ then
+$\Prob(A \mid B) = 0$.
+
+\subsection{Three computational settings}
+
+\subsubsection*{(i) Two-way (contingency) table}
+
+The conditioning event names a row or a column. Restrict to that row or column,
+then divide the cell you want by the row or column total. Nothing outside that
+row or column is used.
+
+A table of counts. An insurer classifies $200$ life policyholders by sex and
+smoking status.
+
+\begin{center}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & Smoker & Nonsmoker & Total \\
+\midrule
+Male   & 30 & 90  & 120 \\
+Female & 24 & 56  & 80  \\
+\midrule
+Total  & 54 & 146 & 200 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}[nosep]
+\item $\Prob(\text{Smoker} \mid \text{Male}) = 30/120 = 0.25$: restrict to the Male row.
+\item $\Prob(\text{Smoker} \mid \text{Female}) = 24/80 = 0.30$: restrict to the Female row.
+\item $\Prob(\text{Male} \mid \text{Smoker}) = 30/54 = 0.5556$: restrict to the Smoker column.
+\item $\Prob(\text{Male} \cap \text{Smoker}) = 30/200 = 0.15$: no restriction; divide by the grand total.
+\end{itemize}
+Since $\Prob(\text{Smoker} \mid \text{Male}) \ne \Prob(\text{Smoker} \mid \text{Female})$,
+sex and smoking status are dependent in this population.
+
+A table of proportions. The same procedure works when the cells are joint
+probabilities that sum to $1$; the row and column totals are then the marginal
+probabilities.
+
+\begin{center}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & Claim & No claim & Total \\
+\midrule
+Young & 0.12 & 0.28 & 0.40 \\
+Old   & 0.09 & 0.51 & 0.60 \\
+\midrule
+Total & 0.21 & 0.79 & 1.00 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\begin{itemize}[nosep]
+\item $\Prob(\text{Claim} \mid \text{Young}) = 0.12/0.40 = 0.30$.
+\item $\Prob(\text{Claim} \mid \text{Old}) = 0.09/0.60 = 0.15$.
+\item $\Prob(\text{Young} \mid \text{Claim}) = 0.12/0.21 = 0.5714$.
+\item $\Prob(\text{No claim} \mid \text{Young}) = 1 - 0.30 = 0.70 = 0.28/0.40$: conditional complement, same row.
+\item If the table had several age rows, conditioning on ``age at least 30''
+would mean adding the relevant rows first: the denominator is the sum of those
+row totals and the numerator is the sum of their Claim cells.
+\end{itemize}
+
+Exam problems often give the table indirectly: a marginal (``40\% of
+policyholders are young''), a conditional (``30\% of young policyholders filed
+a claim''), and an overall rate (``21\% filed a claim''). Rebuild the table:
+Young--Claim $= 0.40 \times 0.30 = 0.12$, Old--Claim $= 0.21 - 0.12 = 0.09$,
+the rest by subtraction. Every conditional is then a ratio of two entries.
+
+\subsubsection*{(ii) Venn diagram / region bookkeeping}
+
+With two or three overlapping coverages, label each disjoint region with its
+probability (or count), then
+\[
+\Prob(A \mid B) = \frac{\text{total of the regions inside } A \cap B}{\text{total of the regions inside } B}.
+\]
+For three sets, the ``only'' regions come from inclusion--exclusion:
+$\Prob(A \text{ only}) = \Prob(A) - \Prob(A\cap B) - \Prob(A \cap C) + \Prob(A \cap B \cap C)$.
+``Of those with auto, what fraction also have home'' means the denominator is
+every region inside the auto circle and the numerator is the lens $A \cap H$
+(both of its regions, with and without life).
+
+\subsubsection*{(iii) Sequential / tree}
+
+When the experiment happens in stages (select a class, then observe a claim;
+draw one file, then another), the branch labels on a probability tree are
+conditional probabilities given the path so far. Multiplying along a path gives
+the joint probability of the path. ``Given the first was $X$, what is the
+probability the second is $Y$'' is read directly off a branch label; ``given the
+second was $Y$'' reverses the tree, which is outcome (g).
+
+\subsubsection*{Phrases that signal conditioning}
+
+\begin{center}
+\begin{tabular}{@{}p{0.42\textwidth}p{0.50\textwidth}@{}}
+\toprule
+Phrase in the problem & Meaning \\
+\midrule
+``given that $B$'' / ``if it is known that $B$'' & Denominator is $\Prob(B)$. \\
+``of those who $B$'' / ``among $B$ policyholders'' & The $B$ group is the whole population; take the fraction inside it. \\
+``restricted to $B$'' / ``within the $B$ class'' & Same. \\
+``$x$\% of $B$ policyholders are $A$'' & $\Prob(A \mid B) = x/100$, not $\Prob(A \cap B)$. \\
+``$x$\% of policyholders are both $A$ and $B$'' & Joint $\Prob(A \cap B)$; no conditioning. \\
+``the probability that a $B$ policyholder is $A$'' & $\Prob(A \mid B)$. \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{Worked examples}
+
+\begin{example}[Two-way table of policyholders]
+An auto insurer has $500$ policyholders, classified by age and sex as follows.
+
+\begin{center}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & Male & Female & Total \\
+\midrule
+Young & 140 & 85  & 225 \\
+Old   & 160 & 115 & 275 \\
+\midrule
+Total & 300 & 200 & 500 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+A policyholder is selected at random. Calculate the probability that the
+policyholder is female, given that the policyholder is young.
+
+\medskip
+(A) 0.17 \quad (B) 0.38 \quad (C) 0.40 \quad (D) 0.43 \quad (E) 0.45
+\end{example}
+
+\begin{solution}
+The conditioning event is ``young'', so restrict to the Young row, which has
+$225$ policyholders. Of these, $85$ are female.
+\[
+\Prob(\text{Female} \mid \text{Young}) = \frac{85}{225} = 0.3778 .
+\]
+The distractors are the other ratios one could form from the same cell: $85/500 = 0.17$ is
+$\Prob(\text{Female} \cap \text{Young})$; $200/500 = 0.40$ is the marginal $\Prob(\text{Female})$;
+$85/200 = 0.425$ is the reversed conditional $\Prob(\text{Young} \mid \text{Female})$.
+\textbf{Answer: (B).}
+\end{solution}
+
+\begin{example}[Both, given at least one]
+For a randomly selected policyholder holding both auto and homeowners coverage
+with an insurer, the probability of an auto claim in a given year is $0.30$, the
+probability of a homeowners claim is $0.20$, and the probability of both is
+$0.08$. Given that the policyholder files at least one claim in the year,
+calculate the probability that the policyholder files both.
+
+\medskip
+(A) 0.08 \quad (B) 0.16 \quad (C) 0.19 \quad (D) 0.27 \quad (E) 0.42
+\end{example}
+
+\begin{solution}
+Let $A$ = auto claim and $H$ = homeowners claim. ``At least one'' is $A \cup H$,
+and ``both'' is $A \cap H$, which is a subset of $A \cup H$, so the intersection
+of the two events is just $A \cap H$.
+\[
+\Prob(A \cup H) = 0.30 + 0.20 - 0.08 = 0.42, \qquad
+\Prob(A \cap H \mid A \cup H) = \frac{0.08}{0.42} = 0.1905 .
+\]
+\textbf{Answer: (C).}
+\end{solution}
+
+\begin{example}[Venn with three coverages]
+A survey of an insurer's customers finds that $55\%$ have auto coverage, $35\%$
+have homeowners coverage, and $25\%$ have life coverage. Also, $15\%$ have both
+auto and homeowners, $12\%$ have both auto and life, $8\%$ have both homeowners
+and life, and $5\%$ have all three. Of those customers who have auto coverage,
+calculate the proportion who have neither homeowners nor life coverage.
+
+\medskip
+(A) 0.33 \quad (B) 0.40 \quad (C) 0.45 \quad (D) 0.55 \quad (E) 0.60
+\end{example}
+
+\begin{solution}
+Let $A$, $H$, $L$ be the three coverages. The denominator is $\Prob(A) = 0.55$.
+The numerator is the ``auto only'' region:
+\[
+\Prob(A \cap \cc{H} \cap \cc{L}) = \Prob(A) - \Prob(A\cap H) - \Prob(A \cap L) + \Prob(A\cap H \cap L)
+= 0.55 - 0.15 - 0.12 + 0.05 = 0.33 .
+\]
+Then
+\[
+\Prob(\cc{H} \cap \cc{L} \mid A) = \frac{0.33}{0.55} = 0.60 .
+\]
+Choice (A) is the joint probability $0.33$, not the conditional.
+\textbf{Answer: (E).}
+\end{solution}
+
+\begin{example}[Reversing one condition from the definition]
+In a block of life policies, $30\%$ of policyholders are smokers. Among
+smokers, $20\%$ filed a claim last year. Overall, $12\%$ of policyholders filed
+a claim last year. Calculate the probability that a policyholder who filed a
+claim last year is a smoker.
+
+\medskip
+(A) 0.06 \quad (B) 0.20 \quad (C) 0.30 \quad (D) 0.50 \quad (E) 0.60
+\end{example}
+
+\begin{solution}
+Let $S$ = smoker and $C$ = filed a claim. Given: $\Prob(S) = 0.30$,
+$\Prob(C \mid S) = 0.20$, $\Prob(C) = 0.12$. The joint probability is
+\[
+\Prob(S \cap C) = \Prob(S)\,\Prob(C \mid S) = 0.30 \times 0.20 = 0.06 ,
+\]
+and the requested conditional is
+\[
+\Prob(S \mid C) = \frac{\Prob(S \cap C)}{\Prob(C)} = \frac{0.06}{0.12} = 0.50 .
+\]
+No Bayes machinery is needed because $\Prob(C)$ is supplied directly; the
+definition does the whole job.
+\textbf{Answer: (D).}
+\end{solution}
+
+\begin{example}[Conditioning on the complement]
+A life insurer classifies $60\%$ of its policyholders as standard and the rest
+as preferred. The probability that a standard policyholder lapses within one
+year is $0.15$. The probability that a randomly selected policyholder lapses
+within one year is $0.11$. Calculate the probability that a preferred
+policyholder lapses within one year.
+
+\medskip
+(A) 0.02 \quad (B) 0.05 \quad (C) 0.085 \quad (D) 0.15 \quad (E) 0.85
+\end{example}
+
+\begin{solution}
+Let $S$ = standard and $L$ = lapse. Given: $\Prob(S) = 0.60$, so
+$\Prob(\cc{S}) = 0.40$; $\Prob(L \mid S) = 0.15$; $\Prob(L) = 0.11$.
+Build the pieces of $L$:
+\[
+\Prob(L \cap S) = 0.60 \times 0.15 = 0.09, \qquad
+\Prob(L \cap \cc{S}) = \Prob(L) - \Prob(L \cap S) = 0.11 - 0.09 = 0.02 .
+\]
+Then
+\[
+\Prob(L \mid \cc{S}) = \frac{0.02}{0.40} = 0.05 .
+\]
+Choice (E), $0.85 = 1 - 0.15$, is $\Prob(\cc{L} \mid S)$, the probability that
+a \emph{standard} policyholder does \emph{not} lapse; it says nothing about
+preferred policyholders. Choice (A) is the joint probability, not the
+conditional.
+\textbf{Answer: (B).}
+\end{solution}
+
+\begin{example}[Conditioning on an intersection]
+An insurer's records show that $50\%$ of its customers have auto coverage,
+$40\%$ have homeowners coverage, and $20\%$ have both. Also, $12\%$ of all
+customers filed a claim last year, $8\%$ have auto coverage and filed a claim
+last year, and $5\%$ have both coverages and filed a claim last year. Calculate
+the probability that a customer who has both auto and homeowners coverage filed
+a claim last year.
+
+\medskip
+(A) 0.05 \quad (B) 0.10 \quad (C) 0.16 \quad (D) 0.25 \quad (E) 0.40
+\end{example}
+
+\begin{solution}
+Let $A$ = auto, $H$ = homeowners, $C$ = claim. The conditioning event is
+$A \cap H$ with $\Prob(A \cap H) = 0.20$; the numerator is $\Prob(A \cap H \cap C) = 0.05$.
+\[
+\Prob(C \mid A \cap H) = \frac{0.05}{0.20} = 0.25 .
+\]
+The other figures are distractors: $\Prob(C \mid A) = 0.08/0.50 = 0.16$ conditions
+on auto alone; $\Prob(C) = 0.12$ and $\Prob(H) = 0.40$ are not needed.
+\textbf{Answer: (D).}
+\end{solution}
+
+\subsection{Traps}
+
+\begin{trap}[Dividing by the wrong marginal]
+The denominator is always the probability of the event named after ``given''
+(or ``of those who'', ``among''). In a table, that means the total of the row
+or column you restricted to, never the grand total and never the other
+margin. Before dividing, say out loud which group is the new population.
+\end{trap}
+
+\begin{trap}[$\Prob(A \mid B)$ versus $\Prob(B \mid A)$]
+These share the numerator $\Prob(A \cap B)$ but have different denominators
+and are generally different numbers. ``$20\%$ of smokers filed a claim'' is
+$\Prob(C \mid S)$; ``$50\%$ of claimants are smokers'' is $\Prob(S \mid C)$.
+Exam answer choices routinely include the reversed conditional as a
+distractor. Write the conditional with the bar before computing anything.
+\end{trap}
+
+\begin{trap}[$\Prob(A \mid \cc{B})$ is not $1 - \Prob(A \mid B)$]
+The complement rule flips the event \emph{before} the bar:
+$\Prob(\cc{A} \mid B) = 1 - \Prob(A \mid B)$. Flipping the event \emph{after} the
+bar changes the population, and the two conditionals need not add to $1$.
+To find $\Prob(A \mid \cc{B})$, compute $\Prob(A \cap \cc{B}) = \Prob(A) - \Prob(A \cap B)$
+and divide by $\Prob(\cc{B}) = 1 - \Prob(B)$.
+\end{trap}
+
+\begin{trap}[Joint versus conditional in the wording]
+``$x$\% of policyholders are young and filed a claim'' is a joint probability
+$\Prob(Y \cap C)$. ``$x$\% of young policyholders filed a claim'' is a
+conditional $\Prob(C \mid Y)$. ``$x$\% of policyholders are young'' is a
+marginal $\Prob(Y)$. Misreading one of these as another produces an answer
+that is present among the choices. When the problem mixes the three, rebuild the
+two-way table from them before answering.
+\end{trap}
+
+\begin{trap}[Mixing counts and percentages]
+A conditional probability is a ratio, so it can be computed from counts or from
+proportions, but not from a mixture. If a row total is a count and a cell is a
+percentage of the whole population, convert both to the same units first. In
+a proportion table, the grand total is $1$, and the marginals are row and
+column sums; do not divide a proportion by a count.
+\end{trap}
+
+\subsection{Practice problems}
+
+\begin{practice}
+A life insurer classifies $400$ policyholders as preferred or standard, and as
+smokers or nonsmokers. There are $20$ preferred smokers, $140$ preferred
+nonsmokers, $90$ standard smokers, and $150$ standard nonsmokers. A
+policyholder is selected at random. Calculate the probability that the
+policyholder is preferred, given that the policyholder is a nonsmoker.
+
+\medskip
+(A) 0.35 \quad (B) 0.40 \quad (C) 0.48 \quad (D) 0.72 \quad (E) 0.88
+\end{practice}
+
+\begin{practice}
+For a randomly selected employee with a group benefits plan, the probability of
+a dental claim in a year is $0.45$, the probability of a vision claim is
+$0.35$, and the probability of both is $0.15$. Given that the employee has at
+least one of the two types of claim in the year, calculate the probability that
+the employee has both.
+
+\medskip
+(A) 0.15 \quad (B) 0.23 \quad (C) 0.33 \quad (D) 0.43 \quad (E) 0.65
+\end{practice}
+
+\begin{practice}
+In a survey of an insurer's customers, $40\%$ have auto coverage, $30\%$ have
+homeowners coverage, and $25\%$ have life coverage; $12\%$ have auto and
+homeowners, $10\%$ have auto and life, $8\%$ have homeowners and life, and
+$4\%$ have all three. Of those customers with homeowners coverage, calculate the
+proportion who have neither auto nor life coverage.
+
+\medskip
+(A) 0.14 \quad (B) 0.40 \quad (C) 0.47 \quad (D) 0.53 \quad (E) 0.60
+\end{practice}
+
+\begin{practice}
+An auto insurer classifies $20\%$ of its policies as high risk. The probability
+that a high-risk policy has a claim in a year is $0.35$. The probability that a
+randomly selected policy has a claim in a year is $0.16$. Calculate the
+probability that a policy with a claim in the year is a high-risk policy.
+
+\medskip
+(A) 0.07 \quad (B) 0.20 \quad (C) 0.35 \quad (D) 0.44 \quad (E) 0.56
+\end{practice}
+
+\begin{practice}
+Of an insurer's policyholders, $55\%$ are female. The probability that a
+female policyholder files a claim in a year is $0.10$. The probability that a
+randomly selected policyholder files a claim in a year is $0.145$. Calculate
+the probability that a male policyholder files a claim in the year.
+
+\medskip
+(A) 0.09 \quad (B) 0.145 \quad (C) 0.20 \quad (D) 0.30 \quad (E) 0.90
+\end{practice}
+
+\begin{practice}
+An insurer's records show that $60\%$ of customers have auto coverage. Among
+customers with auto coverage, $50\%$ carry collision coverage. Also, $12\%$ of
+all customers have auto coverage with collision and filed a claim last year.
+Calculate the probability that a customer with auto coverage and collision
+coverage filed a claim last year.
+
+\medskip
+(A) 0.12 \quad (B) 0.20 \quad (C) 0.30 \quad (D) 0.40 \quad (E) 0.72
+\end{practice}
+
+\begin{practice}
+A file cabinet contains $12$ claim files, of which $5$ are fraudulent. An
+auditor selects $2$ files at random without replacement. Given that at least
+one of the selected files is fraudulent, calculate the probability that both
+are fraudulent.
+
+\medskip
+(A) 0.15 \quad (B) 0.22 \quad (C) 0.36 \quad (D) 0.41 \quad (E) 0.68
+\end{practice}
+
+\subsection{Answers to practice problems}
+
+\begin{enumerate}[label=\arabic*., nosep]
+\item \textbf{(C).} Nonsmokers total $140 + 150 = 290$; of these $140$ are preferred.
+$140/290 = 0.4828$. ($140/400 = 0.35$ is the joint; $160/400 = 0.40$ is the marginal;
+$140/160 = 0.875$ is the reversed conditional.)
+\item \textbf{(B).} $\Prob(D \cup V) = 0.45 + 0.35 - 0.15 = 0.65$;
+$\Prob(D \cap V \mid D \cup V) = 0.15/0.65 = 0.2308$.
+\item \textbf{(C).} Homeowners only $= 0.30 - 0.12 - 0.08 + 0.04 = 0.14$;
+divide by $\Prob(H) = 0.30$: $0.14/0.30 = 0.4667$. ($0.12/0.30 = 0.40$ is the
+fraction of homeowners customers with auto.)
+\item \textbf{(D).} $\Prob(R \cap C) = 0.20 \times 0.35 = 0.07$;
+$\Prob(R \mid C) = 0.07/0.16 = 0.4375$.
+\item \textbf{(C).} $\Prob(F \cap C) = 0.55 \times 0.10 = 0.055$;
+$\Prob(M \cap C) = 0.145 - 0.055 = 0.09$; $\Prob(C \mid M) = 0.09/0.45 = 0.20$.
+(Choice (E), $0.90 = 1 - 0.10$, is $\Prob(\cc{C} \mid F)$, not a statement about males.)
+\item \textbf{(D).} $\Prob(A \cap K) = 0.60 \times 0.50 = 0.30$;
+$\Prob(C \mid A \cap K) = 0.12/0.30 = 0.40$.
+\item \textbf{(B).} $\Prob(\text{both}) = \binom{5}{2}/\binom{12}{2} = 10/66$;
+$\Prob(\text{none}) = \binom{7}{2}/\binom{12}{2} = 21/66$;
+$\Prob(\text{at least one}) = 45/66$;
+ratio $= 10/45 = 2/9 = 0.2222$. ($4/11 = 0.36$ is $\Prob(\text{second fraudulent} \mid \text{first fraudulent})$, a different condition.)
+\end{enumerate}
+
+\subsection{One-page summary}
+
+\begin{itemize}[nosep]
+\item Definition: $\Prob(A \mid B) = \Prob(A \cap B)/\Prob(B)$, $\Prob(B) > 0$. The
+event after the bar is the new sample space; divide by its probability.
+\item Signal words for conditioning: given, of those who, among, if it is known
+that, restricted to, within the class, ``$x$\% of $B$ policyholders are $A$''.
+\item ``$x$\% of policyholders are $A$ and $B$'' is joint; ``$x$\% of $B$
+policyholders are $A$'' is conditional; ``$x$\% of policyholders are $B$'' is marginal.
+\item Two-way table: restrict to the row or column named after ``given'', divide
+the cell by that row or column total. Works for counts or proportions, not a mix.
+\item Rebuild the table from words: cell $= \text{marginal} \times \text{conditional}$;
+remaining cells by subtraction from marginals.
+\item Venn: $\Prob(A \mid B) = (\text{regions in } A \cap B)/(\text{regions in } B)$;
+``only'' regions by inclusion--exclusion.
+\item Tree: branch labels are conditionals; multiply along a path for the joint.
+\item Conditional complement: $\Prob(\cc{A} \mid B) = 1 - \Prob(A \mid B)$.
+\item Conditional addition: $\Prob(A \cup C \mid B) = \Prob(A \mid B) + \Prob(C \mid B) - \Prob(A \cap C \mid B)$.
+\item Not a rule: $\Prob(A \mid \cc{B}) \ne 1 - \Prob(A \mid B)$. Get it from
+$\Prob(A \cap \cc{B}) = \Prob(A) - \Prob(A \cap B)$ divided by $1 - \Prob(B)$.
+\item Multiplication: $\Prob(A \cap B) = \Prob(B)\Prob(A \mid B) = \Prob(A)\Prob(B \mid A)$;
+chain: $\Prob(A \cap B \cap C) = \Prob(A)\Prob(B \mid A)\Prob(C \mid A \cap B)$.
+\item Conditioning on an intersection: $\Prob(C \mid A \cap B) = \Prob(A \cap B \cap C)/\Prob(A \cap B)$.
+\item Reversing one condition: $\Prob(B \mid A) = \Prob(A \mid B)\Prob(B)/\Prob(A)$ when $\Prob(A)$ is given.
+\item Both given at least one: $\Prob(A \cap B)/\Prob(A \cup B)$ with
+$\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A \cap B)$.
+\item Independence: $\Prob(A \mid B) = \Prob(A) = \Prob(A \mid \cc{B})$.
+\item Subset: $A \subseteq B \Rightarrow \Prob(A \mid B) = \Prob(A)/\Prob(B)$;
+disjoint: $\Prob(A \mid B) = 0$.
+\end{itemize}

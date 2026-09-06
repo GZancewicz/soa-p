@@ -1,0 +1,78 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage[table]{xcolor}
+\usepackage[most]{tcolorbox}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!60!black,urlcolor=blue!60!black}
+
+% ---------- Study-primer environments (shared by every section) ----------
+% Numbered worked example, exam style
+\newcounter{example}[section]
+\renewcommand{\theexample}{\thesection.\arabic{example}}
+\newtcolorbox[use counter=example]{example}[1][]{%
+  enhanced,breakable,colback=blue!3,colframe=blue!50!black,
+  title={Example~\thesection.\arabic{example}\ifstrempty{#1}{}{: #1}},fonttitle=\bfseries}
+
+% Solution to the immediately preceding example
+\newtcolorbox{solution}{%
+  enhanced,breakable,colback=white,colframe=gray!60,
+  title={Solution},fonttitle=\bfseries,coltitle=black,colbacktitle=gray!15}
+
+% Key fact / formula to memorise
+\newtcolorbox{keyfact}[1][]{%
+  enhanced,breakable,colback=green!4,colframe=green!40!black,
+  title={Key fact\ifstrempty{#1}{}{: #1}},fonttitle=\bfseries}
+
+% Common exam trap
+\newtcolorbox{trap}[1][]{%
+  enhanced,breakable,colback=red!4,colframe=red!50!black,
+  title={Trap\ifstrempty{#1}{}{: #1}},fonttitle=\bfseries}
+
+% Practice problems (answers collected at the end of each section)
+\newcounter{practice}[section]
+\renewcommand{\thepractice}{\thesection.\arabic{practice}}
+\newtcolorbox[use counter=practice]{practice}{%
+  enhanced,breakable,colback=yellow!5,colframe=orange!70!black,
+  title={Practice~\thesection.\arabic{practice}},fonttitle=\bfseries}
+
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\DeclareMathOperator{\comp}{c}
+\newcommand{\cc}[1]{#1^{\mathrm{c}}}   % complement
+
+\title{SOA Exam P Study Primer\\[4pt]\large Topic 1: General Probability (23--30\% of the exam)}
+\author{}
+\date{September 2026 syllabus}
+
+\begin{document}
+\maketitle
+
+\section*{How to use this primer}
+Topic 1 has seven learning outcomes, (a) through (g). Each section below covers one outcome:
+what the outcome asks, the definitions and formulas needed, worked examples in the style of the
+exam's five-choice multiple-choice questions, the traps that cost points, and practice problems
+with answers. The exam is 30 questions in three hours, so a typical question must be solved in
+about six minutes. Every section ends with a one-page summary of what to memorise.
+\tableofcontents
+\clearpage
+
+\input{sections/a-sets-axioms}
+\clearpage
+\input{sections/b-combinatorics}
+\clearpage
+\input{sections/c-independence}
+\clearpage
+\input{sections/d-mutually-exclusive}
+\clearpage
+\input{sections/e-addition-multiplication}
+\clearpage
+\input{sections/f-conditional}
+\clearpage
+\input{sections/g-bayes-total-probability}
+
+\end{document}

@@ -1,0 +1,464 @@
+\section{Outcome (b): Combinatorics}
+
+\subsection{What the outcome asks}
+
+The exam tests classical probability: when every outcome of an experiment is equally likely,
+\[
+\Prob(A) = \frac{\text{number of outcomes in } A}{\text{total number of outcomes}},
+\]
+so the whole problem reduces to counting two sets correctly and consistently. The questions
+ask you to decide whether order matters (permutation versus combination), whether selection is
+with or without replacement, and how to split a group into several labelled subgroups
+(multinomial partitions). The typical setting is selecting policies from a portfolio, forming
+a committee from a group of policyholders, assigning claims to adjusters, or arranging files
+in a queue. ``At least one'' questions are almost always fastest through the complement.
+Exam arithmetic is done on a calculator, so answers are usually given to three decimals.
+
+\subsection{Counting tools}
+
+\paragraph{Multiplication principle.}
+If a procedure consists of $k$ stages and stage $i$ can be done in $n_i$ ways regardless of
+what happened at the earlier stages, the procedure can be done in $n_1 n_2 \cdots n_k$ ways.
+Every formula below is a consequence of this principle.
+
+\begin{keyfact}[Permutations: order matters, no replacement]
+The number of ordered arrangements of all $n$ distinct objects is
+\[
+n! = n(n-1)(n-2)\cdots 2 \cdot 1, \qquad 0! = 1 .
+\]
+The number of ordered arrangements of $k$ objects chosen from $n$ distinct objects is
+\[
+{}_nP_k = \frac{n!}{(n-k)!} = n(n-1)\cdots(n-k+1) .
+\]
+\end{keyfact}
+
+\begin{keyfact}[Combinations: order does not matter, no replacement]
+The number of unordered subsets of size $k$ from $n$ distinct objects is
+\[
+\binom{n}{k} = \frac{n!}{k!\,(n-k)!} = \frac{{}_nP_k}{k!} .
+\]
+Useful identities:
+\[
+\binom{n}{k} = \binom{n}{n-k}, \qquad
+\binom{n}{0} = \binom{n}{n} = 1, \qquad
+\binom{n}{1} = n, \qquad
+\binom{n}{2} = \frac{n(n-1)}{2},
+\]
+and Pascal's rule
+\[
+\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k} .
+\]
+\end{keyfact}
+
+Pascal's rule has a counting interpretation that recurs in exam problems: fix one particular
+object; the $k$-subsets that contain it number $\binom{n-1}{k-1}$ and the $k$-subsets that
+do not contain it number $\binom{n-1}{k}$. Dividing, the probability that a random $k$-subset
+contains a specific object is $\binom{n-1}{k-1}/\binom{n}{k} = k/n$.
+
+\begin{keyfact}[Binomial theorem]
+\[
+(x+y)^n = \sum_{k=0}^{n} \binom{n}{k} x^k y^{n-k}, \qquad
+\sum_{k=0}^{n}\binom{n}{k} = 2^n, \qquad
+\sum_{k=0}^{n}(-1)^k\binom{n}{k} = 0 .
+\]
+The identity $\sum_k \binom{n}{k}=2^n$ counts all subsets of an $n$-set. It is also why the
+binomial probabilities in Topic 2 sum to one.
+\end{keyfact}
+
+\begin{keyfact}[Permutations with repeated objects (multinomial coefficient)]
+The number of distinguishable arrangements of $n$ objects of which $n_1$ are identical of
+type 1, $n_2$ identical of type 2, \dots, $n_r$ identical of type $r$
+(with $n_1+\cdots+n_r=n$) is
+\[
+\binom{n}{n_1,\,n_2,\,\dots,\,n_r} = \frac{n!}{n_1!\,n_2!\cdots n_r!} .
+\]
+The same number counts the ways to partition $n$ distinct objects into $r$ labelled groups
+of sizes $n_1,\dots,n_r$. It equals the product of successive combinations
+$\binom{n}{n_1}\binom{n-n_1}{n_2}\cdots\binom{n_r}{n_r}$.
+\end{keyfact}
+
+For example, the word MISSISSIPPI has $11!/(1!\,4!\,4!\,2!) = 34650$ distinguishable
+arrangements, and $12$ distinct claims can be divided among three adjusters, four claims each,
+in $12!/(4!\,4!\,4!) = 34650$ ways.
+
+\begin{keyfact}[With replacement]
+Choosing $k$ times from $n$ objects with replacement, order recorded: $n^k$ outcomes.
+Choosing $k$ times from $n$ objects with replacement, order ignored (a multiset): $\binom{n+k-1}{k}$ outcomes.
+The second count is rarely needed on the exam; the first is needed constantly, in particular
+as the denominator in ``at least one match'' problems.
+\end{keyfact}
+
+\begin{center}
+\begin{tabular}{llp{3.4cm}p{5.2cm}}
+\toprule
+Order matters? & Replacement? & Count & Typical wording \\
+\midrule
+Yes & No  & ${}_nP_k = \dfrac{n!}{(n-k)!}$ & arrange, rank, sequence, fill distinct positions \\[6pt]
+Yes & Yes & $n^k$ & each of $k$ items independently takes one of $n$ values \\[4pt]
+No  & No  & $\dbinom{n}{k}$ & select, choose, committee, sample, hand \\[6pt]
+No  & Yes & $\dbinom{n+k-1}{k}$ & multiset: only how many of each type is recorded \\
+\bottomrule
+\end{tabular}
+\\[4pt]
+Decision table for choosing $k$ from $n$ distinct objects.
+\end{center}
+
+\paragraph{Circular arrangements.}
+$n$ distinct objects around a circle, where only relative position matters, can be arranged in
+$(n-1)!$ ways: fix one object to remove the rotational symmetry and arrange the remaining $n-1$
+in a row. If the circle can also be flipped over (a necklace), divide again by $2$.
+
+\paragraph{Stars and bars.}
+The number of ways to write $n$ as an ordered sum of $r$ nonnegative integers
+$x_1 + x_2 + \cdots + x_r = n$, $x_i \ge 0$, is
+\[
+\binom{n+r-1}{r-1} .
+\]
+Picture $n$ identical stars and $r-1$ bars; each arrangement of the $n+r-1$ symbols is one
+solution. If every $x_i \ge 1$ is required, give each variable one unit first and count
+solutions of $y_1+\cdots+y_r = n-r$: $\binom{n-1}{r-1}$. For example, $10$ identical bonus
+units can be distributed among $4$ agents in $\binom{13}{3}=286$ ways, and in
+$\binom{9}{3}=84$ ways if every agent gets at least one. If all $286$ distributions are
+equally likely, the probability that every agent gets at least one unit is $84/286 = 0.294$.
+
+\paragraph{Restrictions.}
+Two standard devices handle restrictions on arrangements.
+\begin{itemize}[nosep]
+\item \textbf{Objects that must be together}: glue them into one block, arrange the blocks,
+then multiply by the number of internal orderings of the block. Three files that must be
+adjacent among $7$ files in a row: $5!\cdot 3! = 720$ arrangements out of $7! = 5040$.
+\item \textbf{Objects that must be separated}: arrange the unrestricted objects first, then
+place the restricted objects in the gaps (including the two ends). No two of $3$ special
+files adjacent among $7$: arrange the $4$ others ($4!$), choose $3$ of the $5$ gaps
+($\binom{5}{3}$), order the special files in those gaps ($3!$): $24\cdot 10\cdot 6 = 1440$.
+\end{itemize}
+
+\subsection{Classical probability with counting}
+
+With equally likely outcomes, $\Prob(A) = |A|/|S|$. The numerator and denominator must be
+counted in the same way: both as ordered lists, or both as unordered sets. Either convention
+gives the same probability if applied consistently.
+
+\begin{keyfact}[The hypergeometric counting pattern]
+A group contains $a$ objects of type I and $b$ objects of type II. A sample of $n$ objects is
+drawn at random without replacement. The probability that the sample contains exactly $x$ of
+type I is
+\[
+\Prob(X = x) = \frac{\dbinom{a}{x}\dbinom{b}{n-x}}{\dbinom{a+b}{n}} .
+\]
+With more than two types, the numerator becomes a product of one binomial coefficient per
+type, and the denominator is $\binom{N}{n}$ with $N$ the total. Topic 2 names this the
+hypergeometric distribution; on this outcome it is a counting pattern.
+\end{keyfact}
+
+\paragraph{Same problem, two methods.}
+A portfolio holds $10$ policies: $4$ auto and $6$ homeowners. Three policies are selected at
+random without replacement. Find the probability that exactly $2$ of the $3$ are auto.
+
+\emph{Counting (unordered).} Total $\binom{10}{3} = 120$. Favourable
+$\binom{4}{2}\binom{6}{1} = 6\cdot 6 = 36$. Probability $36/120 = 0.300$.
+
+\emph{Sequential conditional probabilities (ordered).} The sequence auto, auto, home has
+probability
+\[
+\frac{4}{10}\cdot\frac{3}{9}\cdot\frac{6}{8} = \frac{72}{720} = 0.100 .
+\]
+The sequences auto, home, auto and home, auto, auto each have the same probability (the
+numerators $4,3,6$ appear in a different order, the denominators are $10,9,8$ regardless).
+There are $\binom{3}{2}=3$ positions for the home policy, so the probability is
+$3 \times 0.100 = 0.300$.
+
+The two methods agree. The counting method is faster when the sample is unordered; the
+sequential method is faster when the question involves only two or three draws, or asks
+about a specific position (``the third policy selected is auto'').
+
+\subsection{Worked examples}
+
+\begin{example}[Committee with a constraint]
+A group of $12$ policyholders consists of $7$ who hold auto coverage only and $5$ who hold
+both auto and homeowners coverage. A committee of $5$ is chosen at random from the group.
+Calculate the probability that the committee includes at least $2$ policyholders who hold
+both coverages.
+\par\smallskip\noindent (A) 0.44 \quad (B) 0.61 \quad (C) 0.69 \quad (D) 0.75 \quad (E) 0.81
+\end{example}
+\begin{solution}
+Total committees: $\binom{12}{5} = 792$. Use the complement: fewer than $2$ from the
+``both'' group means $0$ or $1$.
+\[
+\binom{5}{0}\binom{7}{5} + \binom{5}{1}\binom{7}{4} = 21 + 5\cdot 35 = 196 .
+\]
+\[
+\Prob(\text{at least } 2) = 1 - \frac{196}{792} = \frac{596}{792} = 0.7525 .
+\]
+Answer: \textbf{(D)}.
+
+The direct sum $\binom{5}{2}\binom{7}{3}+\binom{5}{3}\binom{7}{2}+\binom{5}{4}\binom{7}{1}+\binom{5}{5}\binom{7}{0}
+= 350+210+35+1 = 596$ agrees. Choice (A) is the probability of exactly $2$, choice (C) is
+the probability of at most $2$.
+\end{solution}
+
+\begin{example}[Sampling a portfolio with three policy types]
+An insurer's portfolio consists of $20$ policies: $8$ auto, $7$ homeowners, and $5$ life.
+Four policies are selected at random without replacement for audit. Calculate the probability
+that the audit sample contains exactly $2$ auto, $1$ homeowners, and $1$ life policy.
+\par\smallskip\noindent (A) 0.006 \quad (B) 0.058 \quad (C) 0.202 \quad (D) 0.263 \quad (E) 0.350
+\end{example}
+\begin{solution}
+\[
+\Prob = \frac{\binom{8}{2}\binom{7}{1}\binom{5}{1}}{\binom{20}{4}}
+= \frac{28\cdot 7\cdot 5}{4845} = \frac{980}{4845} = 0.2023 .
+\]
+Answer: \textbf{(C)}.
+
+Choice (B) results from writing $8\cdot 7\cdot 5$ in the numerator (forgetting that the
+two auto policies are an unordered pair, $\binom{8}{2}=28$, not $8\cdot 7$ or $8$).
+Choice (A) results from an ordered numerator $8\cdot7\cdot5\cdot3$ over the ordered
+denominator ${}_{20}P_4$ without multiplying by the $4!/2! = 12$ arrangements of the types.
+\end{solution}
+
+\begin{example}[At least one match: birthday pattern]
+A claims department has $8$ adjusters. Each of $4$ incoming claims is assigned at random to
+one of the $8$ adjusters, independently of the other claims. Calculate the probability that at
+least two of the four claims are assigned to the same adjuster.
+\par\smallskip\noindent (A) 0.41 \quad (B) 0.50 \quad (C) 0.55 \quad (D) 0.59 \quad (E) 0.66
+\end{example}
+\begin{solution}
+Assignments are with replacement and ordered (claim 1 to adjuster $x$, claim 2 to adjuster
+$y$, \dots), so the sample space has $8^4 = 4096$ equally likely outcomes. The complement of
+``at least two share'' is ``all four different'', with ${}_8P_4 = 8\cdot7\cdot6\cdot5 = 1680$
+outcomes.
+\[
+\Prob(\text{at least one shared adjuster}) = 1 - \frac{1680}{4096} = 1 - 0.4102 = 0.5898 .
+\]
+Answer: \textbf{(D)}.
+
+The same structure gives the birthday problem: with $23$ people and $365$ equally likely
+birthdays, $1 - {}_{365}P_{23}/365^{23} = 0.507$.
+\end{solution}
+
+\begin{example}[Arrangement with a separation restriction]
+Seven claim files are placed in a queue in random order. Three of the files are auto claims
+and four are homeowners claims. Calculate the probability that no two auto claim files are
+adjacent in the queue.
+\par\smallskip\noindent (A) $1/7$ \quad (B) $2/7$ \quad (C) $3/7$ \quad (D) $4/7$ \quad (E) $5/7$
+\end{example}
+\begin{solution}
+Treat the files as distinct. Total orderings: $7! = 5040$. Arrange the four homeowners files
+first: $4! = 24$ ways. They create $5$ gaps (three interior, two ends). Choose $3$ of the $5$
+gaps for the auto files, $\binom{5}{3} = 10$, and order the auto files within the chosen gaps,
+$3! = 6$. Favourable orderings: $24\cdot 10\cdot 6 = 1440$.
+\[
+\Prob = \frac{1440}{5040} = \frac{2}{7} .
+\]
+Answer: \textbf{(B)}.
+
+The same answer is reached treating the files as indistinguishable within type: the queue is
+a pattern of $3$ A's and $4$ H's, $\binom{7}{3} = 35$ patterns, of which $\binom{5}{3} = 10$
+have no two A's adjacent; $10/35 = 2/7$. Either model works if used for both numerator and
+denominator. For contrast, the probability that the three auto files are all adjacent is
+$5!\cdot 3!/7! = 720/5040 = 1/7$, choice (A).
+\end{solution}
+
+\begin{example}[Multinomial partition of claims among adjusters]
+Twelve claims of different sizes are to be divided at random among three adjusters, with each
+adjuster receiving exactly four claims. Calculate the probability that the three largest
+claims are all assigned to the same adjuster.
+\par\smallskip\noindent (A) 0.018 \quad (B) 0.027 \quad (C) 0.036 \quad (D) 0.045 \quad (E) 0.055
+\end{example}
+\begin{solution}
+\emph{Counting.} Total partitions: $\dfrac{12!}{4!\,4!\,4!} = 34650$. Favourable: choose which
+adjuster receives the three largest claims ($3$ ways), choose that adjuster's fourth claim from
+the remaining $9$ ($\binom{9}{1}=9$), then split the remaining $8$ claims between the other two
+adjusters ($\binom{8}{4} = 70$). Favourable count $3\cdot 9\cdot 70 = 1890$.
+\[
+\Prob = \frac{1890}{34650} = \frac{3}{55} = 0.0545 .
+\]
+\emph{Sequential.} Wherever the largest claim goes, that adjuster has $3$ open slots among
+the $11$ remaining; the second largest lands there with probability $3/11$, and then the
+third largest with probability $2/10$: $\dfrac{3}{11}\cdot\dfrac{2}{10} = \dfrac{6}{110} = \dfrac{3}{55}$.
+
+Answer: \textbf{(E)}.
+
+Choice (A) is $\binom{4}{3}/\binom{12}{3}$, which is the probability that a specified adjuster
+gets all three; multiplying by $3$ adjusters gives the correct $0.055$.
+\end{solution}
+
+\begin{example}[Solving for the group size]
+An insurer will audit $2$ of its $n$ agents, chosen at random. There are exactly $45$
+different pairs of agents that could be audited. The insurer instead decides to audit $3$
+agents chosen at random. Calculate the probability that a particular agent is among the three
+audited.
+\par\smallskip\noindent (A) 0.10 \quad (B) 0.20 \quad (C) 0.30 \quad (D) 0.33 \quad (E) 0.45
+\end{example}
+\begin{solution}
+$\binom{n}{2} = \dfrac{n(n-1)}{2} = 45$, so $n(n-1) = 90 = 10\cdot 9$ and $n = 10$
+(the other root of $n^2 - n - 90 = 0$ is $n=-9$, rejected).
+
+With $n=10$, the number of $3$-subsets containing the particular agent is
+$\binom{9}{2} = 36$ (the agent is in; choose $2$ companions from the other $9$), out of
+$\binom{10}{3} = 120$. Probability $36/120 = 0.30$. Equivalently, $k/n = 3/10$.
+
+Answer: \textbf{(C)}.
+\end{solution}
+
+\begin{example}[With replacement: every option chosen at least once]
+A survey asks $5$ customers to select one of $3$ deductible options. Each customer selects an
+option at random, independently, with each option equally likely. Calculate the probability
+that every option is selected by at least one customer.
+\par\smallskip\noindent (A) 0.383 \quad (B) 0.617 \quad (C) 0.667 \quad (D) 0.753 \quad (E) 0.802
+\end{example}
+\begin{solution}
+Ordered outcomes with replacement: $3^5 = 243$. Let $A_i$ be the event that option $i$ is
+selected by nobody. By inclusion--exclusion,
+\[
+\Prob(A_1\cup A_2\cup A_3) = 3\left(\frac{2}{3}\right)^5 - 3\left(\frac{1}{3}\right)^5 + 0
+= \frac{3\cdot 32 - 3\cdot 1}{243} = \frac{93}{243} .
+\]
+\[
+\Prob(\text{every option used}) = 1 - \frac{93}{243} = \frac{150}{243} = 0.6173 .
+\]
+Answer: \textbf{(B)}.
+
+Direct count: the $5$ customers split over the $3$ options as $3{+}1{+}1$ or $2{+}2{+}1$.
+Pattern $3{+}1{+}1$: choose the option used three times ($3$), choose those three customers
+($\binom{5}{3} = 10$), assign the remaining two customers to the two remaining options
+($2! = 2$): $60$. Pattern $2{+}2{+}1$: choose the option used once ($3$), choose that customer
+($5$), split the remaining four customers into two labelled pairs ($\binom{4}{2} = 6$): $90$.
+Total $150$, as before. Choice (A) is the probability of the complement.
+\end{solution}
+
+\subsection{Traps}
+
+\begin{trap}[Ordered numerator over unordered denominator, or the reverse]
+The most common combinatorics error is counting the favourable outcomes as ordered sequences
+(products such as $8\cdot 7\cdot 5$) while the denominator is an unordered count
+$\binom{N}{n}$, or the reverse. Decide at the start whether the sample space is ordered or
+unordered and count both sets the same way. When in doubt, use unordered counts with
+$\binom{\cdot}{\cdot}$ throughout.
+\end{trap}
+
+\begin{trap}[Double counting in ``at least $k$'' problems]
+To count committees with at least $2$ from a group of $5$, it is wrong to ``choose $2$ from
+the $5$, then choose the other $3$ from the remaining $10$'': $\binom{5}{2}\binom{10}{3} = 1200$
+exceeds the total $\binom{12}{5}=792$, because a committee with three from the group is counted
+three times. Either sum the exact cases ($\binom{5}{2}\binom{7}{3} + \binom{5}{3}\binom{7}{2} + \cdots$)
+or use the complement.
+\end{trap}
+
+\begin{trap}[Forgetting to divide by $k!$]
+${}_nP_k$ counts ordered selections; $\binom{n}{k} = {}_nP_k/k!$ counts unordered ones. A
+question that asks for a committee, a sample, or a hand wants $\binom{n}{k}$. Writing
+$8\cdot 7 = 56$ for the number of pairs of auto policies, when the number is
+$\binom{8}{2} = 28$, doubles the numerator.
+\end{trap}
+
+\begin{trap}[Identical objects treated as distinct, or the reverse]
+The word ``identical'' or ``indistinguishable'' in a question signals a multinomial
+coefficient $n!/(n_1!\cdots n_r!)$, not $n!$. Conversely, when policies or claims are described
+by type but are physically distinct items, they may be treated as distinct, provided the
+denominator uses the same convention. The safe approach for probability questions is to treat
+all objects as distinct in both numerator and denominator.
+\end{trap}
+
+\begin{trap}[``At least one'' by direct summation]
+Summing the cases $1, 2, \dots, n$ for ``at least one'' wastes time and multiplies the chances
+of an arithmetic slip. Compute $1 - \Prob(\text{none})$. For ``at least two'', compute
+$1 - \Prob(0) - \Prob(1)$.
+\end{trap}
+
+\subsection{Practice problems}
+
+\begin{practice}
+A claims department has $8$ senior adjusters and $6$ junior adjusters. A review team of $4$ is
+selected at random from the $14$. Calculate the probability that the team consists of exactly
+$2$ senior and $2$ junior adjusters.
+\par\smallskip\noindent (A) 0.21 \quad (B) 0.32 \quad (C) 0.42 \quad (D) 0.51 \quad (E) 0.60
+\end{practice}
+
+\begin{practice}
+Of $20$ claims submitted in a month, $3$ are fraudulent. An auditor selects $5$ of the $20$
+claims at random without replacement. Calculate the probability that at least one fraudulent
+claim is selected.
+\par\smallskip\noindent (A) 0.40 \quad (B) 0.52 \quad (C) 0.56 \quad (D) 0.60 \quad (E) 0.75
+\end{practice}
+
+\begin{practice}
+Five auto claim files and three homeowners claim files are placed in a processing queue in
+random order. Calculate the probability that the three homeowners files are processed
+consecutively.
+\par\smallskip\noindent (A) $1/56$ \quad (B) $3/28$ \quad (C) $1/8$ \quad (D) $3/14$ \quad (E) $3/8$
+\end{practice}
+
+\begin{practice}
+The number of distinct pairs of policies that can be formed from a portfolio of $n$ policies
+is $66$. Four policies are selected at random from the portfolio. Calculate the probability
+that two specified policies are both among the four selected.
+\par\smallskip\noindent (A) $1/66$ \quad (B) $1/33$ \quad (C) $1/22$ \quad (D) $1/12$ \quad (E) $1/11$
+\end{practice}
+
+\begin{practice}
+Nine claims are divided at random among three adjusters so that each adjuster receives
+exactly three claims. Calculate the probability that two particular claims are assigned to
+the same adjuster.
+\par\smallskip\noindent (A) $1/4$ \quad (B) $2/7$ \quad (C) $1/3$ \quad (D) $4/9$ \quad (E) $1/2$
+\end{practice}
+
+\begin{practice}
+Four customers each independently select one of $5$ deductible options, with every option
+equally likely. Calculate the probability that the four customers select four different
+options.
+\par\smallskip\noindent (A) 0.096 \quad (B) 0.192 \quad (C) 0.288 \quad (D) 0.384 \quad (E) 0.480
+\end{practice}
+
+\begin{practice}
+A pricing committee of $4$ is selected at random from $5$ actuaries and $4$ underwriters.
+Calculate the probability that the committee includes at least one actuary and at least one
+underwriter.
+\par\smallskip\noindent (A) 0.833 \quad (B) 0.881 \quad (C) 0.905 \quad (D) 0.952 \quad (E) 0.976
+\end{practice}
+
+\subsection{Answers to practice problems}
+
+\begin{enumerate}[label=\arabic*.,nosep]
+\item \textbf{(C)}. $\binom{8}{2}\binom{6}{2}/\binom{14}{4} = 28\cdot 15/1001 = 420/1001 = 0.4196$.
+\item \textbf{(D)}. $1 - \binom{17}{5}/\binom{20}{5} = 1 - 6188/15504 = 1 - 0.3991 = 0.6009$.
+Choice (C), $1-(17/20)^5 = 0.556$, wrongly assumes replacement.
+\item \textbf{(B)}. Glue the three homeowners files into one block: $6!$ arrangements of six
+blocks, times $3!$ internal orders, over $8!$: $6\cdot 720/40320 = 4320/40320 = 3/28$.
+\item \textbf{(E)}. $\binom{n}{2}=66 \Rightarrow n(n-1)=132=12\cdot 11$, $n=12$. Both specified
+policies in: $\binom{10}{2}/\binom{12}{4} = 45/495 = 1/11$. Sequentially:
+$\frac{4}{12}\cdot\frac{3}{11} = 1/11$.
+\item \textbf{(A)}. Wherever the first claim goes, that adjuster has $2$ open slots among the
+$8$ remaining claims: $2/8 = 1/4$. Counting: $3\cdot\binom{7}{1}\binom{6}{3}/\dfrac{9!}{3!\,3!\,3!} = 420/1680 = 1/4$.
+\item \textbf{(B)}. ${}_5P_4/5^4 = 120/625 = 0.192$.
+\item \textbf{(D)}. Complement: all actuaries or all underwriters,
+$\left[\binom{5}{4}+\binom{4}{4}\right]/\binom{9}{4} = 6/126$; probability $120/126 = 20/21 = 0.952$.
+\end{enumerate}
+
+\subsection{One-page summary}
+
+\begin{itemize}[nosep]
+\item Classical probability: $\Prob(A) = |A|/|S|$ for equally likely outcomes. Count numerator
+and denominator by the same convention (both ordered or both unordered).
+\item Multiplication principle: $n_1 n_2\cdots n_k$ for a $k$-stage procedure.
+\item Ordered, no replacement: ${}_nP_k = n!/(n-k)!$; all $n$: $n!$.
+\item Unordered, no replacement: $\binom{n}{k} = n!/[k!(n-k)!] = {}_nP_k/k!$.
+\item Ordered, with replacement: $n^k$. Unordered, with replacement: $\binom{n+k-1}{k}$.
+\item Identities: $\binom{n}{k}=\binom{n}{n-k}$; $\binom{n}{2}=n(n-1)/2$;
+$\binom{n}{k}=\binom{n-1}{k-1}+\binom{n-1}{k}$; $\sum_k\binom{n}{k}=2^n$;
+$(x+y)^n=\sum_k\binom{n}{k}x^ky^{n-k}$.
+\item A random $k$-subset of $n$ contains a specified object with probability $k/n$.
+\item Multinomial coefficient $n!/(n_1!\cdots n_r!)$: arrangements with identical objects, and
+partitions of $n$ distinct objects into labelled groups of sizes $n_1,\dots,n_r$.
+\item Hypergeometric pattern: $\binom{a}{x}\binom{b}{n-x}/\binom{a+b}{n}$; extend with one
+factor per type. Equals the sequential product of conditional probabilities times the number
+of orderings.
+\item Circular arrangements: $(n-1)!$. Stars and bars: $x_1+\cdots+x_r=n$, $x_i\ge0$, has
+$\binom{n+r-1}{r-1}$ solutions; $x_i\ge1$ has $\binom{n-1}{r-1}$.
+\item Must be adjacent: glue into a block, arrange blocks, multiply by internal orderings.
+Must be separated: arrange the others, then choose gaps.
+\item ``At least one'': $1-\Prob(\text{none})$. Birthday pattern: $1-{}_nP_k/n^k$.
+\item Solve $\binom{n}{2}=m$ by $n(n-1)=2m$ and factoring into consecutive integers.
+\item Never ``fix $k$ then choose the rest'' for ``at least $k$''; sum exact cases or use
+the complement.
+\end{itemize}

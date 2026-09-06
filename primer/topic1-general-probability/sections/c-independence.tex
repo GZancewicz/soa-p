@@ -1,0 +1,364 @@
+\section{Outcome (c): Independence}
+
+\subsection{What the outcome asks}
+
+The exam tests whether you can recognise independence from the wording of a word problem and then use the multiplication rule $\Prob(A \cap B) = \Prob(A)\,\Prob(B)$ without being told to. The most common question shapes are: the probability that all of several independent risks occur (multiply), the probability that at least one of them occurs (one minus the product of the complements), and the probability that exactly one occurs (sum of the disjoint ``one yes, the rest no'' products). A second family gives you $\Prob(A)$, $\Prob(A \cup B)$ and the word ``independent'' and asks you to solve for $\Prob(B)$, or gives both risks the same unknown probability and makes you solve a quadratic. A third family gives a table of joint probabilities and asks whether the events are independent, or asks for the missing cell that makes them independent. Underlying all of these is the fact that if $A$ and $B$ are independent, so are $A$ and $\cc{B}$, which is what lets you convert ``fails'' probabilities into ``works'' probabilities freely.
+
+\subsection{Definitions}
+
+\begin{keyfact}[Independence of two events]
+Events $A$ and $B$ are \emph{independent} if and only if
+\[
+\Prob(A \cap B) = \Prob(A)\,\Prob(B).
+\]
+If $\Prob(B) > 0$ this is equivalent to $\Prob(A \mid B) = \Prob(A)$, and if $\Prob(A) > 0$ it is equivalent to $\Prob(B \mid A) = \Prob(B)$: knowing that one event happened does not change the probability of the other.
+\end{keyfact}
+
+Use the product form when the question gives joint probabilities and the conditional form when it gives conditional probabilities.
+
+\paragraph{Complements of independent events are independent.}
+If $A$ and $B$ are independent, then each of the pairs $(A, \cc{B})$, $(\cc{A}, B)$ and $(\cc{A}, \cc{B})$ is also independent. Proof for $(A, \cc{B})$: since $A = (A \cap B) \cup (A \cap \cc{B})$ is a disjoint union,
+\[
+\Prob(A \cap \cc{B}) = \Prob(A) - \Prob(A \cap B) = \Prob(A) - \Prob(A)\Prob(B) = \Prob(A)\bigl(1 - \Prob(B)\bigr) = \Prob(A)\,\Prob(\cc{B}).
+\]
+Applying the same step again with the roles swapped gives $(\cc{A}, \cc{B})$, and by symmetry $(\cc{A}, B)$. The practical consequence: if two components fail independently, they also work independently, and one works independently of the other failing.
+
+\begin{keyfact}[Working with complements]
+For independent $A$ and $B$:
+\begin{align*}
+\Prob(\text{both occur}) &= \Prob(A)\Prob(B), \\
+\Prob(\text{neither occurs}) &= \Prob(\cc{A} \cap \cc{B}) = \bigl(1 - \Prob(A)\bigr)\bigl(1 - \Prob(B)\bigr), \\
+\Prob(\text{at least one occurs}) &= \Prob(A) + \Prob(B) - \Prob(A)\Prob(B) = 1 - \bigl(1-\Prob(A)\bigr)\bigl(1-\Prob(B)\bigr), \\
+\Prob(\text{exactly one occurs}) &= \Prob(A)\bigl(1 - \Prob(B)\bigr) + \bigl(1 - \Prob(A)\bigr)\Prob(B).
+\end{align*}
+\end{keyfact}
+
+\paragraph{Mutual independence of $n$ events.}
+Events $A_1, A_2, \dots, A_n$ are \emph{mutually independent} if for \emph{every} subcollection $A_{i_1}, \dots, A_{i_k}$ ($2 \le k \le n$),
+\[
+\Prob(A_{i_1} \cap \cdots \cap A_{i_k}) = \Prob(A_{i_1}) \cdots \Prob(A_{i_k}).
+\]
+The events are \emph{pairwise independent} if the product rule holds for every pair only. Mutual independence implies pairwise independence; the converse fails.
+
+Classic counterexample. Toss two fair coins. Let $A$ = first coin is heads, $B$ = second coin is heads, $C$ = exactly one head. Then $\Prob(A) = \Prob(B) = \Prob(C) = \tfrac12$, and
+\[
+\Prob(A \cap B) = \Prob(A \cap C) = \Prob(B \cap C) = \tfrac14 = \tfrac12 \cdot \tfrac12,
+\]
+so the three events are pairwise independent. But $A \cap B \cap C = \emptyset$ (two heads is not exactly one head), so $\Prob(A \cap B \cap C) = 0 \ne \tfrac18$. The three events are not mutually independent. When an exam question says ``independent'' about three or more events, it means mutually independent, and every product rule you need is available.
+
+\begin{keyfact}[At least one of $n$ independent events]
+If $A_1, \dots, A_n$ are mutually independent with $\Prob(A_i) = p_i$, then
+\[
+\Prob(\text{none occur}) = \prod_{i=1}^{n} (1 - p_i), \qquad
+\Prob(\text{at least one occurs}) = 1 - \prod_{i=1}^{n} (1 - p_i).
+\]
+When all $p_i = p$: $\Prob(\text{at least one}) = 1 - (1-p)^n$. This is the single most used formula in this outcome.
+\end{keyfact}
+
+\paragraph{Independent versus mutually exclusive.}
+Two events with positive probability cannot be both independent and mutually exclusive. Proof: if $A$ and $B$ are mutually exclusive then $\Prob(A \cap B) = 0$; if they are also independent then $0 = \Prob(A)\Prob(B)$, which forces $\Prob(A) = 0$ or $\Prob(B) = 0$, contradicting positive probability. Mutually exclusive events are in fact as dependent as possible: if one occurs, the other certainly does not.
+
+\paragraph{Independent trials.}
+An experiment is repeated so that the outcome of any trial does not affect any other trial (successive years of a policy, successive tosses, separate policyholders). Then any event defined by the outcomes of trial 1, any event defined by trial 2, and so on, are mutually independent. In particular, if each trial ``succeeds'' with probability $p$ and $q = 1 - p$,
+\[
+\Prob(\text{first success occurs on trial } k) = q^{k-1} p, \qquad
+\Prob(\text{no success in the first } k \text{ trials}) = q^{k}.
+\]
+The first formula is just the multiplication rule applied to ``fail, fail, \dots, fail, succeed''. You do not need a named distribution to use it.
+
+\subsection{How to recognise independence in a word problem}
+
+\begin{center}
+\begin{tabular}{@{}p{0.47\textwidth}p{0.47\textwidth}@{}}
+\toprule
+\textbf{Wording that signals independence} & \textbf{Wording that signals dependence} \\
+\midrule
+``independent'', ``independently'', ``mutually independent'' &
+``given that'', ``of those who'', ``among policyholders with'' (conditional information) \\[3pt]
+``the events are independent of each other'' &
+Any conditional probability $\Prob(A \mid B)$ quoted with $\Prob(A \mid B) \ne \Prob(A)$ \\[3pt]
+Separate policies, separate policyholders, separate risks ``each with probability'' &
+``drawn without replacement'', ``selected from the remaining'' \\[3pt]
+Separate years of a policy where each year's claim status is stated to be independent &
+One population with overlapping groups (e.g.\ 40\% have auto, 30\% have home, 15\% have both) \\[3pt]
+``components fail independently'', ``each component operates independently'' &
+Components that share a power source, or a system where one failure causes another \\[3pt]
+Repeated tosses, rolls, draws with replacement, independent trials &
+Joint probabilities given in a table (independence must be checked, not assumed) \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Two operating rules. First, if the question does not say ``independent'' and does not describe independent trials, do not multiply marginal probabilities; look for the joint or conditional information that the question gives instead. Second, if the question says ``independent'' about several events, treat that as mutual independence and use every product you need.
+
+\subsection{Worked examples}
+
+\begin{example}[Solve for an unknown claim probability]
+An insurer issues two policies to unrelated customers. The probability that a claim is filed on a given policy is the same for both policies, and claims on the two policies are independent. The probability that at least one of the two policies has a claim is $0.64$.
+
+Calculate the probability that a claim is filed on a given policy.
+
+\begin{center}
+(A)~$0.20$ \quad (B)~$0.32$ \quad (C)~$0.36$ \quad (D)~$0.40$ \quad (E)~$0.60$
+\end{center}
+\end{example}
+\begin{solution}
+Let $p$ be the claim probability on each policy, and let $A$, $B$ be the claim events. Method 1, complement: ``at least one'' is the complement of ``neither'', and by independence
+\[
+\Prob(\text{neither}) = (1-p)^2 = 1 - 0.64 = 0.36 \quad\Longrightarrow\quad 1 - p = 0.6 \quad\Longrightarrow\quad p = 0.4.
+\]
+Method 2, inclusion--exclusion with the independence product:
+\[
+\Prob(A \cup B) = p + p - p^2 = 0.64 \quad\Longrightarrow\quad p^2 - 2p + 0.64 = 0 \quad\Longrightarrow\quad p = \frac{2 \pm \sqrt{4 - 2.56}}{2} = \frac{2 \pm 1.2}{2},
+\]
+so $p = 0.4$ or $p = 1.6$; discard $1.6$. Answer: \textbf{(D)}.
+\end{solution}
+
+\begin{example}[Series--parallel system]
+A machine has three components, 1, 2 and 3, which operate independently. The machine works if component 1 works and at least one of components 2 and 3 works. The probabilities that components 1, 2 and 3 work are $0.9$, $0.8$ and $0.7$ respectively.
+
+Calculate the probability that the machine works.
+
+\begin{center}
+(A)~$0.504$ \quad (B)~$0.720$ \quad (C)~$0.846$ \quad (D)~$0.940$ \quad (E)~$0.994$
+\end{center}
+\end{example}
+\begin{solution}
+Let $W_i$ be the event that component $i$ works. Components 2 and 3 are in parallel, so that block works unless both fail:
+\[
+\Prob(W_2 \cup W_3) = 1 - \Prob(\cc{W_2} \cap \cc{W_3}) = 1 - (0.2)(0.3) = 0.94.
+\]
+The complement step uses the fact that $\cc{W_2}$ and $\cc{W_3}$ are independent because $W_2$ and $W_3$ are. Component 1 is in series with that block, and $W_1$ is independent of any event built from $W_2$ and $W_3$, so
+\[
+\Prob(\text{machine works}) = \Prob(W_1)\,\Prob(W_2 \cup W_3) = (0.9)(0.94) = 0.846.
+\]
+Answer: \textbf{(C)}. Choice (A) is the probability that all three work, which is the wrong system logic.
+\end{solution}
+
+\begin{example}[At least one claim among many policyholders]
+An insurer has $8$ policyholders. In a given year each policyholder files a claim with probability $0.05$, independently of the others.
+
+Calculate the probability that at least one of the $8$ policyholders files a claim during the year.
+
+\begin{center}
+(A)~$0.264$ \quad (B)~$0.337$ \quad (C)~$0.400$ \quad (D)~$0.663$ \quad (E)~$0.736$
+\end{center}
+\end{example}
+\begin{solution}
+The complement of ``at least one claim'' is ``no claims''. By independence,
+\[
+\Prob(\text{no claims}) = (1 - 0.05)^8 = 0.95^8 = 0.6634, \qquad
+\Prob(\text{at least one}) = 1 - 0.6634 = 0.3366.
+\]
+Answer: \textbf{(B)}. Choice (C) is $8 \times 0.05$, the result of adding the probabilities, which is only an upper bound. Choice (D) is the complement, left unfinished.
+\end{solution}
+
+\begin{example}[Independence from a joint-probability table]
+For a randomly selected policyholder, let $S$ be the event that the policyholder is a smoker and $C$ the event that the policyholder filed a claim last year. An insurer's records give $\Prob(S \cap C) = 0.12$ and $\Prob(S \cap \cc{C}) = 0.28$. Assume $S$ and $C$ are independent.
+
+Calculate the probability that a randomly selected policyholder is a nonsmoker who did not file a claim.
+
+\begin{center}
+(A)~$0.18$ \quad (B)~$0.30$ \quad (C)~$0.42$ \quad (D)~$0.48$ \quad (E)~$0.60$
+\end{center}
+\end{example}
+\begin{solution}
+The two given cells make up all of $S$: $\Prob(S) = 0.12 + 0.28 = 0.40$. Independence then gives $\Prob(C)$ from the joint cell:
+\[
+\Prob(S \cap C) = \Prob(S)\Prob(C) \quad\Longrightarrow\quad \Prob(C) = \frac{0.12}{0.40} = 0.30.
+\]
+Since $S$ and $C$ are independent, so are $\cc{S}$ and $\cc{C}$:
+\[
+\Prob(\cc{S} \cap \cc{C}) = \Prob(\cc{S})\Prob(\cc{C}) = (0.60)(0.70) = 0.42.
+\]
+Answer: \textbf{(C)}. The completed table is
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+ & $C$ & $\cc{C}$ & Total \\
+\midrule
+$S$        & $0.12$ & $0.28$ & $0.40$ \\
+$\cc{S}$   & $0.18$ & $0.42$ & $0.60$ \\
+\midrule
+Total      & $0.30$ & $0.70$ & $1.00$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+and every cell equals its row total times its column total, which is the test for independence when a full table is given. If the exam instead gives you the full table and asks whether the events are independent, check one cell: $0.12 = 0.40 \times 0.30$.
+\end{solution}
+
+\begin{example}[Exactly one of two independent claims]
+A policyholder has an auto policy and a homeowners policy. In a given year the probability of an auto claim is $0.25$ and the probability of a homeowners claim is $0.10$. The two claim events are independent.
+
+Calculate the probability that the policyholder files a claim on exactly one of the two policies during the year.
+
+\begin{center}
+(A)~$0.025$ \quad (B)~$0.300$ \quad (C)~$0.325$ \quad (D)~$0.350$ \quad (E)~$0.675$
+\end{center}
+\end{example}
+\begin{solution}
+Let $A$ = auto claim, $H$ = homeowners claim. ``Exactly one'' is the disjoint union $(A \cap \cc{H}) \cup (\cc{A} \cap H)$, and each piece is a product by independence (including complement independence):
+\[
+\Prob(\text{exactly one}) = (0.25)(0.90) + (0.75)(0.10) = 0.225 + 0.075 = 0.300.
+\]
+Answer: \textbf{(B)}. Check via the other route: $\Prob(A \cup B) = 0.25 + 0.10 - 0.025 = 0.325$ is ``at least one'' (choice (C)); subtracting ``both'' $= 0.025$ gives $0.300$.
+\end{solution}
+
+\begin{example}[First claim in a given year]
+A policyholder files at most one claim per year. In each year the probability of filing a claim is $0.2$, independently of all other years.
+
+Calculate the probability that the policyholder's first claim occurs in the fourth year.
+
+\begin{center}
+(A)~$0.0819$ \quad (B)~$0.1024$ \quad (C)~$0.4096$ \quad (D)~$0.5120$ \quad (E)~$0.5904$
+\end{center}
+\end{example}
+\begin{solution}
+``First claim in year 4'' means no claim in years 1, 2, 3 and a claim in year 4. The four yearly events are independent, so multiply:
+\[
+\Prob(\text{first claim in year 4}) = (0.8)(0.8)(0.8)(0.2) = 0.8^3 \times 0.2 = 0.512 \times 0.2 = 0.1024.
+\]
+Answer: \textbf{(B)}. Choice (A) is $0.8^4 \times 0.2$, an off-by-one error (that is the probability the first claim is in year 5). Choice (D) is the probability of no claim in the first three years, which ignores the claim in year 4. Choice (E) is the probability of at least one claim in the first four years.
+\end{solution}
+
+\begin{example}[First claim in an even-numbered year]
+As in the previous example, a policyholder files a claim in each year with probability $0.2$, independently across years.
+
+Calculate the probability that the first claim occurs in an even-numbered year.
+
+\begin{center}
+(A)~$0.160$ \quad (B)~$0.200$ \quad (C)~$0.444$ \quad (D)~$0.500$ \quad (E)~$0.556$
+\end{center}
+\end{example}
+\begin{solution}
+Let $q = 0.8$ and $p = 0.2$. The events ``first claim in year $2$'', ``first claim in year $4$'', \dots\ are mutually exclusive, and each is a product by independence:
+\[
+\Prob(\text{even}) = qp + q^3 p + q^5 p + \cdots = \frac{qp}{1 - q^2} = \frac{qp}{(1-q)(1+q)} = \frac{q}{1+q} = \frac{0.8}{1.8} = 0.4444.
+\]
+Answer: \textbf{(C)}. Sanity check: an odd year is more likely than an even year because year 1 comes first, and indeed $\Prob(\text{odd}) = 1/(1+q) = 0.5556 > 0.4444$.
+\end{solution}
+
+\subsection{Traps}
+
+\begin{trap}[Adding when you should multiply]
+``Each of $8$ policyholders files a claim with probability $0.05$, independently; find the probability at least one files'' is not $8 \times 0.05 = 0.40$. Adding gives $\Prob(A_1) + \cdots + \Prob(A_n)$, which counts overlaps multiple times and can exceed $1$. The correct route is $1 - 0.95^8 = 0.3366$. Adding is correct only for mutually exclusive events, and independent events with positive probability are never mutually exclusive.
+\end{trap}
+
+\begin{trap}[Treating independent as mutually exclusive]
+Independent means $\Prob(A \cap B) = \Prob(A)\Prob(B)$, which is positive whenever both probabilities are. Mutually exclusive means $\Prob(A \cap B) = 0$. They are different, and for events with positive probability they are incompatible. If a question says two risks are independent and you write $\Prob(A \cup B) = \Prob(A) + \Prob(B)$, you have silently assumed they are mutually exclusive; the correct formula is $\Prob(A) + \Prob(B) - \Prob(A)\Prob(B)$.
+\end{trap}
+
+\begin{trap}[Assuming independence when it is not stated]
+If a question says $40\%$ of policyholders have auto coverage and $30\%$ have homeowners coverage and asks for the probability a policyholder has both, $0.12$ is wrong unless the question says the coverages are independent. Without that word, the question gives $\Prob(A \cap B)$, $\Prob(A \cup B)$ or a conditional probability somewhere, and that is what to use. Overlapping populations, ``given that'', and sampling without replacement all signal dependence.
+\end{trap}
+
+\begin{trap}[Pairwise is not mutual]
+If you are told only that $\Prob(A \cap B) = \Prob(A)\Prob(B)$, $\Prob(A \cap C) = \Prob(A)\Prob(C)$ and $\Prob(B \cap C) = \Prob(B)\Prob(C)$, you may not conclude $\Prob(A \cap B \cap C) = \Prob(A)\Prob(B)\Prob(C)$. The two-coin example (first head, second head, exactly one head) has all three pairwise products correct and the triple product wrong. Use the triple product only when the question says the events are (mutually) independent, or when the question describes independent trials.
+\end{trap}
+
+\begin{trap}[Forgetting that complements inherit independence]
+Being told only that the ``works'' events $W_2$, $W_3$ are independent is enough: $\cc{W_2}$ and $\cc{W_3}$ are then independent too, so $\Prob(\cc{W_2} \cap \cc{W_3}) = (1 - 0.8)(1 - 0.7) = 0.06$ directly. The same fact is what makes ``exactly one'' equal to $p_1(1-p_2) + (1-p_1)p_2$ and ``none'' equal to $\prod (1 - p_i)$.
+\end{trap}
+
+\subsection{Practice problems}
+
+\begin{practice}
+Events $A$ and $B$ are independent, $\Prob(A) = 0.4$ and $\Prob(A \cup B) = 0.7$.
+
+Calculate $\Prob(B)$.
+
+\begin{center}
+(A)~$0.30$ \quad (B)~$0.42$ \quad (C)~$0.50$ \quad (D)~$0.58$ \quad (E)~$0.75$
+\end{center}
+\end{practice}
+
+\begin{practice}
+A system has three components that operate independently, each of which works with probability $0.9$. The system works if at least two of the three components work.
+
+Calculate the probability that the system works.
+
+\begin{center}
+(A)~$0.729$ \quad (B)~$0.810$ \quad (C)~$0.900$ \quad (D)~$0.972$ \quad (E)~$0.999$
+\end{center}
+\end{practice}
+
+\begin{practice}
+An insurer has $10$ policies in force. Each policy has a claim during the year with probability $0.03$, and the policies are independent.
+
+Calculate the probability that the insurer receives at least one claim during the year.
+
+\begin{center}
+(A)~$0.030$ \quad (B)~$0.263$ \quad (C)~$0.300$ \quad (D)~$0.737$ \quad (E)~$0.970$
+\end{center}
+\end{practice}
+
+\begin{practice}
+A policyholder has three coverages. In a given year the probabilities of a claim on the three coverages are $0.1$, $0.2$ and $0.3$, and the three claim events are mutually independent.
+
+Calculate the probability that the policyholder has a claim on exactly one of the three coverages.
+
+\begin{center}
+(A)~$0.006$ \quad (B)~$0.398$ \quad (C)~$0.496$ \quad (D)~$0.504$ \quad (E)~$0.600$
+\end{center}
+\end{practice}
+
+\begin{practice}
+Two independent risks each have the same probability $p$ of producing a loss in a year. The probability that at least one of the two risks produces a loss is $0.51$.
+
+Calculate $p$.
+
+\begin{center}
+(A)~$0.255$ \quad (B)~$0.300$ \quad (C)~$0.490$ \quad (D)~$0.510$ \quad (E)~$0.700$
+\end{center}
+\end{practice}
+
+\begin{practice}
+A driver has an accident in any given year with probability $0.1$, independently of other years.
+
+Calculate the probability that the driver's first accident occurs in the third year.
+
+\begin{center}
+(A)~$0.081$ \quad (B)~$0.090$ \quad (C)~$0.100$ \quad (D)~$0.271$ \quad (E)~$0.810$
+\end{center}
+\end{practice}
+
+\begin{practice}
+Events $A$, $B$ and $C$ each have probability $0.5$ and are pairwise independent, but $\Prob(A \cap B \cap C) = 0$.
+
+Calculate $\Prob(A \cup B \cup C)$.
+
+\begin{center}
+(A)~$0.500$ \quad (B)~$0.625$ \quad (C)~$0.750$ \quad (D)~$0.875$ \quad (E)~$1.000$
+\end{center}
+\end{practice}
+
+\subsection{Answers to practice problems}
+
+\begin{enumerate}[label=\arabic*.,nosep]
+\item \textbf{(C)}. $0.7 = 0.4 + b - 0.4b = 0.4 + 0.6b$, so $b = 0.3/0.6 = 0.5$. Equivalently $\Prob(\cc{A} \cap \cc{B}) = 0.3 = 0.6(1-b)$.
+\item \textbf{(D)}. $\Prob(\text{exactly two}) + \Prob(\text{all three}) = 3(0.9)^2(0.1) + 0.9^3 = 0.243 + 0.729 = 0.972$. The three ``exactly two'' patterns are disjoint and each is a product by independence.
+\item \textbf{(B)}. $1 - 0.97^{10} = 1 - 0.7374 = 0.2626$. Choice (C) is the sum $10 \times 0.03$.
+\item \textbf{(B)}. $(0.1)(0.8)(0.7) + (0.9)(0.2)(0.7) + (0.9)(0.8)(0.3) = 0.056 + 0.126 + 0.216 = 0.398$. Choice (C) is ``at least one'', $1 - (0.9)(0.8)(0.7) = 0.496$.
+\item \textbf{(B)}. $\Prob(\text{neither}) = (1-p)^2 = 1 - 0.51 = 0.49$, so $1 - p = 0.7$ and $p = 0.3$. Via the quadratic, $2p - p^2 = 0.51$ gives the same root.
+\item \textbf{(A)}. No accident in years 1 and 2, accident in year 3: $(0.9)^2(0.1) = 0.081$. Choice (D) is ``first accident within three years'', $1 - 0.9^3$.
+\item \textbf{(C)}. Inclusion--exclusion: $3(0.5) - 3(0.25) + 0 = 0.75$. The pairwise products supply the three pair terms; the triple term is given as $0$, not as $0.125$. This is the two-coin example (first head, second head, exactly one head), where $A \cup B \cup C$ is ``at least one head'' $= 3/4$.
+\end{enumerate}
+
+\subsection{One-page summary}
+
+\begin{itemize}[nosep]
+\item Definition: $A$ and $B$ independent $\iff \Prob(A \cap B) = \Prob(A)\Prob(B)$. Equivalent when $\Prob(B) > 0$: $\Prob(A \mid B) = \Prob(A)$.
+\item If $A$, $B$ independent then so are $(A, \cc{B})$, $(\cc{A}, B)$, $(\cc{A}, \cc{B})$. Proof: $\Prob(A \cap \cc{B}) = \Prob(A) - \Prob(A)\Prob(B) = \Prob(A)\Prob(\cc{B})$.
+\item Two events with positive probability cannot be both independent and mutually exclusive ($\Prob(A)\Prob(B) > 0 = \Prob(A \cap B)$ is impossible).
+\item For independent $A$, $B$: $\Prob(A \cup B) = \Prob(A) + \Prob(B) - \Prob(A)\Prob(B) = 1 - (1-\Prob(A))(1-\Prob(B))$.
+\item Exactly one of two: $p_1(1-p_2) + (1-p_1)p_2$. Neither: $(1-p_1)(1-p_2)$.
+\item $n$ mutually independent events: $\Prob(\text{none}) = \prod(1-p_i)$; $\Prob(\text{at least one}) = 1 - \prod(1-p_i)$; equal $p$: $1 - (1-p)^n$.
+\item Exactly $k$ of $n$ equal-probability independent events: $\binom{n}{k}p^k(1-p)^{n-k}$ (each pattern is a product; the patterns are disjoint).
+\item Mutual independence requires the product rule for every subcollection; pairwise independence does not imply it. Counterexample: two coins, $A$ = first H, $B$ = second H, $C$ = exactly one H; $\Prob(A \cap B \cap C) = 0 \ne 1/8$.
+\item ``Independent'' about three or more events on the exam means mutually independent.
+\item Independent trials, success probability $p$, $q = 1-p$: $\Prob(\text{first success on trial } k) = q^{k-1}p$; $\Prob(\text{no success in } k \text{ trials}) = q^k$; $\Prob(\text{first success in an even trial}) = q/(1+q)$.
+\item Series block: multiply the ``works'' probabilities. Parallel block: $1 - \prod(\text{fails})$. Reduce a mixed system block by block.
+\item Solving for an unknown: write $\Prob(A \cup B) = a + b - ab$ (linear in one unknown) or $2p - p^2$ / $(1-p)^2$ (quadratic; take the root in $[0,1]$).
+\item Table check: events are independent if and only if each cell equals its row total times its column total; checking one cell is enough for a $2 \times 2$ table.
+\item Do not multiply marginals unless the problem says ``independent'' or describes independent trials; do not add unless the events are mutually exclusive.
+\end{itemize}
