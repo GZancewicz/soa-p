@@ -29,6 +29,8 @@ sample-exam/
 
 ## Browser version (GitHub Pages)
 
+Live at https://gzancewicz.github.io/soa-p/
+
 `tools/build-site.sh` converts every `primer/topic*/main.tex` to HTML with pandoc
 (MathJax for the math, `tools/boxes.lua` for the example/solution/keyfact/trap/practice
 boxes, `tools/style.css` for the look) and writes the result to `site/`, one page per
