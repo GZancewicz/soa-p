@@ -172,6 +172,84 @@ The two methods agree. The counting method is faster when the sample is unordere
 sequential method is faster when the question involves only two or three draws, or asks
 about a specific position (``the third policy selected is auto'').
 
+\subsection{Lattice counting of ordered pairs}
+
+Two dice, or two people each choosing an integer at random, produce an ordered pair $(x,y)$
+with $x$ and $y$ each taken from $\{1,2,\dots,n\}$. The $n^2$ pairs are equally likely and
+form an $n$-by-$n$ grid of lattice points. An event described by the difference $x-y$ is a
+set of diagonals of that grid, and the diagonals have a simple length pattern: the main
+diagonal $x=y$ has $n$ points, and for each $d\ge 1$ the two diagonals $x-y=d$ and
+$y-x=d$ have $n-d$ points each.
+
+\begin{keyfact}[Band around the diagonal]
+For $x,y$ chosen independently and uniformly from $\{1,\dots,n\}$ and $0\le k\le n-1$,
+\begin{align*}
+\#\{|x-y|\le k\} &= n + 2\sum_{d=1}^{k}(n-d) = n + 2kn - k(k+1), \\
+\#\{|x-y| > k\} &= (n-k)(n-k-1) = 2\binom{n-k}{2} .
+\end{align*}
+The two counts add to $n^2$. The second form has a direct reading: the pairs with
+$x-y>k$ are in one-to-one correspondence, through $x' = x-k$, with the pairs $x'>y$ drawn
+from $\{1,\dots,n-k\}$, of which there are $\binom{n-k}{2}$; double for $y-x>k$.
+\end{keyfact}
+
+For two fair six-sided dice, the pairs with $|x-y|\le 2$ number $6+2(5+4)=24$, so
+$\Prob(|X-Y|\le 2) = 24/36 = 2/3$, and the pairs with $|x-y|>2$ number $4\cdot 3 = 12$.
+When the two ranges are different ($x$ from $1$ to $m$, $y$ from $1$ to $n$) the band is
+clipped unevenly at the edges; count row by row, one value of $x$ at a time, and add.
+The same row-by-row count is the fallback whenever the closed form does not obviously apply.
+
+\subsection{Selections restricted by rows and columns}
+
+Items laid out in an array with $r$ rows and $c$ columns are sometimes selected under the
+restriction that no two selected items share a row or a column. Selecting $k$ such items
+($k\le\min(r,c)$) is a two-stage procedure.
+
+\begin{keyfact}[No two in the same row or column]
+The number of unordered sets of $k$ items from an $r$-by-$c$ array with no two in the same
+row or column is
+\[
+\binom{c}{k}\cdot\frac{r!}{(r-k)!} = \binom{r}{k}\cdot\frac{c!}{(c-k)!} .
+\]
+Choose the $k$ columns as a set, then assign a distinct row to each chosen column in order
+(or the same with rows and columns exchanged). Sequentially: the first item can be any of
+$rc$; the second must avoid one row and one column, leaving $rc - r - c + 1 = (r-1)(c-1)$;
+the third leaves $(r-2)(c-2)$; and so on. The product $\,rc\,(r-1)(c-1)\cdots$ counts ordered
+selections and must be divided by $k!$. For a probability, divide the unordered count by
+$\binom{rc}{k}$.
+\end{keyfact}
+
+\subsection{Pooled populations and unknown counts}
+
+Two further variations of the hypergeometric counting pattern appear on the exam.
+
+\begin{keyfact}[Defectives pooled from several sources]
+When a stock of $N$ items is assembled from sources of sizes $N_1,\dots,N_m$ with defect
+rates $p_1,\dots,p_m$, the number of defective items in the stock is the integer
+$D = p_1N_1 + \cdots + p_mN_m$. A sample drawn without replacement from the pooled stock
+follows the hypergeometric pattern with $a = D$ and $b = N-D$; the source of each item is
+irrelevant once $D$ is known. The rates are used only to form the count $D$; they are not
+probabilities of the sampled items.
+\end{keyfact}
+
+\begin{keyfact}[Ratio of two hypergeometric probabilities]
+With $r$ objects of type I among $N$ and a sample of $n$, the ratio of consecutive
+probabilities is
+\[
+\frac{\Prob(X=x+1)}{\Prob(X=x)}
+= \frac{\binom{r}{x+1}\binom{N-r}{n-x-1}}{\binom{r}{x}\binom{N-r}{n-x}}
+= \frac{(r-x)(n-x)}{(x+1)(N-r-n+x+1)} ,
+\]
+because $\binom{r}{x+1}/\binom{r}{x} = (r-x)/(x+1)$ and
+$\binom{N-r}{n-x-1}/\binom{N-r}{n-x} = (n-x)/(N-r-n+x+1)$. In particular
+\[
+\frac{\Prob(X=1)}{\Prob(X=0)} = \frac{rn}{N-r-n+1}, \qquad
+\frac{\Prob(X=2)}{\Prob(X=1)} = \frac{(r-1)(n-1)}{2(N-r-n+2)} .
+\]
+When a question states that one such probability is a given multiple of another, the
+$\binom{N}{n}$ denominators cancel and the ratio is a linear equation in the unknown $r$.
+Solve for $r$, then compute the probability actually asked for.
+\end{keyfact}
+
 \subsection{Worked examples}
 
 \begin{example}[Committee with a constraint]
@@ -327,6 +405,125 @@ Pattern $3{+}1{+}1$: choose the option used three times ($3$), choose those thre
 Total $150$, as before. Choice (A) is the probability of the complement.
 \end{solution}
 
+\begin{example}[Difference of two dice: lattice count]
+Two fair eight-sided dice, each numbered $1$ to $8$, are rolled. Calculate the probability
+that the two numbers rolled differ by at least $3$.
+\par\smallskip\noindent (A) $15/32$ \quad (B) $17/32$ \quad (C) $9/16$ \quad (D) $21/32$ \quad (E) $3/4$
+\end{example}
+\begin{solution}
+The $8^2 = 64$ ordered pairs are equally likely. ``Differ by at least $3$'' is $|x-y|>2$,
+so $n=8$ and $k=2$ in the band formula:
+\[
+\#\{|x-y|>2\} = (8-2)(8-3) = 30, \qquad \Prob = \frac{30}{64} = \frac{15}{32} = 0.469 .
+\]
+Answer: \textbf{(A)}.
+
+Check by diagonals: $|x-y|=3,4,5,6,7$ has $5,4,3,2,1$ points on each side of the main
+diagonal, $2(5+4+3+2+1) = 30$. The complement, $|x-y|\le 2$, has $8+2(7+6) = 34$ points,
+giving choice (B). Choice (D), $42/64$, is $\Prob(|X-Y|\ge 2)$, the result of reading
+``at least $3$'' as ``more than $1$''.
+\end{solution}
+
+\begin{example}[Solving for the width of the band]
+Two players each choose an integer from $1$ to $30$ inclusive, independently and at random.
+The probability that the two integers differ by more than $k$ is $0.38$. Calculate $k$.
+\par\smallskip\noindent (A) 7 \quad (B) 8 \quad (C) 9 \quad (D) 10 \quad (E) 11
+\end{example}
+\begin{solution}
+There are $30^2 = 900$ equally likely ordered pairs, and the pairs with $|x-y|>k$ number
+$(30-k)(29-k)$. Hence
+\[
+(30-k)(29-k) = 0.38\cdot 900 = 342 = 19\cdot 18 ,
+\]
+a product of consecutive integers, so $30-k = 19$ and $k = 11$.
+
+Answer: \textbf{(E)}.
+
+Check: the band $|x-y|\le 11$ has $30 + 2(11)(30) - 11\cdot 12 = 558$ points, and
+$558 + 342 = 900$. Without the closed form, the row-by-row count of the sample-exam style
+($x=1$ gives $12$ values of $y$, $x=2$ gives $13$, \dots) is available but slow for
+$n=30$; the closed form turns the question into factoring $342$.
+\end{solution}
+
+\begin{example}[Items in an array: no two in the same row or column]
+A warehouse stores $48$ boxes in a rack with $8$ rows and $6$ columns, one box per position.
+Three boxes are selected at random. Calculate the probability that no two of the selected
+boxes are in the same row or the same column.
+\par\smallskip\noindent (A) 0.389 \quad (B) 0.454 \quad (C) 0.583 \quad (D) 0.648 \quad (E) 0.778
+\end{example}
+\begin{solution}
+Total selections: $\binom{48}{3} = 17296$. Favourable: choose the $3$ columns,
+$\binom{6}{3} = 20$, then assign distinct rows to them in order, $8\cdot 7\cdot 6 = 336$;
+$20\cdot 336 = 6720$. The same count arises from rows first,
+$\binom{8}{3}\cdot 6\cdot 5\cdot 4 = 56\cdot 120 = 6720$.
+\[
+\Prob = \frac{6720}{17296} = 0.3885 .
+\]
+Answer: \textbf{(A)}.
+
+Sequential count: the first box can be any of $48$. The second must avoid the first box's
+row ($6$ positions) and column ($8$ positions), which overlap in the first box itself, so
+$48 - 6 - 8 + 1 = 35$ positions remain. The third must avoid two rows and two columns,
+$48 - 12 - 16 + 4 = 24$. The product $48\cdot 35\cdot 24 = 40320$ counts ordered
+selections; dividing by $3!$ gives $6720$. Placing $40320$ over the unordered denominator
+$17296$ gives $2.33$, an impossible probability, which is the signal that the numerator and
+denominator use different conventions.
+\end{solution}
+
+\begin{example}[Defectives pooled from two sources]
+A distributor holds $90$ smoke detectors: $40$ from manufacturer X, of which $15\%$ are
+faulty, and $50$ from manufacturer Y, of which $6\%$ are faulty. An inspector selects $6$
+detectors at random without replacement from the $90$. Calculate the probability that at
+least two of the six selected detectors are faulty.
+\par\smallskip\noindent (A) 0.079 \quad (B) 0.089 \quad (C) 0.096 \quad (D) 0.104 \quad (E) 0.108
+\end{example}
+\begin{solution}
+The stock contains $0.15(40) + 0.06(50) = 6 + 3 = 9$ faulty detectors and $81$ good ones.
+The sample is drawn from the pooled stock, so the hypergeometric pattern applies with
+$a = 9$, $b = 81$, $n = 6$. Use the complement.
+\[
+\Prob(X=0) = \frac{\binom{81}{6}}{\binom{90}{6}} = \frac{324540216}{622614630} = 0.5213,
+\qquad
+\Prob(X=1) = \frac{\binom{9}{1}\binom{81}{5}}{\binom{90}{6}} = \frac{230594364}{622614630} = 0.3704 .
+\]
+\[
+\Prob(X\ge 2) = 1 - 0.5213 - 0.3704 = 0.1084 .
+\]
+Answer: \textbf{(E)}.
+
+Choice (C) is $\Prob(X=2) = \binom{9}{2}\binom{81}{4}/\binom{90}{6} = 0.0962$, the answer
+to ``exactly two''. Treating the draws as independent with $p = 9/90 = 0.1$ gives
+$1 - 0.9^6 - 6(0.1)(0.9)^5 = 0.114$, which is close but wrong: the sample is without
+replacement.
+\end{solution}
+
+\begin{example}[Unknown count from a ratio of probabilities]
+An insurer holds $40$ policies, an unknown number of which carry an earthquake rider. Five
+policies are selected at random without replacement. The probability that exactly two of
+the five carry the rider equals the probability that exactly one carries the rider.
+Calculate the probability that exactly three of the five selected policies carry the rider.
+\par\smallskip\noindent (A) 0.029 \quad (B) 0.123 \quad (C) 0.153 \quad (D) 0.184 \quad (E) 0.347
+\end{example}
+\begin{solution}
+Let $r$ be the number of policies with the rider. The denominators $\binom{40}{5}$ cancel
+in the ratio:
+\[
+\frac{\Prob(X=2)}{\Prob(X=1)} = \frac{\binom{r}{2}\binom{40-r}{3}}{\binom{r}{1}\binom{40-r}{4}}
+= \frac{r-1}{2}\cdot\frac{4}{37-r} = \frac{2(r-1)}{37-r} = 1 ,
+\]
+so $2r - 2 = 37 - r$ and $r = 13$. Then
+\[
+\Prob(X=3) = \frac{\binom{13}{3}\binom{27}{2}}{\binom{40}{5}} = \frac{286\cdot 351}{658008}
+= \frac{100386}{658008} = 0.1526 .
+\]
+Answer: \textbf{(C)}.
+
+Choice (E) is the common value $\Prob(X=1) = \Prob(X=2) = 0.347$; choice (B) is
+$\Prob(X=0) = \binom{27}{5}/\binom{40}{5} = 0.123$; choice (D) is $\Prob(X\ge 3) = 0.184$;
+choice (A) is $\Prob(X=4)$. The ratio $\binom{40-r}{3}/\binom{40-r}{4} = 4/(37-r)$ is
+the step that saves time; expanding both binomial coefficients in full is unnecessary.
+\end{solution}
+
 \subsection{Traps}
 
 \begin{trap}[Ordered numerator over unordered denominator, or the reverse]
@@ -417,6 +614,43 @@ underwriter.
 \par\smallskip\noindent (A) 0.833 \quad (B) 0.881 \quad (C) 0.905 \quad (D) 0.952 \quad (E) 0.976
 \end{practice}
 
+\begin{practice}
+An integer $X$ is chosen at random from $1$ to $12$ inclusive, and independently an integer
+$Y$ is chosen at random from $1$ to $20$ inclusive. Calculate the probability that $X$ and
+$Y$ differ by at most $2$.
+\par\smallskip\noindent (A) 0.238 \quad (B) 0.250 \quad (C) 0.288 \quad (D) 0.375 \quad (E) 0.475
+\end{practice}
+
+\begin{practice}
+Three fair six-sided dice are rolled. Calculate the probability that the largest and
+smallest of the three numbers rolled differ by at most $1$.
+\par\smallskip\noindent (A) $1/12$ \quad (B) $1/9$ \quad (C) $1/8$ \quad (D) $5/36$ \quad (E) $1/6$
+\end{practice}
+
+\begin{practice}
+Thirty-six policy files are arranged in a $6$-by-$6$ array, one file per position. Three
+files are selected at random. Calculate the probability that at least two of the selected
+files are in the same row or in the same column.
+\par\smallskip\noindent (A) 0.664 \quad (B) 0.700 \quad (C) 0.750 \quad (D) 0.806 \quad (E) 0.860
+\end{practice}
+
+\begin{practice}
+An insurer's file of $75$ policies was written by three brokers: $30$ by broker A, of which
+$20\%$ contain a rating error; $25$ by broker B, of which $12\%$ contain a rating error; and
+$20$ by broker C, of which $5\%$ contain a rating error. Five policies are selected at random
+without replacement from the $75$. Calculate the probability that exactly two of the five
+contain a rating error.
+\par\smallskip\noindent (A) 0.014 \quad (B) 0.089 \quad (C) 0.114 \quad (D) 0.116 \quad (E) 0.392
+\end{practice}
+
+\begin{practice}
+Of $30$ claims received in a week, an unknown number have been flagged for review. Three of
+the $30$ claims are selected at random without replacement. The probability that none of the
+three is flagged equals the probability that exactly one is flagged. Calculate the
+probability that at least two of the three selected claims are flagged.
+\par\smallskip\noindent (A) 0.044 \quad (B) 0.078 \quad (C) 0.101 \quad (D) 0.119 \quad (E) 0.128
+\end{practice}
+
 \subsection{Answers to practice problems}
 
 \begin{enumerate}[label=\arabic*.,nosep]
@@ -433,7 +667,46 @@ $8$ remaining claims: $2/8 = 1/4$. Counting: $3\cdot\binom{7}{1}\binom{6}{3}/\df
 \item \textbf{(B)}. ${}_5P_4/5^4 = 120/625 = 0.192$.
 \item \textbf{(D)}. Complement: all actuaries or all underwriters,
 $\left[\binom{5}{4}+\binom{4}{4}\right]/\binom{9}{4} = 6/126$; probability $120/126 = 20/21 = 0.952$.
+\item \textbf{(A)}. The grid is $12$-by-$20$, not square, so count row by row. $X=1$ allows
+$Y\in\{1,2,3\}$ ($3$ values); $X=2$ allows $\{1,\dots,4\}$ ($4$); each of $X=3,\dots,12$
+allows $5$ values, all within $1$ to $20$: $3+4+10\cdot 5 = 57$ pairs out of $240$;
+$57/240 = 0.2375$. Choice (D) applies the square band formula with $n=12$
+($54/144$). The $n=20$ square value, $94/400 = 0.235$, is also wrong: $X$ never
+exceeds $12$, so the band is clipped on one side only.
+\item \textbf{(E)}. Outcomes with all three equal: $6$. Outcomes with all three values in
+$\{a,a+1\}$ but not all equal: $2^3-2 = 6$ for each $a = 1,\dots,5$, giving $30$. Total
+$36$ of $216$; $36/216 = 1/6$.
+\item \textbf{(A)}. Complement: no two share a row or column,
+$\binom{6}{3}\cdot 6\cdot 5\cdot 4 = 2400$ out of $\binom{36}{3} = 7140$;
+$1 - 2400/7140 = 1 - 0.3361 = 0.6639$.
+\item \textbf{(C)}. Policies with errors: $0.20(30)+0.12(25)+0.05(20) = 6+3+1 = 10$.
+$\binom{10}{2}\binom{65}{3}/\binom{75}{5} = 45\cdot 43680/17259390 = 0.1139$. Choice (D)
+is the binomial value $\binom{5}{2}(10/75)^2(65/75)^3 = 0.1157$, which assumes replacement;
+choice (A) is $\Prob(X=3)$; choice (E) is $\Prob(X=1)$.
+\item \textbf{(E)}. With $r$ flagged, $\Prob(X=1)/\Prob(X=0) = 3r/(28-r) = 1$ gives $r = 7$.
+Then $\Prob(X\ge 2) = \left[\binom{7}{2}\binom{23}{1}+\binom{7}{3}\right]/\binom{30}{3}
+= (483+35)/4060 = 0.1276$. Choice (D) is $\Prob(X=2)$ alone.
 \end{enumerate}
+
+\subsection{Sample exam cross-reference}
+
+\begin{itemize}[nosep]
+\item Bank 1, Q97: items in an array, no two in the same row or column; choose the columns
+as a set, assign rows in order, or count sequentially and divide by $k!$.
+\item Bank 1, Q113: two dice, absolute difference less than $3$; band around the diagonal,
+$n + 2kn - k(k+1)$ with $n=6$, $k=2$.
+\item Bank 1, Q134: two integers from $1$ to $20$ differing by at most $3$; band count
+$128$ of $400$, or complement $(n-k)(n-k-1) = 17\cdot 16$.
+\item Bank 2, Q90: defectives pooled from two sources; form the integer count
+$0.2(30)+0.08(50) = 10$, then the hypergeometric pattern with $a=10$, $b=70$, $n=5$.
+\item Bank 2, Q105: unknown count from a ratio of hypergeometric probabilities;
+$\Prob(X=1)/\Prob(X=0) = rn/(N-r-n+1)$, solve for $r$, then compute $\Prob(X=2)$.
+\item Bank 2, Q122: three categories sampled without replacement; product of three
+binomial coefficients over $\binom{12}{6}$.
+\item Bank 2, Q128: two types, sample of two, exactly one of each;
+$\binom{a}{1}\binom{b}{1}/\binom{a+b}{2}$, or the sequential product summed over the two
+orders.
+\end{itemize}
 
 \subsection{One-page summary}
 
@@ -461,4 +734,13 @@ Must be separated: arrange the others, then choose gaps.
 \item Solve $\binom{n}{2}=m$ by $n(n-1)=2m$ and factoring into consecutive integers.
 \item Never ``fix $k$ then choose the rest'' for ``at least $k$''; sum exact cases or use
 the complement.
+\item Lattice pairs $x,y\in\{1,\dots,n\}$: $\#\{|x-y|\le k\} = n+2kn-k(k+1)$,
+$\#\{|x-y|>k\} = (n-k)(n-k-1)$. Unequal ranges: count row by row.
+\item Array $r$-by-$c$, $k$ items with no two in the same row or column:
+$\binom{c}{k}\,r!/(r-k)!$; sequentially $rc\,(r-1)(c-1)\cdots$ divided by $k!$.
+\item Pooled sources: number of defectives $D=\sum p_iN_i$ (an integer), then
+hypergeometric with $a=D$.
+\item Ratio of hypergeometric probabilities: $\Prob(X=1)/\Prob(X=0)=rn/(N-r-n+1)$,
+$\Prob(X=2)/\Prob(X=1)=(r-1)(n-1)/[2(N-r-n+2)]$; the $\binom{N}{n}$ cancels, solve the
+linear equation for $r$.
 \end{itemize}

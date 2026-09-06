@@ -402,6 +402,288 @@ Answer (C). Choice (D), 0.556, is $\Prob(\text{bad} \mid \text{claim in a single
 the likelihood must match the event actually observed, which here covers two years.
 \end{solution}
 
+\subsection{Variants of the likelihood and the denominator}
+
+The eight examples above use a likelihood that is a single given rate and a denominator that
+sums over every class. The sample exam changes one or both. The likelihood may be given only
+as a ratio between classes, may be a product of two stages, may be a binomial count, may be a
+formula in the class index, or may be a power because the same experiment is repeated. The
+denominator may sum over a subset of the classes because the observation says the item came
+from one of those classes. The table method is unchanged; what changes is what goes into the
+likelihood column and which rows are in the table.
+
+\begin{keyfact}[Shapes the likelihood can take]
+In every case the likelihood column holds $\Prob(\text{observed event} \mid B_i)$, computed
+inside class $B_i$ as if the class were known.
+\begin{itemize}[nosep,leftmargin=2em]
+  \item \textbf{Ratios only.} If the data say ``class 2 is twice as likely as class 1'' and
+        ``class 3 is half as likely as class 2'', set the class-1 rate to an unknown $r$ and
+        write the others as $2r$ and $r$. Every joint probability is a multiple of $r$, so $r$
+        cancels in the posterior. Setting $r = 1$ (or any convenient value) gives the same
+        posterior.
+  \item \textbf{Two stages.} If the observed event needs two things to happen inside the class
+        (an accident, then a claim above the deductible), the likelihood is the product
+        $\Prob(A \mid B_i)\,\Prob(E \mid A \cap B_i)$. With class counts, multiply the count by
+        each stage in turn.
+  \item \textbf{A count out of $n$.} If $n$ items are drawn from a large lot with defect rate
+        $p_i$ and exactly $k$ are defective, the likelihood is the binomial probability
+        $\binom{n}{k} p_i^k (1 - p_i)^{n-k}$; for $k = 1$ it is $n p_i (1 - p_i)^{n-1}$; for
+        $k = 0$ it is $(1 - p_i)^n$. ``At most one'' adds the $k = 0$ and $k = 1$ terms. The
+        binomial coefficient is the same in every row and cancels, but the $(1 - p_i)^{n-k}$
+        factor differs between rows and must be kept.
+  \item \textbf{A formula in the class index.} If the class is a size $m$ with prior $\Prob(M = m)$
+        given by a formula and the observation is uniform on $\{1, \dots, m\}$, the likelihood
+        of observing $k$ is $1/m$ for $m \geq k$ and $0$ for $m < k$. The denominator is a
+        finite sum over the classes consistent with the observation.
+  \item \textbf{Repeated observations.} If the same experiment is repeated $n$ times and the
+        repetitions are independent given the class, the likelihood of a run of $n$ identical
+        outcomes is $p_i^n$. The forward probability of the run is $\sum_i \Prob(B_i) p_i^n$,
+        the posterior is $\Prob(B_i) p_i^n$ divided by that sum, and the probability that the
+        next repetition gives the same outcome is $\sum_i \Prob(B_i \mid \text{run})\,p_i$,
+        which equals $\sum_i \Prob(B_i) p_i^{n+1} \big/ \sum_i \Prob(B_i) p_i^n$.
+\end{itemize}
+\end{keyfact}
+
+\begin{keyfact}[Restricted denominator]
+If the observation states that the item came from one of the classes in a subset
+$J \subset \{1, \dots, n\}$ and that $A$ occurred, the observed event is
+$A \cap \bigl(\bigcup_{j \in J} B_j\bigr)$, and for $k \in J$
+\[
+\Prob(B_k \mid A,\ \textstyle\bigcup_{j \in J} B_j)
+\;=\; \frac{\Prob(A \mid B_k)\,\Prob(B_k)}{\displaystyle\sum_{j \in J} \Prob(A \mid B_j)\,\Prob(B_j)}.
+\]
+The rows for classes outside $J$ are dropped from the table. Renormalising the priors to sum
+to 1 over $J$ first gives the same answer, because the common factor $\Prob(\bigcup_{j \in J} B_j)$
+cancels.
+\end{keyfact}
+
+\begin{example}[Likelihoods given only as ratios]
+A life insurer classifies its policyholders as sedentary (35\%), moderately active (45\%),
+and highly active (20\%). A moderately active policyholder is half as likely as a sedentary
+policyholder to be hospitalised during the year, and a highly active policyholder is
+one-third as likely as a moderately active policyholder. A policyholder chosen at random is
+hospitalised during the year. Calculate the probability that the policyholder is sedentary.
+\par\smallskip\noindent (A) 0.055\qquad (B) 0.225\qquad (C) 0.350\qquad (D) 0.370\qquad (E) 0.575
+\end{example}
+\begin{solution}
+No hospitalisation rate is given, only ratios. Let $r = \Prob(H \mid \text{sedentary})$.
+Then $\Prob(H \mid \text{moderate}) = r/2$ and
+$\Prob(H \mid \text{active}) = \tfrac{1}{3}(r/2) = r/6$. Note that the second ratio is stated
+relative to the moderate class, not the sedentary class.
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Class & Prior & Likelihood & Joint \\
+\midrule
+Sedentary & 0.35 & $r$   & $0.3500\,r$ \\
+Moderate  & 0.45 & $r/2$ & $0.2250\,r$ \\
+Active    & 0.20 & $r/6$ & $0.0333\,r$ \\
+\midrule
+Total & 1.00 & & $0.6083\,r$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(\text{sedentary} \mid H) = \frac{0.3500\,r}{0.6083\,r} = 0.5753.
+\]
+Answer (E). The unknown $r$ cancels; the posterior depends only on the ratios. The same
+arithmetic with $r = 6$ uses whole-number rates $6, 3, 1$: joints $2.10, 1.35, 0.20$ and
+$2.10/3.65 = 0.5753$. Choice (C) is the prior; (D) is the moderate-class posterior
+$0.225/0.6083$; (B) is the moderate joint with $r = 1$. The cancellation works only for the
+event the ratios describe. The probability that a policyholder who was \emph{not}
+hospitalised is sedentary needs $1 - r$, $1 - r/2$, and $1 - r/6$, which do not share a
+common factor, so that question cannot be answered without $r$.
+\end{solution}
+
+\begin{example}[Item known to come from a subset of the classes]
+A property insurer writes policies in four regions.
+\begin{center}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Region & Proportion of policies & Probability of a claim in a year \\
+\midrule
+Coastal  & 0.25 & 0.12 \\
+Urban    & 0.30 & 0.06 \\
+Suburban & 0.35 & 0.04 \\
+Rural    & 0.10 & 0.05 \\
+\bottomrule
+\end{tabular}
+\end{center}
+A claim is filed during the year on a policy that is known to be from the coastal, suburban,
+or rural region. Calculate the probability that the policy is from the coastal or rural
+region.
+\par\smallskip\noindent (A) 0.350\qquad (B) 0.500\qquad (C) 0.522\qquad (D) 0.612\qquad (E) 0.714
+\end{example}
+\begin{solution}
+The observed event is ``claim, and region is coastal, suburban, or rural''. The urban row is
+not consistent with the observation and leaves the table.
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Region & Prior & Likelihood & Joint \\
+\midrule
+Coastal  & 0.25 & 0.12 & 0.030 \\
+Suburban & 0.35 & 0.04 & 0.014 \\
+Rural    & 0.10 & 0.05 & 0.005 \\
+\midrule
+Total (three regions) & 0.70 & & 0.049 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(\text{coastal or rural} \mid \text{claim, one of the three regions})
+= \frac{0.030 + 0.005}{0.049} = 0.7143.
+\]
+Answer (E). Renormalising the priors first ($0.25/0.70$, $0.35/0.70$, $0.10/0.70$) gives
+joints $0.030/0.70$, $0.014/0.70$, $0.005/0.70$ and the same ratio. Choice (C) keeps the
+urban row in the denominator, $0.035/0.067$; (B) is the restricted prior $0.35/0.70$, which
+ignores the claim; (D) is the coastal region alone, $0.030/0.049$; (A) is the unrestricted
+prior. The prior column of a restricted table does not sum to 1; that is expected, and the
+posteriors over the three remaining rows still sum to 1.
+\end{solution}
+
+\begin{example}[Likelihood is a binomial count]
+A reinsurer audits batches of claim files prepared by third-party administrators.
+Administrator X prepares 30\% of the batches and other administrators prepare the remaining
+70\%. Each batch contains a very large number of files. In batches from X, 20\% of the files
+contain a coding error; in batches from other administrators, 5\% do. An auditor examines 25
+randomly selected files from a batch and finds that exactly two contain a coding error.
+Calculate the probability that the batch was prepared by X.
+\par\smallskip\noindent (A) 0.116\qquad (B) 0.300\qquad (C) 0.632\qquad (D) 0.872\qquad (E) 0.884
+\end{example}
+\begin{solution}
+Because the batch is very large, the 25 files are independent with the batch's error rate
+$p$, and the observed event is a binomial count:
+$\Prob(\text{exactly 2 of 25} \mid p) = \binom{25}{2} p^2 (1 - p)^{23} = 300\,p^2 (1 - p)^{23}$.
+\begin{align*}
+\Prob(\text{2 of 25} \mid X)        &= 300 (0.20)^2 (0.80)^{23} = 12 \times 0.005903 = 0.07084, \\
+\Prob(\text{2 of 25} \mid \text{other}) &= 300 (0.05)^2 (0.95)^{23} = 0.75 \times 0.30736 = 0.23052.
+\end{align*}
+\begin{center}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Class & Prior & Likelihood & Joint \\
+\midrule
+X     & 0.30 & 0.07084 & 0.02125 \\
+Other & 0.70 & 0.23052 & 0.16136 \\
+\midrule
+Total & 1.00 & & 0.18261 \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(X \mid \text{2 of 25}) = \frac{0.02125}{0.18261} = 0.1164.
+\]
+Answer (A). Two errors in 25 files is an 8\% sample error rate, closer to 5\% than to 20\%,
+so the observation lowers X's probability from 0.30 to 0.12. Choice (C) uses $p$ alone as the
+likelihood, $0.06/0.095$; (D) uses $p^2$ alone and drops the $(1 - p)^{23}$ factor,
+which is where the evidence against X lives; (E) is $1 - 0.116$. The coefficient 300 is
+common to both rows and could have been omitted, but the powers of $1 - p$ cannot.
+\end{solution}
+
+\begin{example}[Two-stage likelihood with class counts]
+A commercial property insurer covers 250 restaurants, 500 retail shops, and 250 offices. In
+a year the probability of a fire loss is 0.08 for a restaurant, 0.04 for a shop, and 0.02
+for an office. Given a fire loss, the probability that the resulting claim exceeds the
+deductible is 0.75 for a restaurant, 0.90 for a shop, and 0.60 for an office. The insurer
+picks a claim at random from all claims that exceed the deductible. Calculate the
+probability that the claim is on a restaurant.
+\par\smallskip\noindent (A) 0.015\qquad (B) 0.238\qquad (C) 0.250\qquad (D) 0.417\qquad (E) 0.444
+\end{example}
+\begin{solution}
+The observed event $E$ (claim exceeds the deductible) requires a loss and then an excess
+claim, so within each class $\Prob(E \mid \text{class}) = \Prob(\text{loss} \mid \text{class})
+\,\Prob(E \mid \text{loss}, \text{class})$. With counts, multiply through the stages.
+\begin{center}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Class & Policies & Losses & Claims above deductible & Posterior \\
+\midrule
+Restaurants & 250 & $250 \times 0.08 = 20$ & $20 \times 0.75 = 15$ & $15/36 = 0.417$ \\
+Shops       & 500 & $500 \times 0.04 = 20$ & $20 \times 0.90 = 18$ & $18/36 = 0.500$ \\
+Offices     & 250 & $250 \times 0.02 = 5$  & $5 \times 0.60 = 3$   & $3/36 = 0.083$ \\
+\midrule
+Total & 1000 & 45 & 36 & 1.000 \\
+\bottomrule
+\end{tabular}
+\end{center}
+$\Prob(\text{restaurant} \mid E) = 15/36 = 0.4167$. Answer (D). In probabilities, the
+likelihoods are $0.08 \times 0.75 = 0.060$, $0.04 \times 0.90 = 0.036$, and
+$0.02 \times 0.60 = 0.012$, and the posterior is $0.25(0.060)/[0.25(0.060) + 0.50(0.036) + 0.25(0.012)]
+= 0.015/0.036$. Choice (E) stops after the first stage, $20/45$; (B) uses only the second
+stage, $250(0.75)/[250(0.75) + 500(0.90) + 250(0.60)]$; (C) is the prior; (A) is the joint
+probability $15/1000$.
+\end{solution}
+
+\begin{example}[Prior given by a formula, likelihood $1/(n+1)$]
+A dental plan covers households of size $n = 1, 2, \dots, 6$, and the fraction of covered
+households of size $n$ is $n/21$. For a household of size $n$, the number of members who
+file a claim during the year is uniformly distributed on $\{0, 1, \dots, n\}$. A household
+chosen at random has exactly three members who file a claim. Calculate the probability that
+the household has four members.
+\par\smallskip\noindent (A) 0.182\qquad (B) 0.190\qquad (C) 0.200\qquad (D) 0.247\qquad (E) 0.264
+\end{example}
+\begin{solution}
+The classes are the sizes $n$, with prior $\Prob(N = n) = n/21$; the priors sum to
+$(1 + 2 + \dots + 6)/21 = 1$. Let $K$ be the number of claimants. Given $N = n$, $K$ takes
+each of the $n + 1$ values $0, 1, \dots, n$ with probability $1/(n+1)$, so
+$\Prob(K = 3 \mid N = n) = 1/(n+1)$ for $n \geq 3$ and $0$ for $n = 1, 2$. Only $n = 3, 4, 5, 6$
+remain in the table.
+\begin{center}
+\begin{tabular}{@{}cccc@{}}
+\toprule
+$n$ & Prior $n/21$ & Likelihood $1/(n+1)$ & Joint $\times 21$ \\
+\midrule
+3 & $3/21$ & $1/4$ & $3/4 = 0.7500$ \\
+4 & $4/21$ & $1/5$ & $4/5 = 0.8000$ \\
+5 & $5/21$ & $1/6$ & $5/6 = 0.8333$ \\
+6 & $6/21$ & $1/7$ & $6/7 = 0.8571$ \\
+\midrule
+Total & & & $3.2405$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+\[
+\Prob(N = 4 \mid K = 3) = \frac{0.8000}{3.2405} = 0.2469.
+\]
+Answer (D). The common factor $1/21$ cancels, so the joint column can be carried as
+$n/(n+1)$. Choice (A) keeps all six sizes in the denominator with likelihood $1/(n+1)$ in
+every row, $0.8/4.4071$, which ignores that a household of size 1 or 2 cannot have three
+claimants; (B) is the prior $4/21$; (C) is the likelihood $1/5$; (E) is the posterior for
+$n = 6$.
+\end{solution}
+
+\begin{example}[Repeated tosses of one coin drawn from a box]
+A box contains six coins. Three are fair, two land heads with probability 0.25, and one has
+heads on both faces. A coin is drawn at random from the box and tossed three times, and all
+three tosses are heads. Calculate the probability that the coin is one of the two that land
+heads with probability 0.25.
+\par\smallskip\noindent (A) 0.022\qquad (B) 0.234\qquad (C) 0.267\qquad (D) 0.333\qquad (E) 0.711
+\end{example}
+\begin{solution}
+Given the coin, the tosses are independent, so the likelihood of three heads is $p^3$ where
+$p$ is that coin's heads probability. The priors are the coin counts over 6.
+\begin{center}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Coin & Prior & $p^3$ & Joint & Posterior \\
+\midrule
+Fair       & $3/6$ & $1/8$  & $1/16 = 12/192$ & $12/45 = 0.2667$ \\
+$p = 0.25$ & $2/6$ & $1/64$ & $1/192$         & $1/45 = 0.0222$ \\
+Two-headed & $1/6$ & $1$    & $1/6 = 32/192$  & $32/45 = 0.7111$ \\
+\midrule
+Total & 1 & & $45/192 = 0.2344$ & 1 \\
+\bottomrule
+\end{tabular}
+\end{center}
+$\Prob(p = 0.25 \mid HHH) = 1/45 = 0.0222$. Answer (A). The column total $45/192 = 0.2344$
+is the forward answer, the unconditional probability of three heads, which is choice (B).
+Choice (C) is the fair-coin posterior, (E) the two-headed posterior, and (D) the prior. The
+posteriors also give the probability that a fourth toss is heads:
+$(12/45)(1/2) + (1/45)(1/4) + (32/45)(1) = 38.25/45 = 0.85$, against an unconditional
+single-toss heads probability of $(1/2)(1/2) + (1/3)(1/4) + (1/6)(1) = 0.50$.
+\end{solution}
+
 \subsection{Traps}
 
 \begin{trap}[Answering $\Prob(A \mid B)$ when $\Prob(B \mid A)$ is asked]
@@ -461,6 +743,27 @@ prior, not by the likelihood, and not by 1. Dividing the joint by the class prio
 likelihood; dividing by the likelihood returns the prior; leaving it undivided gives
 $\Prob(A \cap B_i)$, which the choices usually include (0.001 in the driver example, 0.018 in
 a test example). The posterior column must sum to 1; if it does not, the divisor is wrong.
+\end{trap}
+
+\begin{trap}[Ratios cancel only for the event they describe]
+When the class rates are given only as ratios (``twice as likely to die''), the unknown base
+rate $r$ cancels in $\Prob(B_i \mid \text{die})$ because every joint probability is a
+multiple of $r$. It does not cancel in $\Prob(B_i \mid \text{survive})$, because
+$1 - r$, $1 - 2r$, and $1 - r/2$ have no common factor. If a question with ratio-only
+rates asks about the complement, a base rate must be given somewhere in the stem; look for
+it. Also read which class each ratio is relative to: ``light smokers are twice as likely as
+nonsmokers, but half as likely as heavy smokers'' makes the heavy rate four times the
+nonsmoker rate, not twice.
+\end{trap}
+
+\begin{trap}[Restricting the denominator, or failing to]
+If the stem says the item ``is from one of'' a named subset of classes, the classes outside
+the subset are not in the denominator; including them makes the posterior too small. If the
+stem says nothing of the kind, every class is in the denominator, including a class described
+only as ``other'' or ``the rest''; excluding it makes the posterior too large. The rule is
+that the table holds exactly the classes consistent with everything the observation says.
+The same rule handles a formula prior over sizes $m$ with a $1/m$ likelihood: sizes
+smaller than the observed count have likelihood 0 and drop out.
 \end{trap}
 
 \subsection{Practice problems}
@@ -529,6 +832,78 @@ year. Calculate the probability that the policyholder is young.
 \par\smallskip\noindent (A) 0.064\qquad (B) 0.255\qquad (C) 0.280\qquad (D) 0.300\qquad (E) 0.500
 \end{practice}
 
+\begin{practice}
+A health plan classifies its members as non-smokers, former smokers, light smokers, and
+heavy smokers. Non-smokers are 55\% of the members. There are twice as many former smokers
+as light smokers and three times as many light smokers as heavy smokers. A former smoker is
+1.5 times as likely as a non-smoker to be hospitalised during the year, a light smoker is
+twice as likely as a former smoker, and a heavy smoker is twice as likely as a light smoker.
+A member chosen at random is hospitalised during the year. Calculate the probability that
+the member is a heavy smoker.
+\par\smallskip\noindent (A) 0.045\qquad (B) 0.166\qquad (C) 0.248\qquad (D) 0.270\qquad (E) 0.337
+\end{practice}
+
+\begin{practice}
+An auto insurer's drivers fall into four age groups.
+\begin{center}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Age group & Proportion of drivers & Probability of an accident in a year \\
+\midrule
+Under 25    & 0.15 & 0.14 \\
+25--44      & 0.35 & 0.06 \\
+45--64      & 0.30 & 0.04 \\
+65 and over & 0.20 & 0.08 \\
+\bottomrule
+\end{tabular}
+\end{center}
+A driver who is known not to be in the 25--44 group has no accident during the year.
+Calculate the probability that the driver is in the 45--64 group.
+\par\smallskip\noindent (A) 0.245\qquad (B) 0.300\qquad (C) 0.310\qquad (D) 0.462\qquad (E) 0.479
+\end{practice}
+
+\begin{practice}
+A clinic receives 50\% of its vaccine shipments from supplier A, 30\% from supplier B, and
+20\% from supplier C. Each shipment contains a very large number of vials. The proportion of
+ineffective vials is 1\% for supplier A, 4\% for supplier B, and 10\% for supplier C. The
+clinic tests 20 randomly selected vials from a shipment and finds at most one ineffective
+vial. Calculate the probability that the shipment came from supplier C.
+\par\smallskip\noindent (A) 0.096\qquad (B) 0.200\qquad (C) 0.219\qquad (D) 0.299\qquad (E) 0.392
+\end{practice}
+
+\begin{practice}
+An insurer covers 200 sports cars, 500 sedans, and 300 trucks. The probability of an
+accident in a year is 0.15 for a sports car, 0.06 for a sedan, and 0.08 for a truck. Given
+an accident, the probability that the claim exceeds the deductible is 0.80 for a sports car,
+0.70 for a sedan, and 0.50 for a truck. The insurer picks a claim at random from all claims
+that do not exceed the deductible. Calculate the probability that the claim is on a truck.
+\par\smallskip\noindent (A) 0.211\qquad (B) 0.286\qquad (C) 0.333\qquad (D) 0.444\qquad (E) 0.500
+\end{practice}
+
+\begin{practice}
+A tour operator studies the groups that book a tour. The fraction of groups of size $m$ is
+$m/36$ for $m = 1, 2, \dots, 8$. For a group of size $m$, the number of members who buy
+travel insurance is uniformly distributed on $\{1, \dots, m\}$. A group is chosen at random,
+and at least five of its members buy travel insurance. Calculate the probability that the
+group has seven members.
+\par\smallskip\noindent (A) 0.194\qquad (B) 0.250\qquad (C) 0.269\qquad (D) 0.300\qquad (E) 0.429
+\end{practice}
+
+\begin{practice}
+A box contains five spinners. Two land on red with probability 0.5, two land on red with
+probability 0.2, and one lands on red with probability 1. A spinner is drawn at random and
+spun twice, and it lands on red both times. Calculate the probability that a third spin of
+the same spinner lands on red.
+\par\smallskip\noindent (A) 0.316\qquad (B) 0.480\qquad (C) 0.500\qquad (D) 0.633\qquad (E) 0.801
+\end{practice}
+
+\begin{practice}
+A drawer contains three coins that land heads with probability 0.5, 0.6, and 0.9
+respectively. A coin is chosen at random, each coin being equally likely, and tossed four
+times. Calculate the probability of exactly three heads.
+\par\smallskip\noindent (A) 0.296\qquad (B) 0.346\qquad (C) 0.395\qquad (D) 0.729\qquad (E) 0.887
+\end{practice}
+
 \subsection{Answers to practice problems}
 
 \begin{enumerate}[nosep,leftmargin=2em]
@@ -552,7 +927,57 @@ year. Calculate the probability that the policyholder is young.
         $y = 0.045/0.7 = 0.0643$. Then $\Prob(\text{no claim}) = 1 - 0.09 = 0.91$ and
         $\Prob(\text{young} \mid \text{no claim}) = 0.3(0.85)/0.91 = 0.255/0.91 = 0.280$.
         Choice (A) is $y$; choice (B) is the joint probability.
+  \item \textbf{(B)}. Let $L$ be the light-smoker proportion; former $= 2L$, heavy $= L/3$, and
+        $2L + L + L/3 = 0.45$ gives $L = 0.135$, so the priors are $0.55, 0.27, 0.135, 0.045$.
+        With non-smoker rate $r$ the rates are $r, 1.5r, 3r, 6r$. Joints in units of $r$:
+        $0.55, 0.405, 0.405, 0.27$; total $1.63$. $\Prob(\text{heavy} \mid H) = 0.27/1.63 = 0.166$.
+        Choice (A) is the prior, (C) the former or light posterior, (D) the unnormalised joint,
+        (E) the non-smoker posterior.
+  \item \textbf{(E)}. Drop the 25--44 row; the likelihood is $1 -$ accident rate. The joints
+        $0.15(0.86) = 0.129$, $0.30(0.96) = 0.288$, and $0.20(0.92) = 0.184$ sum to $0.601$.
+        $\Prob(45\text{--}64 \mid \text{no accident, not 25--44}) = 0.288/0.601 = 0.479$.
+        Choice (D) is the restricted prior $0.30/0.65$; (C) keeps all four rows, $0.288/0.930$;
+        (A) conditions on an accident instead, $0.012/0.049$.
+  \item \textbf{(A)}. $\Prob(\text{at most 1 of 20} \mid p) = (1-p)^{20} + 20p(1-p)^{19}$:
+        A: $0.8179 + 0.1652 = 0.9831$; B: $0.4420 + 0.3683 = 0.8103$; C: $0.1216 + 0.2702 = 0.3917$.
+        Joints $0.4916, 0.2431, 0.0783$; total $0.8130$. $\Prob(C \mid \cdot) = 0.0783/0.8130 = 0.096$.
+        Choice (C) uses the exactly-one term only; (D) is the posterior for B; (E) is C's likelihood.
+  \item \textbf{(D)}. Accidents: $30, 30, 24$. Claims not exceeding the deductible:
+        $30(0.20) = 6$, $30(0.30) = 9$, $24(0.50) = 12$; total $27$.
+        $\Prob(\text{truck} \mid \text{not exceed}) = 12/27 = 0.444$. Choice (B) stops after
+        the accident stage, $24/84$; (A) conditions on exceeding instead, $12/57$; (C) is the
+        sedan posterior.
+  \item \textbf{(D)}. $\Prob(\text{at least 5} \mid m) = (m - 4)/m$ for $m \geq 5$ and $0$
+        otherwise. Joint $= (m/36)\,(m-4)/m = (m-4)/36$ for $m = 5, 6, 7, 8$: $1/36, 2/36, 3/36, 4/36$;
+        total $10/36$. $\Prob(M = 7 \mid \cdot) = 3/10 = 0.300$. Choice (A) is the prior $7/36$;
+        (E) the likelihood $3/7$; (C) the restricted prior $7/26$.
+  \item \textbf{(E)}. Joint $= $ prior $\times p^2$: $0.4(0.25) = 0.100$, $0.4(0.04) = 0.016$,
+        $0.2(1) = 0.200$; total $0.316$. Posteriors $0.316, 0.051, 0.633$.
+        $\Prob(\text{third red} \mid RR) = 0.316(0.5) + 0.051(0.2) + 0.633(1) = 0.801$;
+        equivalently $\Prob(RRR)/\Prob(RR) = 0.2532/0.316$. Choice (A) is $\Prob(RR)$; (B) is
+        the unconditional $\Prob(\text{red}) = 0.48$; (D) is the always-red posterior.
+  \item \textbf{(A)}. $\Prob(\text{3 of 4} \mid p) = 4p^3(1-p)$: $0.2500, 0.3456, 0.2916$.
+        Average with weights $1/3$: $0.8872/3 = 0.296$. Choice (C) averages $p$ first,
+        $4(2/3)^3(1/3) = 0.395$; (E) omits the $1/3$ weights; (B) is the second coin alone.
 \end{enumerate}
+
+\subsection{Sample exam cross-reference}
+
+\begin{itemize}[nosep,leftmargin=2em]
+  \item Bank 1, Q121: total probability with a likelihood $p_i^2$ for two rolls that are
+        independent given the die; forward probability of the run.
+  \item Bank 2, Q18: four-class table, posterior of one class given an accident.
+  \item Bank 2, Q19: three-class table with small death rates; posterior of the smallest class.
+  \item Bank 2, Q20: conditioning on the complement (survived); likelihood $1 - $ rate in every row.
+  \item Bank 2, Q21: three classes with death rates given only as chained ratios; base rate cancels.
+  \item Bank 2, Q22: four-class table, posterior given at least one collision.
+  \item Bank 2, Q24: medical test with sensitivity and false-positive rate; posterior given positive.
+  \item Bank 2, Q25: two classes with the smoking rate given as a ratio; unknown rate cancels.
+  \item Bank 2, Q26: denominator restricted to the three named model years; ``other'' row dropped.
+  \item Bank 2, Q27: likelihood is a count, $30p(1-p)^{29}$ for exactly one of 30 vials.
+  \item Bank 2, Q133: two-stage likelihood (accident, then claim above deductible) with class counts.
+  \item Bank 2, Q150: prior given by a formula over sizes $m$, likelihood $1/m$, denominator summed over $m \geq 5$.
+\end{itemize}
 
 \subsection{One-page summary}
 
@@ -590,6 +1015,25 @@ year. Calculate the probability that the policyholder is young.
         the Bayes denominator.
   \item Ratios and odds: ``$k$ times as many in class 1 as class 2'' or odds $k : 1$ means
         priors $k/(k+1)$ and $1/(k+1)$.
+  \item Rates given only as ratios: set one rate to $r$, write the others as multiples of $r$,
+        and $r$ cancels in the posterior for the event the ratios describe. It does not cancel
+        for the complement. Read which class each ratio is relative to.
+  \item Restricted denominator: if the item is known to be from a subset of classes, the table
+        holds only those rows; the prior column need not sum to 1. Without such a statement,
+        every class stays in, including ``other''.
+  \item Count likelihood: exactly $k$ of $n$ from a large lot with rate $p_i$ is
+        $\binom{n}{k}p_i^k(1-p_i)^{n-k}$; exactly one is $np_i(1-p_i)^{n-1}$; at most one is
+        $(1-p_i)^n + np_i(1-p_i)^{n-1}$. The coefficient cancels, the $(1-p_i)$ powers do not.
+  \item Two-stage likelihood: $\Prob(E \mid B_i) = \Prob(A \mid B_i)\Prob(E \mid A \cap B_i)$;
+        with counts, multiply the class count through each stage. Conditioning on the
+        second stage failing uses $1 - \Prob(E \mid A \cap B_i)$ in the second factor only.
+  \item Formula prior over sizes $m$ with uniform likelihood: $\Prob(K = k \mid m) = 1/m$ on
+        $\{1, \dots, m\}$ (or $1/(m+1)$ on $\{0, \dots, m\}$), zero for $m < k$; the
+        denominator is a finite sum over $m \geq k$. A tail observation ``at least $k$'' has
+        likelihood $(m - k + 1)/m$.
+  \item Repeated observations: likelihood $p_i^n$ for a run of $n$; forward
+        $\Prob(\text{run}) = \sum_i \Prob(B_i)p_i^n$; posterior $\Prob(B_i)p_i^n/\Prob(\text{run})$;
+        next repetition $\sum_i \Prob(B_i \mid \text{run})p_i = \sum_i \Prob(B_i)p_i^{n+1}/\sum_i \Prob(B_i)p_i^n$.
   \item Distractors to recognise: the likelihood, the joint probability, the overall rate,
         the prior, the posterior of a neighbouring class, and the complement on the wrong
         side of the bar.

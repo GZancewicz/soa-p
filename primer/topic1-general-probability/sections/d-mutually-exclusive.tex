@@ -154,6 +154,72 @@ When the given events are themselves mutually exclusive, $S_2 = S_3 = 0$ and eve
 above collapses: ``at least one'' and ``exactly one'' coincide and equal $S_1$, ``at most
 one'' has probability $1$, and ``none'' has probability $1 - S_1$.
 
+\subsection{Partitions pinned down by linear constraints}
+
+A second family of exam questions never gives a single cell probability directly. Instead
+the sample space is partitioned into $n$ cells $p_1, \dots, p_n$ and the problem states
+relationships among them: ratios (``three times as many''), comparisons with a combination
+(``one-fourth of the other two combined''), cumulative totals over an ordered list
+(``stage 2 or lower''), or marginal proportions that overlap because every member is
+counted more than once. Each statement is one linear equation in the cell probabilities,
+and the partition supplies one more: $p_1 + \dots + p_n = 1$. The question is then solved
+as a small linear system. Three patterns cover the syllabus.
+
+\begin{keyfact}[Ratio-specified partition]
+Choose one cell as the base $t$ and express every other cell as a multiple of $t$ using the
+ratio statements. A statement of the form ``$X$ is one-fourth of $Y$ and $Z$ combined'' is
+the equation $p_X = \tfrac14 (p_Y + p_Z)$; substitute the multiples already found for $p_Y$
+and $p_Z$. The partition equation then reads $(\text{sum of multiples})\, t = 1$, which
+gives $t$, and the event asked for is a sum of the relevant multiples times $t$. If a
+statement is absolute rather than relative (``the proportion of $X$ is $0.05$ less than the
+proportion of $Y$'', or ``$X$ accounts for $10\%$''), the equation has a constant term; the
+system is still linear and is solved the same way, with the constant carried into the
+partition equation.
+\end{keyfact}
+
+\begin{keyfact}[Cumulative statements over an ordered partition]
+When the cells are ordered (stages $0, 1, \dots$, severity levels, claim counts), each
+statement is a sum of consecutive cells. Write every statement as such a sum, together with
+$p_0 + \dots + p_n = 1$, and combine:
+\begin{align*}
+\Prob(\text{$k$ or higher}) &= 1 - (p_0 + \dots + p_{k-1}), \\
+\Prob(\text{other than } k) &= 1 - p_k, \\
+\Prob(\text{$k$ or lower}) + \Prob(\text{$k$ or higher}) &= 1 + p_k, \\
+\Prob(\text{$j$ or lower}) - \Prob(\text{$i$ or lower}) &= p_{i+1} + \dots + p_j \quad (i < j).
+\end{align*}
+The third line is the workhorse: two cumulative statements that overlap in exactly one cell
+sum to $1$ plus that cell. In general subtracting one sum of cells from another leaves the
+cells that are in one but not the other. There are usually fewer statements than cells; the
+target cell is still determined, and the cells that are never separated (for example the
+top two levels) are simply carried as a block.
+\end{keyfact}
+
+\begin{keyfact}[Counting each member $k$ times]
+Suppose a group $G$ of the population is described by proportions $\Prob(A_1), \dots,
+\Prob(A_m)$, and every member of $G$ belongs to \emph{exactly} $k$ of the events $A_i$
+while nobody outside $G$ belongs to any. Then
+\[
+\Prob(A_1) + \dots + \Prob(A_m) = k\,\Prob(G), \qquad
+\Prob(\text{none}) = 1 - \Prob(G) = 1 - \frac{\Prob(A_1) + \dots + \Prob(A_m)}{k}.
+\]
+\emph{Proof.} Each member of $G$ contributes to exactly $k$ of the $m$ proportions, so the
+sum of the proportions counts $G$ exactly $k$ times. \qed
+
+The same argument with mixed membership gives the general identity
+\[
+\sum_{i=1}^{m} \Prob(A_i) = \sum_{j=1}^{m} j\,\Prob(\text{exactly } j \text{ of the } A_i),
+\]
+because a member in exactly $j$ of the events is counted $j$ times on the left. For three
+events this is $S_1 = \Prob(\text{exactly one}) + 2\Prob(\text{exactly two}) +
+3\Prob(\text{exactly three})$, which agrees with the formulas of the previous key fact.
+When ``exactly two or none'' is stated, the identity collapses to
+$S_1 = 2\Prob(\text{exactly two})$ and no individual pairwise cell is needed. When the
+individual cells are wanted, write each proportion as the sum of the cells it contains and
+solve the resulting system; with three events and ``exactly two'' the three equations
+$x + y = \Prob(A)$, $x + z = \Prob(B)$, $y + z = \Prob(C)$ give
+$x = \tfrac12[\Prob(A) + \Prob(B) - \Prob(C)]$ and similarly for $y$ and $z$.
+\end{keyfact}
+
 \subsection{Worked examples}
 
 \begin{example}[Claim size bands]
@@ -256,6 +322,91 @@ and $\Prob(A) = 0.40$. Answer: \textbf{(C)}. The probability of being declined i
 $1 - 0.60 = 0.40$, which is choice (A); read the question stem carefully.
 \end{solution}
 
+\begin{example}[Partition specified by ratios and a difference]
+A dental plan classifies every claim as exactly one of preventive, basic, major or
+orthodontic. Claim records show that the number of basic claims is one-half the number of
+preventive and major claims combined, that three times as many preventive claims are filed
+as major claims, and that the proportion of orthodontic claims is $0.05$ less than the
+proportion of major claims. Calculate the probability that the next claim filed is either
+basic or orthodontic.
+
+\smallskip\noindent (A)~$0.25$\hfill (B)~$0.30$\hfill (C)~$0.45$\hfill (D)~$0.55$\hfill (E)~$0.40$\hfill\mbox{}
+\end{example}
+\begin{solution}
+Let $m$ be the probability that a claim is major. The four categories partition the sample
+space, so the statements translate into
+\[
+\Prob(\text{preventive}) = 3m, \qquad
+\Prob(\text{basic}) = \tfrac12 (3m + m) = 2m, \qquad
+\Prob(\text{orthodontic}) = m - 0.05.
+\]
+The partition equation $3m + 2m + m + (m - 0.05) = 1$ gives $7m = 1.05$, so $m = 0.15$.
+The cells are $0.45$, $0.30$, $0.15$ and $0.10$, which sum to $1$. Basic and orthodontic
+are disjoint categories, so
+\[
+\Prob(\text{basic} \cup \text{orthodontic}) = 2m + (m - 0.05) = 0.30 + 0.10 = 0.40.
+\]
+Answer: \textbf{(E)}. Choice (C) is $\Prob(\text{preventive})$, and choice (A) is
+$\Prob(\text{major} \cup \text{orthodontic})$. The constant term $-0.05$ does not change the
+method; it is carried into the partition equation and the system stays linear.
+\end{solution}
+
+\begin{example}[Every enrolled member counted three times]
+An employer offers four supplementary benefits, $W$, $X$, $Y$ and $Z$. Each employee elects
+exactly three of the four benefits or elects none. The proportions of employees who elect
+$W$, $X$, $Y$ and $Z$ are $0.33$, $0.42$, $0.51$ and $0.54$ respectively. Calculate the
+probability that a randomly chosen employee elects exactly the benefits $W$, $X$ and $Y$.
+
+\smallskip\noindent (A)~$0.06$\hfill (B)~$0.09$\hfill (C)~$0.40$\hfill (D)~$0.46$\hfill (E)~$0.60$\hfill\mbox{}
+\end{example}
+\begin{solution}
+Let $G$ be the event that the employee elects benefits at all. Every member of $G$ appears
+in exactly three of the four stated proportions, and nobody outside $G$ appears in any, so
+\[
+0.33 + 0.42 + 0.51 + 0.54 = 1.80 = 3\,\Prob(G) \quad\Longrightarrow\quad \Prob(G) = 0.60,
+\]
+and $\Prob(\text{none}) = 0.40$. An employee who elects exactly $W$, $X$ and $Y$ is an
+enrolled employee who omits $Z$. The enrolled employees split into four disjoint cells by
+which single benefit they omit, and everyone in $G$ who does not omit $Z$ holds $Z$, so
+\[
+\Prob(\text{elects } W, X, Y \text{ only}) = \Prob(G) - \Prob(Z) = 0.60 - 0.54 = 0.06.
+\]
+Answer: \textbf{(A)}. As a check, the other three cells are $0.60 - 0.33 = 0.27$,
+$0.60 - 0.42 = 0.18$ and $0.60 - 0.51 = 0.09$, and $0.27 + 0.18 + 0.09 + 0.06 = 0.60$.
+Choice (C) is the probability of electing nothing, and (D) is $1 - \Prob(Z)$, which wrongly
+treats ``omits $Z$'' as ``does not hold $Z$'' for the whole population.
+\end{solution}
+
+\begin{example}[Six ordered levels, four overlapping statements]
+Each patient discharged from a hospital is assigned exactly one severity level: $0$, $1$,
+$2$, $3$, $4$ or $5$. Hospital records show that
+$60\%$ of patients have level $2$ or lower,
+$75\%$ have level $1$ or higher,
+$85\%$ have a level other than $2$, and
+$45\%$ have level $1$, $4$ or $5$.
+Calculate the probability that a randomly selected patient has severity level $4$ or
+higher.
+
+\smallskip\noindent (A)~$0.15$\hfill (B)~$0.20$\hfill (C)~$0.25$\hfill (D)~$0.30$\hfill (E)~$0.40$\hfill\mbox{}
+\end{example}
+\begin{solution}
+Let $p_i$ be the probability of level $i$. The six cells partition the sample space and the
+statements are
+\begin{align*}
+p_0 + p_1 + p_2 &= 0.60, & p_1 + p_2 + p_3 + p_4 + p_5 &= 0.75, \\
+p_2 &= 1 - 0.85 = 0.15, & p_1 + p_4 + p_5 &= 0.45.
+\end{align*}
+The second statement is the complement of level $0$, so $p_0 = 1 - 0.75 = 0.25$. The
+first statement then gives $p_1 = 0.60 - 0.25 - 0.15 = 0.20$, and the fourth gives
+\[
+p_4 + p_5 = 0.45 - p_1 = 0.45 - 0.20 = 0.25.
+\]
+Answer: \textbf{(C)}. Levels $4$ and $5$ are never separated by the data and do not need to
+be; the block $p_4 + p_5$ is exactly the event asked for. The remaining cell is
+$p_3 = 1 - 0.25 - 0.20 - 0.15 - 0.25 = 0.15$, which is non-negative, so the data are
+consistent. Choice (E) is $1 - 0.60$, the probability of level $3$ or higher.
+\end{solution}
+
 \subsection{Traps}
 
 \begin{trap}[Adding without disjointness]
@@ -289,6 +440,26 @@ difference is exactly $\Prob(A \cap B)$, and the exam usually lists both values 
 choices. For three events, ``exactly two'' is $S_2 - 3S_3$, not $S_2$: every pairwise
 intersection already contains the triple intersection, so $S_2$ counts the triple cell three
 times. ``At least two'' is $S_2 - 2S_3$, which keeps the triple cell once.
+\end{trap}
+
+\begin{trap}[Overlapping proportions are not a partition]
+When a question lists proportions holding coverages $A$, $B$ and $C$ that sum to more than
+$1$, the proportions overlap and cannot be added to get ``at least one''. If the question
+also says each person holds exactly two (or exactly $k$) of the coverages or none, do not
+reach for inclusion--exclusion with unknown intersections; the sum of the proportions is
+exactly $k$ times the probability of holding any coverage, and ``none'' follows at once.
+The distractor $1 - (\text{sum of proportions})$ is negative or meaningless in such
+questions, and the distractor $1 - \Prob(A)$ for ``does not hold $A$'' is not the same as
+``holds the others but not $A$''; the latter is $\Prob(G) - \Prob(A)$ where $G$ is the
+enrolled group.
+\end{trap}
+
+\begin{trap}[Reading cumulative statements]
+``Stage 2 or lower'' includes stage 2; ``stage 1 or higher'' includes stage 1; ``other than
+stage 2'' is the complement of a single cell. Write every statement as an explicit sum of
+cell probabilities before doing any arithmetic. A ratio statement inside an ordered partition
+(``level 3 is twice as likely as level 4'') is one more linear equation, not a conditional
+probability.
 \end{trap}
 
 \subsection{Practice problems}
@@ -345,6 +516,35 @@ Calculate $\Prob(A \cup \cc{B})$.
 \smallskip\noindent (A)~$0.50$\hfill (B)~$0.80$\hfill (C)~$0.30$\hfill (D)~$0.20$\hfill (E)~$0.65$\hfill\mbox{}
 \end{practice}
 
+\begin{practice}
+A pet insurer writes policies on dogs, cats, birds and exotic pets only, and each policy
+covers exactly one kind of animal. The number of cat policies is one-half the number of dog
+and bird policies combined; four times as many dog policies are written as bird policies;
+and the proportion of exotic-pet policies is $0.02$ less than the proportion of bird
+policies. Calculate the probability that the next policy written covers a cat or a bird.
+
+\smallskip\noindent (A)~$0.30$\hfill (B)~$0.40$\hfill (C)~$0.42$\hfill (D)~$0.58$\hfill (E)~$0.60$\hfill\mbox{}
+\end{practice}
+
+\begin{practice}
+Members of a group plan may enrol in exactly two of the optional riders $A$, $B$ and $C$, in
+all three, or in none. The proportions of members enrolled in $A$, $B$ and $C$ are $0.35$,
+$0.40$ and $0.45$ respectively, and $0.12$ of the members are enrolled in all three.
+Calculate the probability that a randomly chosen member is enrolled in no rider.
+
+\smallskip\noindent (A)~$0.40$\hfill (B)~$0.42$\hfill (C)~$0.54$\hfill (D)~$0.58$\hfill (E)~$0.46$\hfill\mbox{}
+\end{practice}
+
+\begin{practice}
+A workers' compensation insurer assigns each claim exactly one severity code from $1$ to
+$6$. You are given that $55\%$ of claims have severity $3$ or lower, $88\%$ have severity
+$2$ or higher, $40\%$ have severity $3$ or $4$, and a claim is equally likely to have
+severity $3$ as severity $4$. Calculate the probability that a randomly selected claim has
+severity $2$.
+
+\smallskip\noindent (A)~$0.20$\hfill (B)~$0.23$\hfill (C)~$0.25$\hfill (D)~$0.35$\hfill (E)~$0.43$\hfill\mbox{}
+\end{practice}
+
 \subsection{Answers to practice problems}
 
 \begin{enumerate}[label=\arabic*.,nosep]
@@ -366,7 +566,39 @@ Calculate $\Prob(A \cup \cc{B})$.
 \item \textbf{(A)} Since $A \cap B = \varnothing$, $A \subseteq \cc{B}$, so
       $A \cup \cc{B} = \cc{B}$ and the probability is $1 - 0.50 = 0.50$. Choice (B) is
       the wrong result $\Prob(A) + \Prob(\cc{B}) = 0.80$, which double counts $A$.
+\item \textbf{(C)} Let $b$ be the bird probability. Then dog $= 4b$, cat
+      $= \tfrac12(4b + b) = 2.5b$ and exotic $= b - 0.02$. The partition equation
+      $4b + 2.5b + b + b - 0.02 = 8.5b - 0.02 = 1$ gives $b = 0.12$, so the cells are
+      $0.48$, $0.30$, $0.12$ and $0.10$. Cat or bird is $0.30 + 0.12 = 0.42$.
+\item \textbf{(E)} Each member enrolled in exactly two riders is counted twice in the
+      three proportions and each member in all three is counted three times, so
+      $0.35 + 0.40 + 0.45 = 1.20 = 2\Prob(\text{exactly two}) + 3(0.12)$, giving
+      $\Prob(\text{exactly two}) = 0.42$. Enrolled at all is $0.42 + 0.12 = 0.54$ and none
+      is $1 - 0.54 = 0.46$. Check by cells: with $x, y, z$ the exactly-two cells,
+      $x + y = 0.23$, $x + z = 0.28$, $y + z = 0.33$, so $x = 0.09$, $y = 0.14$,
+      $z = 0.19$, which sum to $0.42$.
+\item \textbf{(B)} From ``$88\%$ severity $2$ or higher'', $p_1 = 0.12$. From
+      $p_3 + p_4 = 0.40$ and $p_3 = p_4$, $p_3 = 0.20$. Then
+      $p_2 = 0.55 - p_1 - p_3 = 0.55 - 0.12 - 0.20 = 0.23$. Codes $5$ and $6$ together
+      carry $1 - 0.55 - 0.20 = 0.25$ and are never separated. Choice (E) is
+      $0.55 - 0.12$, which forgets to remove $p_3$; choice (D) is $0.55 - 0.20$, which
+      forgets $p_1$.
 \end{enumerate}
+
+\subsection{Sample exam cross-reference}
+
+\begin{itemize}[nosep]
+\item Bank 1, Q14: every covered employee counted in exactly two of three proportions, so
+      the sum of the proportions is twice the probability of holding coverage; none is one
+      minus that (key fact ``Counting each member $k$ times'', Example on four benefits).
+\item Bank 1, Q92: three disjoint categories given by ratios, one of them relative to the
+      other two combined; write all cells as multiples of a base cell and use the partition
+      equation (key fact ``Ratio-specified partition'', Example on dental claims).
+\item Bank 1, Q147: five ordered cells with overlapping cumulative statements; write each
+      statement as a sum of cells, use the complement for ``or higher'' and ``other than'',
+      and subtract (key fact ``Cumulative statements over an ordered partition'', Example
+      on severity levels).
+\end{itemize}
 
 \subsection{One-page summary}
 
@@ -399,4 +631,18 @@ Calculate $\Prob(A \cup \cc{B})$.
       exactly three $=$ at least one.
 \item If $A$ and $B$ are disjoint then $A \subseteq \cc{B}$, so $\Prob(A \cup \cc{B}) =
       \Prob(\cc{B})$ and $\Prob(A \cap \cc{B}) = \Prob(A)$.
+\item Ratio-specified partition: write every cell as a multiple of one base cell $t$
+      (``$X$ is one-fourth of $Y$ and $Z$ combined'' means $p_X = \tfrac14(p_Y + p_Z)$),
+      set the sum of the multiples times $t$ equal to $1$, solve for $t$. Absolute
+      statements (``$0.05$ less than'', ``$10\%$ of claims'') add a constant; the system
+      stays linear.
+\item Ordered partition with cumulative statements: ``$k$ or higher'' $= 1 - (p_0 + \dots +
+      p_{k-1})$; ``other than $k$'' $= 1 - p_k$; ``$k$ or lower'' $+$ ``$k$ or higher''
+      $= 1 + p_k$; the difference of two cumulative sums is the block of cells between
+      them. Cells never separated by the data are carried as a block.
+\item Counting $k$ times: if every member of $G$ lies in exactly $k$ of $A_1, \dots, A_m$
+      and nobody else lies in any, $\sum \Prob(A_i) = k\Prob(G)$. In general
+      $\sum_i \Prob(A_i) = \sum_j j\,\Prob(\text{exactly } j)$; for three events
+      $S_1 = \Prob(\text{exactly one}) + 2\Prob(\text{exactly two}) + 3S_3$. ``Exactly
+      two or none'' with three coverages: $\Prob(\text{none}) = 1 - S_1/2$.
 \end{itemize}

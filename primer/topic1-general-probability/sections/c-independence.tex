@@ -2,7 +2,7 @@
 
 \subsection{What the outcome asks}
 
-The exam tests whether you can recognise independence from the wording of a word problem and then use the multiplication rule $\Prob(A \cap B) = \Prob(A)\,\Prob(B)$ without being told to. The most common question shapes are: the probability that all of several independent risks occur (multiply), the probability that at least one of them occurs (one minus the product of the complements), and the probability that exactly one occurs (sum of the disjoint ``one yes, the rest no'' products). A second family gives you $\Prob(A)$, $\Prob(A \cup B)$ and the word ``independent'' and asks you to solve for $\Prob(B)$, or gives both risks the same unknown probability and makes you solve a quadratic. A third family gives a table of joint probabilities and asks whether the events are independent, or asks for the missing cell that makes them independent. Underlying all of these is the fact that if $A$ and $B$ are independent, so are $A$ and $\cc{B}$, which is what lets you convert ``fails'' probabilities into ``works'' probabilities freely.
+The exam tests whether you can recognise independence from the wording of a word problem and then use the multiplication rule $\Prob(A \cap B) = \Prob(A)\,\Prob(B)$ without being told to. The most common question shapes are: the probability that all of several independent risks occur (multiply), the probability that at least one of them occurs (one minus the product of the complements), and the probability that exactly one occurs (sum of the disjoint ``one yes, the rest no'' products). A second family gives you $\Prob(A)$, $\Prob(A \cup B)$ and the word ``independent'' and asks you to solve for $\Prob(B)$, or gives both risks the same unknown probability and makes you solve a quadratic. A third family gives a table of joint probabilities and asks whether the events are independent, or asks for the missing cell that makes them independent. Two further shapes appear on the sample exam: a draw from each of two urns, where the urns are independent and one urn holds an unknown number of balls that you solve for from a ``same colour'' probability; and a ``determine which of the following is true'' question about three events built from two dice, which tests whether you can check pairwise and mutual independence by counting outcomes. Underlying all of these is the fact that if $A$ and $B$ are independent, so are $A$ and $\cc{B}$, which is what lets you convert ``fails'' probabilities into ``works'' probabilities freely.
 
 \subsection{Definitions}
 
@@ -46,6 +46,14 @@ Classic counterexample. Toss two fair coins. Let $A$ = first coin is heads, $B$ 
 \]
 so the three events are pairwise independent. But $A \cap B \cap C = \emptyset$ (two heads is not exactly one head), so $\Prob(A \cap B \cap C) = 0 \ne \tfrac18$. The three events are not mutually independent. When an exam question says ``independent'' about three or more events, it means mutually independent, and every product rule you need is available.
 
+\begin{keyfact}[Checking independence from an outcome table]
+When the experiment has $N$ equally likely outcomes, $\Prob(A) = N(A)/N$, where $N(A)$ counts the outcomes in $A$, and the product rule for $A$ and $B$ becomes
+\[
+N(A \cap B)\cdot N = N(A)\cdot N(B).
+\]
+To settle a ``determine which of the following is true'' question about three events: (1) count $N(A)$, $N(B)$, $N(C)$; (2) count each of the three pairwise intersections and test the product rule for each pair; (3) count the triple intersection and test $N(A \cap B \cap C)\cdot N^2 = N(A)\,N(B)\,N(C)$. The events are mutually independent only if all four tests pass; they are pairwise independent if the three tests in step (2) pass. Two shortcuts: events defined on separate mechanisms (the red die and the blue die, the first toss and the second toss) are independent without any counting; an event that combines both mechanisms (the sum, the number of heads) must be checked against each of the others by counting, because it can be independent of each die separately and still be determined once both dice are known.
+\end{keyfact}
+
 \begin{keyfact}[At least one of $n$ independent events]
 If $A_1, \dots, A_n$ are mutually independent with $\Prob(A_i) = p_i$, then
 \[
@@ -53,6 +61,14 @@ If $A_1, \dots, A_n$ are mutually independent with $\Prob(A_i) = p_i$, then
 \Prob(\text{at least one occurs}) = 1 - \prod_{i=1}^{n} (1 - p_i).
 \]
 When all $p_i = p$: $\Prob(\text{at least one}) = 1 - (1-p)^n$. This is the single most used formula in this outcome.
+\end{keyfact}
+
+\begin{keyfact}[At least $k$ of $n$ independent events]
+Split ``at least $k$'' into the disjoint cases ``exactly $k$'', ``exactly $k+1$'', \dots, ``exactly $n$'' and add. Each ``exactly $j$'' case is itself a sum over the $\binom{n}{j}$ patterns of which $j$ events occur, and each pattern is a product of $j$ probabilities and $n - j$ complements. For three events with probabilities $p_1, p_2, p_3$,
+\[
+\Prob(\text{at least two}) = p_1 p_2 (1-p_3) + p_1 (1-p_2) p_3 + (1-p_1) p_2 p_3 + p_1 p_2 p_3 .
+\]
+When every $p_i = p$, $\Prob(\text{exactly } j) = \binom{n}{j} p^j (1-p)^{n-j}$, and for ``at least two'' the complement is shorter: $1 - (1-p)^n - np(1-p)^{n-1}$. With unequal probabilities, list the patterns explicitly; with four or more events and unequal probabilities, the complement route (none, exactly one) is still shorter than listing every ``exactly two'' pattern.
 \end{keyfact}
 
 \paragraph{Independent versus mutually exclusive.}
@@ -65,6 +81,26 @@ An experiment is repeated so that the outcome of any trial does not affect any o
 \Prob(\text{no success in the first } k \text{ trials}) = q^{k}.
 \]
 The first formula is just the multiplication rule applied to ``fail, fail, \dots, fail, succeed''. You do not need a named distribution to use it.
+
+\begin{keyfact}[Three unknown-solving patterns under independence]
+\begin{itemize}[nosep]
+\item \emph{Union given, one marginal given (often as a complement).} Write $\Prob(A \cup B) = 1 - \Prob(\cc{A})\,\Prob(\cc{B})$, so
+\[
+\Prob(\cc{B}) = \frac{1 - \Prob(A \cup B)}{\Prob(\cc{A})}.
+\]
+This is linear in the unknown; the quadratic appears only when both events share the same unknown probability. If the question gives a joint piece such as $\Prob(A \cap \cc{B})$ instead of a marginal, divide it by $\Prob(\cc{A} \cap \cc{B}) = 1 - \Prob(A \cup B)$: the $\Prob(\cc{B})$ factors cancel and the ratio is $\Prob(A)/\Prob(\cc{A})$.
+\item \emph{Ratio plus joint.} If $\Prob(A) = k\,\Prob(B)$ and $\Prob(A \cap B) = j$, independence gives $k\,\Prob(B)^2 = j$, so
+\[
+\Prob(B) = \sqrt{j/k}, \qquad \Prob(A) = k\sqrt{j/k}.
+\]
+Keep the root exact until the final multiplication, then use complement independence for ``neither'' or ``exactly one''. The same pattern with the ratio stated between the complements gives $k\,\Prob(\cc{B})^2 = \Prob(\cc{A} \cap \cc{B})$.
+\item \emph{Two separate mechanisms with an unknown count.} One draw from each of two urns is independent across urns. If urn 2 holds $x$ balls of one colour and known numbers of the others, every urn-2 probability has denominator $x + (\text{known count})$, and
+\[
+\Prob(\text{same colour}) = \sum_{\text{colours } c} \Prob(\text{urn 1 gives } c)\,\Prob(\text{urn 2 gives } c).
+\]
+Multiply through by the common denominator; the equation is linear in $x$. ``Different colours'' is $1 - \Prob(\text{same colour})$, and there is no ``both draw a specific colour'' double counting because the colour cases are disjoint.
+\end{itemize}
+\end{keyfact}
 
 \subsection{How to recognise independence in a word problem}
 
@@ -114,6 +150,54 @@ Method 2, inclusion--exclusion with the independence product:
 so $p = 0.4$ or $p = 1.6$; discard $1.6$. Answer: \textbf{(D)}.
 \end{solution}
 
+\begin{example}[Union given with a complement and a joint piece]
+For a randomly selected hospital claim, let $X$ be the event that the claim includes imaging charges and $Y$ the event that the claim includes pharmacy charges. The two events are independent. The probability that a claim includes imaging or pharmacy charges is $0.82$, and the probability that a claim includes imaging charges but not pharmacy charges is $0.27$.
+
+Calculate the probability that a claim includes pharmacy charges.
+
+\begin{center}
+(A)~$0.18$ \quad (B)~$0.27$ \quad (C)~$0.40$ \quad (D)~$0.45$ \quad (E)~$0.55$
+\end{center}
+\end{example}
+\begin{solution}
+Let $x = \Prob(X)$ and $y = \Prob(Y)$. Under independence the union is one minus the product of the complements:
+\[
+0.82 = \Prob(X \cup Y) = 1 - (1-x)(1-y) \quad\Longrightarrow\quad (1-x)(1-y) = 0.18.
+\]
+The joint piece is also a product, because $X$ and $\cc{Y}$ are independent: $x(1-y) = 0.27$. Dividing the two equations removes the unknown $1 - y$:
+\[
+\frac{x(1-y)}{(1-x)(1-y)} = \frac{0.27}{0.18} = 1.5 \quad\Longrightarrow\quad x = 1.5(1-x) \quad\Longrightarrow\quad x = 0.6.
+\]
+Then $1 - y = 0.27/0.6 = 0.45$ and $y = 0.55$. Answer: \textbf{(E)}. Check: $0.6 + 0.55 - (0.6)(0.55) = 0.82$. Choice (D) is $\Prob(\cc{Y})$, left unfinished. If the question had given a marginal directly, for instance ``the probability that a claim does not include imaging charges is $0.40$'', the division step is unnecessary: $0.18 = 0.40(1-y)$ gives $y = 0.55$ in one line.
+\end{solution}
+
+\begin{example}[Ratio between two independent purchases]
+An actuary studying renters makes the following conclusions:
+\begin{enumerate}[label=(\roman*),nosep]
+\item A renter is three times as likely to purchase contents coverage as liability coverage.
+\item The event that a renter purchases contents coverage is independent of the event that the renter purchases liability coverage.
+\item The probability that a renter purchases both coverages is $0.15$.
+\end{enumerate}
+Calculate the probability that a renter purchases exactly one of the two coverages.
+
+\begin{center}
+(A)~$0.594$ \quad (B)~$0.671$ \quad (C)~$0.744$ \quad (D)~$0.776$ \quad (E)~$0.850$
+\end{center}
+\end{example}
+\begin{solution}
+Let $L$ be the liability purchase and $C$ the contents purchase, with $\Prob(L) = \ell$ and $\Prob(C) = 3\ell$. Independence turns the joint probability into a quadratic in one unknown:
+\begin{align*}
+0.15 = \Prob(C \cap L) = (3\ell)(\ell) = 3\ell^2 \quad&\Longrightarrow\quad \ell^2 = 0.05 \\
+&\Longrightarrow\quad \ell = \sqrt{0.05} = 0.2236, \qquad \Prob(C) = 3\ell = 0.6708.
+\end{align*}
+Both values lie in $[0,1]$, so the ratio is consistent. Since $C$ and $L$ are independent, so are $C$ and $\cc{L}$ and $\cc{C}$ and $L$:
+\begin{align*}
+\Prob(\text{exactly one}) &= \Prob(C)\Prob(\cc{L}) + \Prob(\cc{C})\Prob(L) \\
+&= (0.6708)(0.7764) + (0.3292)(0.2236) = 0.5208 + 0.0736 = 0.5944.
+\end{align*}
+Answer: \textbf{(A)}. Check: ``exactly one'' plus ``both'' is ``at least one'', $0.5944 + 0.15 = 0.7444 = 1 - (0.3292)(0.7764)$, which is choice (C). Choice (B) is $\Prob(C)$ and choice (D) is $\Prob(\cc{L})$.
+\end{solution}
+
 \begin{example}[Series--parallel system]
 A machine has three components, 1, 2 and 3, which operate independently. The machine works if component 1 works and at least one of components 2 and 3 works. The probabilities that components 1, 2 and 3 work are $0.9$, $0.8$ and $0.7$ respectively.
 
@@ -133,6 +217,26 @@ The complement step uses the fact that $\cc{W_2}$ and $\cc{W_3}$ are independent
 \Prob(\text{machine works}) = \Prob(W_1)\,\Prob(W_2 \cup W_3) = (0.9)(0.94) = 0.846.
 \]
 Answer: \textbf{(C)}. Choice (A) is the probability that all three work, which is the wrong system logic.
+\end{solution}
+
+\begin{example}[At least two of three failures with unequal probabilities]
+A cooling plant has three pumps that fail independently during a year with probabilities $0.10$, $0.20$ and $0.25$. The plant shuts down if and only if at least two of the pumps fail.
+
+Calculate the probability that the plant shuts down during the year.
+
+\begin{center}
+(A)~$0.005$ \quad (B)~$0.050$ \quad (C)~$0.080$ \quad (D)~$0.085$ \quad (E)~$0.460$
+\end{center}
+\end{example}
+\begin{solution}
+Write $F$ for a failure and $S$ for a survival, in pump order. ``At least two fail'' is the disjoint union of the three ``exactly two'' patterns and the ``all three'' pattern, and each pattern is a product by mutual independence (with complements inheriting independence):
+\begin{align*}
+\Prob(FFS) &= (0.10)(0.20)(0.75) = 0.0150, \\
+\Prob(FSF) &= (0.10)(0.80)(0.25) = 0.0200, \\
+\Prob(SFF) &= (0.90)(0.20)(0.25) = 0.0450, \\
+\Prob(FFF) &= (0.10)(0.20)(0.25) = 0.0050.
+\end{align*}
+The sum is $0.0150 + 0.0200 + 0.0450 + 0.0050 = 0.0850$. Answer: \textbf{(D)}. Choice (C) omits the all-fail pattern. Choice (E) is ``at least one fails'', $1 - (0.90)(0.80)(0.75) = 0.46$. The complement route agrees: $\Prob(\text{none}) = 0.54$, $\Prob(\text{exactly one}) = (0.10)(0.80)(0.75) + (0.90)(0.20)(0.75) + (0.90)(0.80)(0.25) = 0.375$, and $1 - 0.54 - 0.375 = 0.085$.
 \end{solution}
 
 \begin{example}[At least one claim among many policyholders]
@@ -187,6 +291,27 @@ Total      & $0.30$ & $0.70$ & $1.00$ \\
 and every cell equals its row total times its column total, which is the test for independence when a full table is given. If the exam instead gives you the full table and asks whether the events are independent, check one cell: $0.12 = 0.40 \times 0.30$.
 \end{solution}
 
+\begin{example}[Two boxes with an unknown count]
+Box 1 contains 12 tickets: 3 green and 9 yellow. Box 2 contains 18 yellow tickets and an unknown number of green tickets. One ticket is drawn at random from each box. The probability that the two tickets are of different colours is $0.55$.
+
+Calculate the number of green tickets in Box 2.
+
+\begin{center}
+(A)~$9$ \quad (B)~$18$ \quad (C)~$21$ \quad (D)~$27$ \quad (E)~$36$
+\end{center}
+\end{example}
+\begin{solution}
+Let $n$ be the number of green tickets in Box 2, so Box 2 holds $n + 18$ tickets. The draws from the two boxes are independent, and ``same colour'' splits into the disjoint cases both green and both yellow:
+\[
+\Prob(\text{same colour}) = \Prob(G_1)\Prob(G_2) + \Prob(Y_1)\Prob(Y_2) = \frac{3}{12}\cdot\frac{n}{n+18} + \frac{9}{12}\cdot\frac{18}{n+18} = \frac{0.25n + 13.5}{n + 18}.
+\]
+``Different colours'' is the complement, so $\Prob(\text{same colour}) = 1 - 0.55 = 0.45$, and
+\[
+0.25n + 13.5 = 0.45(n + 18) = 0.45n + 8.1 \quad\Longrightarrow\quad 5.4 = 0.2n \quad\Longrightarrow\quad n = 27.
+\]
+Answer: \textbf{(D)}. Check: $(6.75 + 13.5)/45 = 20.25/45 = 0.45$. Choice (B) is the count that would give Box 2 the same green-to-yellow ratio as Box 1 ($18 : 18$ is not $3 : 9$; the value $n = 18$ makes $\Prob(\text{same colour})$ exactly $0.5$), and choice (E) results from solving with $0.55$ on the wrong side of the complement.
+\end{solution}
+
 \begin{example}[Exactly one of two independent claims]
 A policyholder has an auto policy and a homeowners policy. In a given year the probability of an auto claim is $0.25$ and the probability of a homeowners claim is $0.10$. The two claim events are independent.
 
@@ -236,6 +361,33 @@ Let $q = 0.8$ and $p = 0.2$. The events ``first claim in year $2$'', ``first cla
 \Prob(\text{even}) = qp + q^3 p + q^5 p + \cdots = \frac{qp}{1 - q^2} = \frac{qp}{(1-q)(1+q)} = \frac{q}{1+q} = \frac{0.8}{1.8} = 0.4444.
 \]
 Answer: \textbf{(C)}. Sanity check: an odd year is more likely than an even year because year 1 comes first, and indeed $\Prob(\text{odd}) = 1/(1+q) = 0.5556 > 0.4444$.
+\end{solution}
+
+\begin{example}[Pairwise versus mutual independence from an outcome table]
+Two fair four-sided dice, one white and one black, are rolled. Each die shows $1$, $2$, $3$ or $4$ with equal probability.
+
+Let $A$ be the event that the white die shows an odd number.\\
+Let $B$ be the event that the black die shows an odd number.\\
+Let $C$ be the event that the sum of the two numbers is $4$.
+
+Determine which of the following is true.
+
+\begin{center}
+(A)~$A$, $B$, $C$ mutually independent \quad (B)~each pair independent, not mutually \quad (C)~exactly two pairs independent \quad (D)~no pair independent \quad (E)~exactly one pair independent
+\end{center}
+\end{example}
+\begin{solution}
+There are $N = 4 \times 4 = 16$ equally likely outcomes $(w, b)$. Count each event:
+\[
+N(A) = 8, \qquad N(B) = 8, \qquad C = \{(1,3), (2,2), (3,1)\}, \quad N(C) = 3.
+\]
+Test each pair with $N(\text{pair}) \cdot N = N(\cdot)\,N(\cdot)$:
+\begin{align*}
+A \cap B &= \{(1,1),(1,3),(3,1),(3,3)\}, & 4 \times 16 = 64 &= 8 \times 8 & \text{independent}, \\
+A \cap C &= \{(1,3),(3,1)\}, & 2 \times 16 = 32 &\ne 8 \times 3 = 24 & \text{not independent}, \\
+B \cap C &= \{(1,3),(3,1)\}, & 2 \times 16 = 32 &\ne 24 & \text{not independent}.
+\end{align*}
+Exactly one pair is independent. Answer: \textbf{(E)}. The pair $(A, B)$ needed no counting: the two dice are separate mechanisms. The event $C$ combines both dice, so it had to be checked against each of $A$ and $B$; here $\Prob(C \mid A) = 2/8 = 0.25 \ne 3/16$, which is the conditional form of the same test. Once a pair fails, the events cannot be mutually independent, so the triple count is not needed. A parity event such as ``the sum is odd'' behaves differently from ``the sum is $4$'': it is independent of each die separately but is fixed once both dice are known, which is the two-coin phenomenon described under mutual independence; test it the same way, and when all three pairs pass, go on to the triple count.
 \end{solution}
 
 \subsection{Traps}
@@ -332,6 +484,56 @@ Calculate $\Prob(A \cup B \cup C)$.
 \end{center}
 \end{practice}
 
+\begin{practice}
+Urn 1 contains $4$ red, $4$ white and $2$ blue balls. Urn 2 contains $5$ red balls, $3$ blue balls and an unknown number of white balls. One ball is drawn at random from each urn. The probability that the two balls are of different colours is $0.65$.
+
+Calculate the number of white balls in Urn 2.
+
+\begin{center}
+(A)~$4$ \quad (B)~$6$ \quad (C)~$8$ \quad (D)~$12$ \quad (E)~$16$
+\end{center}
+\end{practice}
+
+\begin{practice}
+Two risks produce losses independently of each other. The probability that risk 1 produces no loss during the year is twice the probability that risk 2 produces no loss during the year. The probability that at least one of the two risks produces a loss during the year is $0.68$.
+
+Calculate the probability that exactly one of the two risks produces a loss during the year.
+
+\begin{center}
+(A)~$0.12$ \quad (B)~$0.32$ \quad (C)~$0.44$ \quad (D)~$0.48$ \quad (E)~$0.56$
+\end{center}
+\end{practice}
+
+\begin{practice}
+Events $A$, $B$ and $C$ are mutually independent, $\Prob(A \cup B \cup C) = 0.874$, $\Prob(\cc{A}) = 0.6$ and $\Prob(B) = 0.3$.
+
+Calculate $\Prob(C)$.
+
+\begin{center}
+(A)~$0.30$ \quad (B)~$0.42$ \quad (C)~$0.58$ \quad (D)~$0.63$ \quad (E)~$0.70$
+\end{center}
+\end{practice}
+
+\begin{practice}
+A fair coin is tossed three times. Let $A$ be the event that the first toss is heads, $B$ the event that the second toss is heads, and $C$ the event that the three tosses show an odd number of heads.
+
+Determine which of the following is true.
+
+\begin{center}
+(A)~$A$, $B$, $C$ mutually independent \quad (B)~each pair independent, not mutually \quad (C)~exactly two pairs independent \quad (D)~exactly one pair independent \quad (E)~no pair independent
+\end{center}
+\end{practice}
+
+\begin{practice}
+A server has four cooling fans that fail independently, each with probability $0.1$ during a year. The server overheats if and only if at least two of the fans fail.
+
+Calculate the probability that the server overheats during the year.
+
+\begin{center}
+(A)~$0.0037$ \quad (B)~$0.0100$ \quad (C)~$0.0486$ \quad (D)~$0.0523$ \quad (E)~$0.3439$
+\end{center}
+\end{practice}
+
 \subsection{Answers to practice problems}
 
 \begin{enumerate}[label=\arabic*.,nosep]
@@ -342,7 +544,23 @@ Calculate $\Prob(A \cup B \cup C)$.
 \item \textbf{(B)}. $\Prob(\text{neither}) = (1-p)^2 = 1 - 0.51 = 0.49$, so $1 - p = 0.7$ and $p = 0.3$. Via the quadratic, $2p - p^2 = 0.51$ gives the same root.
 \item \textbf{(A)}. No accident in years 1 and 2, accident in year 3: $(0.9)^2(0.1) = 0.081$. Choice (D) is ``first accident within three years'', $1 - 0.9^3$.
 \item \textbf{(C)}. Inclusion--exclusion: $3(0.5) - 3(0.25) + 0 = 0.75$. The pairwise products supply the three pair terms; the triple term is given as $0$, not as $0.125$. This is the two-coin example (first head, second head, exactly one head), where $A \cup B \cup C$ is ``at least one head'' $= 3/4$.
+\item \textbf{(A)}. Let $x$ be the number of white balls, so Urn 2 holds $8 + x$ balls. $\Prob(\text{same colour}) = 1 - 0.65 = 0.35$, and colour by colour,
+$\Prob(\text{same}) = \bigl[(0.4)(5) + (0.4)(x) + (0.2)(3)\bigr]/(8+x) = (2.6 + 0.4x)/(8 + x)$. Then $2.6 + 0.4x = 2.8 + 0.35x$, so $0.05x = 0.2$ and $x = 4$. Check: $(2.6 + 1.6)/12 = 0.35$.
+\item \textbf{(E)}. Let $q_i$ be the no-loss probability of risk $i$, with $q_1 = 2q_2$. ``At least one loss'' $= 0.68$ gives $\Prob(\text{no loss at all}) = q_1 q_2 = 0.32$, so $2q_2^2 = 0.32$, $q_2 = 0.4$, $q_1 = 0.8$. The loss probabilities are $p_1 = 0.2$ and $p_2 = 0.6$, and $\Prob(\text{exactly one}) = (0.2)(0.4) + (0.8)(0.6) = 0.08 + 0.48 = 0.56$. Choice (A) is ``both'', $(0.2)(0.6) = 0.12$; choice (B) is ``neither''.
+\item \textbf{(E)}. $\Prob(\text{none}) = 1 - 0.874 = 0.126 = \Prob(\cc{A})\Prob(\cc{B})\Prob(\cc{C}) = (0.6)(0.7)(1 - c)$, so $1 - c = 0.126/0.42 = 0.3$ and $c = 0.7$. Choice (A) is $\Prob(\cc{C})$.
+\item \textbf{(A)}. $N = 8$. $C = \{HHH, HTT, THT, TTH\}$, so $N(A) = N(B) = N(C) = 4$. Pairs: $A \cap B = \{HHH, HHT\}$, $A \cap C = \{HHH, HTT\}$, $B \cap C = \{HHH, THT\}$, each of size $2$, and $2 \times 8 = 16 = 4 \times 4$, so all three pairs are independent. Triple: $A \cap B \cap C = \{HHH\}$, and $1 \times 8^2 = 64 = 4 \times 4 \times 4$, so the triple product also holds and the events are mutually independent. This differs from the two-coin case because a third toss decides the parity whatever the first two tosses show, so $C$ carries no information about $A \cap B$. Do not assume a parity event always breaks mutual independence; count.
+\item \textbf{(D)}. Complement of ``none or exactly one'': $1 - 0.9^4 - 4(0.1)(0.9)^3 = 1 - 0.6561 - 0.2916 = 0.0523$. Choice (C) is ``exactly two'' alone, $\binom{4}{2}(0.1)^2(0.9)^2 = 0.0486$; choice (A) is ``at least three''; choice (E) is ``at least one''.
 \end{enumerate}
+
+\subsection{Sample exam cross-reference}
+
+\begin{itemize}[nosep]
+\item Bank 1, Q4: one draw from each of two urns is independent across urns; write $\Prob(\text{same colour})$ as the sum of colour-by-colour products with the unknown count in every urn-2 denominator, clear the denominator, and solve the linear equation (Example ``Two boxes with an unknown count'', Practice 8).
+\item Bank 1, Q10: a ratio $\Prob(A) = k\Prob(B)$ plus the joint probability under independence gives $k\Prob(B)^2 = \Prob(A \cap B)$, a square root; then ``neither'' is $\Prob(\cc{A})\Prob(\cc{B})$ by complement independence (Example ``Ratio between two independent purchases'', Practice 9).
+\item Bank 1, Q16: union and one marginal given, the marginal as a complement; write $\Prob(A \cup B) = 1 - \Prob(\cc{A})\Prob(\cc{B})$ and solve the linear equation for the missing complement (Example ``Union given with a complement and a joint piece'', Practice 1 and Practice 10).
+\item Bank 1, Q120: three events on two dice, ``determine which is true''; count $N(\cdot)$ for each event, each pair and the triple, test $N(A \cap B)\,N = N(A)N(B)$ for every pair and $N(A \cap B \cap C)\,N^2 = N(A)N(B)N(C)$ for the triple; events on separate dice are independent without counting, an event on the sum must be counted (Example ``Pairwise versus mutual independence from an outcome table'', Practice 7 and Practice 11).
+\item Bank 1, Q125: ``at least two of three fail'' is the disjoint union of the three ``exactly two'' patterns and the ``all three'' pattern, each a product of failure and survival probabilities (Example ``At least two of three failures with unequal probabilities'', Practice 2 and Practice 12).
+\end{itemize}
 
 \subsection{One-page summary}
 
@@ -359,6 +577,11 @@ Calculate $\Prob(A \cup B \cup C)$.
 \item Independent trials, success probability $p$, $q = 1-p$: $\Prob(\text{first success on trial } k) = q^{k-1}p$; $\Prob(\text{no success in } k \text{ trials}) = q^k$; $\Prob(\text{first success in an even trial}) = q/(1+q)$.
 \item Series block: multiply the ``works'' probabilities. Parallel block: $1 - \prod(\text{fails})$. Reduce a mixed system block by block.
 \item Solving for an unknown: write $\Prob(A \cup B) = a + b - ab$ (linear in one unknown) or $2p - p^2$ / $(1-p)^2$ (quadratic; take the root in $[0,1]$).
+\item Union with one marginal known (possibly as a complement): $\Prob(\cc{B}) = \bigl(1 - \Prob(A \cup B)\bigr)/\Prob(\cc{A})$. A joint piece $\Prob(A \cap \cc{B})$ divided by $\Prob(\cc{A} \cap \cc{B})$ gives $\Prob(A)/\Prob(\cc{A})$.
+\item Ratio plus joint: $\Prob(A) = k\Prob(B)$ and $\Prob(A \cap B) = j$ give $\Prob(B) = \sqrt{j/k}$; the same with complements if the ratio is stated between the ``no'' events.
+\item Two urns, one draw each: $\Prob(\text{same colour}) = \sum_c \Prob_1(c)\Prob_2(c)$; an unknown count $x$ in urn 2 sits in every urn-2 denominator, and clearing it leaves a linear equation. ``Different colours'' $= 1 - \Prob(\text{same})$.
+\item At least $k$ of $n$: add the disjoint ``exactly $j$'' cases for $j \ge k$; each pattern is a product of $j$ probabilities and $n-j$ complements. At least two of $n$ with equal $p$: $1 - (1-p)^n - np(1-p)^{n-1}$.
+\item Outcome-table test with $N$ equally likely outcomes: pair independent iff $N(A \cap B)\,N = N(A)N(B)$; triple product iff $N(A \cap B \cap C)\,N^2 = N(A)N(B)N(C)$. Events on separate mechanisms (two dice, two tosses) are independent without counting; an event built from both (sum, parity) must be counted against each other event, and the answer can go either way.
 \item Table check: events are independent if and only if each cell equals its row total times its column total; checking one cell is enough for a $2 \times 2$ table.
 \item Do not multiply marginals unless the problem says ``independent'' or describes independent trials; do not add unless the events are mutually exclusive.
 \end{itemize}

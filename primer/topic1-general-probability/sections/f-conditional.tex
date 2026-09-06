@@ -155,6 +155,26 @@ a claim''), and an overall rate (``21\% filed a claim''). Rebuild the table:
 Young--Claim $= 0.40 \times 0.30 = 0.12$, Old--Claim $= 0.21 - 0.12 = 0.09$,
 the rest by subtraction. Every conditional is then a ratio of two entries.
 
+\begin{keyfact}[Filling a table from mixed information]
+A problem may describe a $2 \times 2$ or $3 \times 2$ table by a mixture of
+marginals, conditionals, and raw counts. Convert each sentence to a table entry:
+\begin{itemize}[nosep]
+\item ``$x$\% are $B$'' or ``there are $n$ in $B$'': a row or column total.
+\item ``Of those in $B$, a fraction $p$ are $A$'': the cell $A \cap B$ equals
+$p \times (\text{total of } B)$. The conditional supplies a cell only after it is
+multiplied by its own marginal.
+\item ``Of those in $A$, a fraction $q$ are $B$'': the same cell $A \cap B$, now
+as $q \times (\text{total of } A)$. Conditionals may point in either direction.
+\item A total not stated is $1$ (or the population size) minus the totals that
+are stated.
+\end{itemize}
+Fill the cells that are products first, then every remaining cell by
+subtraction from its row or column total. Only then read off the requested
+cell or the requested ratio. If the population size is a count and some
+information is in percentages, convert everything to counts (or everything to
+proportions) before filling the table.
+\end{keyfact}
+
 \subsubsection*{(ii) Venn diagram / region bookkeeping}
 
 With two or three overlapping coverages, label each disjoint region with its
@@ -176,6 +196,33 @@ conditional probabilities given the path so far. Multiplying along a path gives
 the joint probability of the path. ``Given the first was $X$, what is the
 probability the second is $Y$'' is read directly off a branch label; ``given the
 second was $Y$'' reverses the tree, which is outcome (g).
+
+\subsubsection*{(iv) An unknown fixed by a stated conditional}
+
+Some problems state the value of a conditional probability and ask for a
+quantity inside it. Write the conditional from the definition with the unknown
+in place, equate to the stated value, and solve. Two versions appear.
+
+\emph{Unknown region.} With three symmetric risk factors, the probabilities of
+the ``only'' and ``exactly two'' regions are given, the triple region $x$ is
+not, and the problem states $\Prob(A \cap B \cap C \mid A \cap B) = r$. Since
+$\Prob(A \cap B) = x + (\text{exactly } A \text{ and } B)$, the equation is
+$x/(x + \text{exactly two}) = r$, linear in $x$. Once $x$ is known, every region
+is known, and any later conditional is a ratio of region totals. Conditioning on
+$\cc{A}$ means the denominator is $1 - \Prob(A)$ with
+$\Prob(A) = (A \text{ only}) + 2(\text{exactly two}) + x$ by symmetry.
+
+\emph{Unknown count.} A student knows the answers to $N$ of $n$ questions and
+guesses the rest with success probability $g$. Then
+\[
+\Prob(K \mid C) = \frac{\Prob(K \cap C)}{\Prob(C)}
+= \frac{N/n}{N/n + g\,(n - N)/n} = \frac{N}{N + g\,(n - N)} ,
+\]
+where $K$ = knows and $C$ = correct. The unknown $N$ sits in both numerator and
+denominator; cross-multiplying gives a linear equation. If a known answer is
+correct only with probability $k < 1$, the numerator becomes $kN$ and the
+denominator $kN + g(n - N)$. The answer must be an integer; if it is not, the
+equation has been set up wrongly.
 
 \subsubsection*{Phrases that signal conditioning}
 
@@ -231,6 +278,94 @@ $85/200 = 0.425$ is the reversed conditional $\Prob(\text{Young} \mid \text{Fema
 \textbf{Answer: (B).}
 \end{solution}
 
+\begin{example}[Two-way count table from mixed information]
+An insurer has $1{,}200$ auto policyholders. Of these, $35\%$ are under age
+$30$. Of the policyholders aged $30$ or over, $30\%$ have had a prior claim.
+In total, $480$ policyholders have had a prior claim. A policyholder with no
+prior claim is selected at random. Calculate the probability that the
+policyholder is under age $30$.
+
+\medskip
+(A) 0.242\qquad (B) 0.350\qquad (C) 0.414\qquad (D) 0.513\qquad (E) 0.600
+\end{example}
+
+\begin{solution}
+Work in counts. Under $30$: $0.35 \times 1{,}200 = 420$; aged $30$ or over:
+$1{,}200 - 420 = 780$. The conditional ``of those $30$ or over, $30\%$ have a
+prior claim'' gives the cell (Over, Claim) $= 0.30 \times 780 = 234$. The
+column total Claim is $480$, so (Under, Claim) $= 480 - 234 = 246$ and
+(Under, No claim) $= 420 - 246 = 174$. The No-claim column has
+$1{,}200 - 480 = 720$.
+
+\begin{center}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & Claim & No claim & Total \\
+\midrule
+Under 30 & 246 & 174 & 420 \\
+30 or over & 234 & 546 & 780 \\
+\midrule
+Total & 480 & 720 & 1200 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The conditioning event is No claim, so
+\[
+\Prob(\text{Under } 30 \mid \text{No claim}) = \frac{174}{720} = 0.2417 .
+\]
+Distractors: $174/420 = 0.414$ is the reversed conditional; $0.35$ is the
+marginal; $246/480 = 0.513$ conditions on Claim instead of No claim;
+$720/1{,}200 = 0.60$ is $\Prob(\text{No claim})$.
+\textbf{Answer: (A).}
+\end{solution}
+
+\begin{example}[Three-by-two table from mixed information]
+An insurer classifies its policyholders by territory (urban, suburban, or
+rural) and by whether they filed a claim last year. It finds that $30\%$ are
+urban, $45\%$ are suburban, and $18\%$ filed a claim. Of those who filed a
+claim, $40\%$ are urban. Of the rural policyholders, one-fifth filed a claim.
+Calculate the probability that a policyholder who did not file a claim is
+suburban.
+
+\medskip
+(A) 0.129\qquad (B) 0.392\qquad (C) 0.478\qquad (D) 0.820\qquad (E) 0.871
+\end{example}
+
+\begin{solution}
+Rural is the unstated territory: $1 - 0.30 - 0.45 = 0.25$. The Claim row has
+total $0.18$ and the No-claim row $0.82$. The two conditionals point in
+different directions and each supplies one cell:
+\[
+\Prob(\text{Urban} \cap \text{Claim}) = 0.40 \times 0.18 = 0.072, \qquad
+\Prob(\text{Rural} \cap \text{Claim}) = \tfrac{1}{5} \times 0.25 = 0.050 .
+\]
+The Claim row then gives Suburban--Claim $= 0.18 - 0.072 - 0.050 = 0.058$, and
+the Suburban column gives Suburban--No claim $= 0.45 - 0.058 = 0.392$.
+
+\begin{center}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+ & Urban & Suburban & Rural & Total \\
+\midrule
+Claim    & 0.072 & 0.058 & 0.050 & 0.18 \\
+No claim & 0.228 & 0.392 & 0.200 & 0.82 \\
+\midrule
+Total    & 0.30  & 0.45  & 0.25  & 1.00 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The conditioning event is No claim:
+\[
+\Prob(\text{Suburban} \mid \text{No claim}) = \frac{0.392}{0.82} = 0.4780 .
+\]
+Choice (B) is the joint probability $0.392$; choice (E), $0.392/0.45 = 0.871$,
+is $\Prob(\text{No claim} \mid \text{Suburban})$, the reversed conditional;
+choice (A) is $\Prob(\text{Claim} \mid \text{Suburban}) = 0.058/0.45$.
+\textbf{Answer: (C).}
+\end{solution}
+
 \begin{example}[Both, given at least one]
 For a randomly selected policyholder holding both auto and homeowners coverage
 with an insurer, the probability of an auto claim in a given year is $0.30$, the
@@ -277,6 +412,46 @@ Then
 \]
 Choice (A) is the joint probability $0.33$, not the conditional.
 \textbf{Answer: (E).}
+\end{solution}
+
+\begin{example}[Symmetric Venn with an unknown triple cell]
+An actuary studies three optional coverages, $A$, $B$, and $C$, among a block
+of policyholders. For each coverage, the probability that a policyholder has
+only that coverage (and neither of the other two) is $0.08$. For each pair of
+coverages, the probability that a policyholder has exactly those two (and not
+the third) is $0.05$. The probability that a policyholder has all three
+coverages, given that the policyholder has $A$ and $C$, is $2/7$. Calculate
+the probability that a policyholder has at least one of coverages $A$ and $C$,
+given that the policyholder does not have coverage $B$.
+
+\medskip
+(A) 0.210\qquad (B) 0.263\qquad (C) 0.350\qquad (D) 0.738\qquad (E) 0.800
+\end{example}
+
+\begin{solution}
+Let $x = \Prob(A \cap B \cap C)$. The event $A \cap C$ consists of the
+``exactly $A$ and $C$'' region and the triple region, so
+$\Prob(A \cap C) = 0.05 + x$ and
+\[
+\frac{2}{7} = \Prob(A \cap B \cap C \mid A \cap C) = \frac{x}{x + 0.05}
+\quad\Longrightarrow\quad 7x = 2x + 0.10 \quad\Longrightarrow\quad x = 0.02 .
+\]
+Every region is now known. By symmetry,
+$\Prob(B) = 0.08 + 2(0.05) + 0.02 = 0.20$, so $\Prob(\cc{B}) = 0.80$.
+The region outside all three circles is
+\[
+1 - 3(0.08) - 3(0.05) - 0.02 = 0.59 .
+\]
+Inside $\cc{B}$, the regions are $A$ only ($0.08$), $C$ only ($0.08$),
+exactly $A$ and $C$ ($0.05$), and none ($0.59$); these sum to $0.80$ as
+they must. ``At least one of $A$ and $C$'' within $\cc{B}$ is the first three:
+$0.08 + 0.08 + 0.05 = 0.21$. Then
+\[
+\Prob(A \cup C \mid \cc{B}) = \frac{0.21}{0.80} = 0.2625 .
+\]
+Choice (A) is the joint probability $0.21$; choice (D), $0.59/0.80 = 0.7375$,
+is the complementary conditional $\Prob(\text{none} \mid \cc{B})$.
+\textbf{Answer: (B).}
 \end{solution}
 
 \begin{example}[Reversing one condition from the definition]
@@ -334,6 +509,38 @@ conditional.
 \textbf{Answer: (B).}
 \end{solution}
 
+\begin{example}[Counts: conditioning on a derived complement]
+An insurer reviews the records of $1{,}200$ drivers and finds that $300$ of
+them had an accident last year. Of the drivers, $420$ are under age $25$ and
+$180$ are over age $60$; of the under-$25$ drivers, $126$ had an accident, and
+of the over-$60$ drivers, $54$ had an accident. Calculate the probability that
+a randomly selected driver had an accident last year, given that the driver is
+between ages $25$ and $60$ inclusive.
+
+\medskip
+(A) 0.200\qquad (B) 0.223\qquad (C) 0.250\qquad (D) 0.300\qquad (E) 0.400
+\end{example}
+
+\begin{solution}
+Let $M$ = driver is between $25$ and $60$, the complement of the union of the
+two described age groups, and $A$ = accident. Neither the count of $M$ nor the
+count of $A \cap M$ is stated; both are obtained by subtracting the described
+groups from the totals:
+\[
+N(M) = 1{,}200 - 420 - 180 = 600, \qquad
+N(A \cap M) = 300 - 126 - 54 = 120 .
+\]
+Then
+\[
+\Prob(A \mid M) = \frac{N(A \cap M)}{N(M)} = \frac{120}{600} = 0.20 .
+\]
+Distractors: $300/1{,}200 = 0.25$ is the unconditional accident rate;
+$174/780 = 0.223$ subtracts only the under-$25$ group; $126/420 = 0.30$ is the
+rate for the under-$25$ group; $120/300 = 0.40$ is the reversed conditional
+$\Prob(M \mid A)$.
+\textbf{Answer: (A).}
+\end{solution}
+
 \begin{example}[Conditioning on an intersection]
 An insurer's records show that $50\%$ of its customers have auto coverage,
 $40\%$ have homeowners coverage, and $20\%$ have both. Also, $12\%$ of all
@@ -355,6 +562,38 @@ $A \cap H$ with $\Prob(A \cap H) = 0.20$; the numerator is $\Prob(A \cap H \cap 
 The other figures are distractors: $\Prob(C \mid A) = 0.08/0.50 = 0.16$ conditions
 on auto alone; $\Prob(C) = 0.12$ and $\Prob(H) = 0.40$ are not needed.
 \textbf{Answer: (D).}
+\end{solution}
+
+\begin{example}[Solving for an integer unknown]
+A candidate takes an examination of $30$ multiple-choice questions, each
+with four choices. The candidate knows the answers to $N$ of the questions and
+answers those correctly; on each of the remaining questions the candidate
+selects one of the four choices at random. The conditional probability that
+the candidate knew the answer to a question, given that the question was
+answered correctly, is $0.857$. Calculate $N$.
+
+\medskip
+(A) 10\qquad (B) 12\qquad (C) 14\qquad (D) 16\qquad (E) 18
+\end{example}
+
+\begin{solution}
+Let $K$ = the candidate knows the answer and $C$ = the question is answered
+correctly. A question is selected at random, so $\Prob(K) = N/30$ and
+$\Prob(\cc{K}) = (30 - N)/30$; also $\Prob(C \mid K) = 1$ and
+$\Prob(C \mid \cc{K}) = 1/4$. By the multiplication rule,
+\[
+\Prob(K \cap C) = \frac{N}{30}, \qquad
+\Prob(C) = \Prob(K \cap C) + \Prob(\cc{K} \cap C)
+= \frac{N}{30} + \frac{30 - N}{30}\cdot\frac{1}{4} .
+\]
+The stated conditional is
+\[
+0.857 = \Prob(K \mid C) = \frac{N/30}{N/30 + (30 - N)/120}
+= \frac{4N}{3N + 30} .
+\]
+Cross-multiply: $0.857(3N + 30) = 4N$, so $2.571N + 25.71 = 4N$, giving
+$1.429N = 25.71$ and $N = 18.0$. Check: $4(18)/(54 + 30) = 72/84 = 0.857$.
+\textbf{Answer: (E).}
 \end{solution}
 
 \subsection{Traps}
@@ -475,6 +714,68 @@ are fraudulent.
 (A) 0.15 \quad (B) 0.22 \quad (C) 0.36 \quad (D) 0.41 \quad (E) 0.68
 \end{practice}
 
+\begin{practice}
+An insurer has $1{,}600$ insured drivers, of whom $45\%$ are female. Among
+the male drivers, $30\%$ are under age $30$. The probability that a randomly
+selected driver under age $30$ is female is $0.56$. A female driver is
+selected at random. Calculate the probability that she is under age $30$.
+
+\medskip
+(A) 0.210\qquad (B) 0.300\qquad (C) 0.375\qquad (D) 0.467\qquad (E) 0.560
+\end{practice}
+
+\begin{practice}
+Employees of a company are enrolled in exactly one of three health plans:
+Basic, Standard, or Premium. Half of the employees are in the Basic plan, and
+the number in the Premium plan is half the number in the Standard plan. Last
+year $24\%$ of employees filed a claim. Of the Premium enrollees, three-eighths
+filed a claim; of the employees who filed a claim, one-quarter are in the Basic
+plan. Calculate the probability that an employee who did not file a claim is in
+the Standard plan.
+
+\medskip
+(A) 0.118\qquad (B) 0.167\qquad (C) 0.216\qquad (D) 0.250\qquad (E) 0.284
+\end{practice}
+
+\begin{practice}
+An actuary studies three risk factors, $A$, $B$, and $C$, in a population.
+The probabilities of having only $A$, only $B$, and only $C$ are $0.09$,
+$0.07$, and $0.11$ respectively. The probabilities of having exactly $A$ and
+$B$, exactly $A$ and $C$, and exactly $B$ and $C$ (and not the third factor)
+are $0.04$, $0.06$, and $0.03$ respectively. The probability of having all
+three factors, given $B$ and $C$, is $0.25$. Calculate the probability that a
+member of the population has exactly one of the three risk factors, given that
+the member does not have factor $C$.
+
+\medskip
+(A) 0.203\qquad (B) 0.253\qquad (C) 0.270\qquad (D) 0.342\qquad (E) 0.747
+\end{practice}
+
+\begin{practice}
+A health insurer reviews $1{,}850$ hospital claims. Of these, $740$ involved
+surgery and $610$ came from network hospitals; of the surgical claims, $290$
+came from network hospitals. Also, $520$ of the claims exceeded \$10{,}000, of
+which $200$ came from network hospitals, and $310$ of the claims both involved
+surgery and exceeded \$10{,}000, of which $150$ came from network hospitals. A
+claim from a hospital that is not in the network is selected at random.
+Calculate the probability that it involved surgery or exceeded \$10{,}000.
+
+\medskip
+(A) 0.492\qquad (B) 0.508\qquad (C) 0.514\qquad (D) 0.621\qquad (E) 0.766
+\end{practice}
+
+\begin{practice}
+A candidate takes an examination of $24$ questions, each with three choices.
+The candidate has studied $N$ of the questions and answers each of those
+correctly with probability $0.9$; on each of the remaining questions the
+candidate guesses, selecting one of the three choices at random. The
+conditional probability that the candidate had studied a question, given that
+it was answered correctly, is $0.844$. Calculate $N$.
+
+\medskip
+(A) 8\qquad (B) 10\qquad (C) 12\qquad (D) 14\qquad (E) 16
+\end{practice}
+
 \subsection{Answers to practice problems}
 
 \begin{enumerate}[label=\arabic*., nosep]
@@ -497,7 +798,46 @@ $\Prob(C \mid A \cap K) = 0.12/0.30 = 0.40$.
 $\Prob(\text{none}) = \binom{7}{2}/\binom{12}{2} = 21/66$;
 $\Prob(\text{at least one}) = 45/66$;
 ratio $= 10/45 = 2/9 = 0.2222$. ($4/11 = 0.36$ is $\Prob(\text{second fraudulent} \mid \text{first fraudulent})$, a different condition.)
+\item \textbf{(D).} Males $= 0.55 \times 1{,}600 = 880$, females $= 720$. Males under $30$
+$= 0.30 \times 880 = 264$. The reversed conditional fixes the under-$30$ total $u$:
+$\Prob(\text{Male} \mid \text{Under } 30) = 1 - 0.56 = 0.44 = 264/u$, so $u = 600$.
+Females under $30$ $= 600 - 264 = 336$; $\Prob(\text{Under } 30 \mid \text{Female}) = 336/720 = 0.4667$.
+($0.56$ is the given reversed conditional; $600/1{,}600 = 0.375$ is the marginal;
+$336/1{,}600 = 0.21$ is the joint.)
+\item \textbf{(E).} Standard $s$ and Premium $s/2$ sum to $0.50$, so $s = 1/3$ and Premium $= 1/6$.
+Basic--Claim $= \tfrac14 \times 0.24 = 0.06$; Premium--Claim $= \tfrac16 \times \tfrac38 = 0.0625$;
+Standard--Claim $= 0.24 - 0.06 - 0.0625 = 0.1175$; Standard--No claim $= 1/3 - 0.1175 = 0.2158$;
+$\Prob(\text{No claim}) = 0.76$. $\Prob(\text{Standard} \mid \text{No claim}) = 0.2158/0.76 = 0.2840$.
+($0.216$ is the joint; $0.118$ is Standard--Claim; $0.167$ is the Premium marginal.)
+\item \textbf{(A).} $x/(x + 0.03) = 0.25$ gives $x = 0.01$.
+$\Prob(C) = 0.11 + 0.06 + 0.03 + 0.01 = 0.21$, so $\Prob(\cc{C}) = 0.79$.
+Exactly one factor and not $C$ means $A$ only or $B$ only: $0.09 + 0.07 = 0.16$.
+$0.16/0.79 = 0.2025$. ($0.27/0.79 = 0.342$ wrongly includes ``$C$ only'', which is
+not in $\cc{C}$; $0.20/0.79 = 0.253$ wrongly includes the ``exactly $A$ and $B$'' region;
+$0.59/0.79 = 0.747$ is $\Prob(\text{none} \mid \cc{C})$.)
+\item \textbf{(A).} Out-of-network total $= 1{,}850 - 610 = 1{,}240$. Within it: surgery
+$= 740 - 290 = 450$; over \$10{,}000 $= 520 - 200 = 320$; both $= 310 - 150 = 160$.
+Union $= 450 + 320 - 160 = 610$; $610/1{,}240 = 0.4919$.
+($770/1{,}240 = 0.621$ omits the inclusion--exclusion subtraction;
+$950/1{,}850 = 0.514$ is the unconditional probability; $950/1{,}240 = 0.766$ mixes
+the whole-population numerator with the out-of-network denominator.)
+\item \textbf{(E).} $\Prob(K \cap C) = 0.9N/24$ and
+$\Prob(C) = 0.9N/24 + \tfrac13 (24 - N)/24$, so
+$0.844 = 0.9N/(0.9N + (24 - N)/3) = 2.7N/(1.7N + 24)$.
+Then $0.844(1.7N + 24) = 2.7N$, $1.435N + 20.26 = 2.7N$, $N = 20.26/1.265 = 16.0$.
+Check: $14.4/(14.4 + 2.667) = 0.8438$.
 \end{enumerate}
+
+\subsection{Sample exam cross-reference}
+
+\begin{itemize}[nosep]
+\item Bank 2, Q6: counts; condition on the complement of a described group, deriving both the complement's count and the intersection's count by subtraction from the totals.
+\item Bank 2, Q11: $3 \times 2$ proportion table filled from two marginals, one row total, and two conditionals pointing in different directions; read off one cell.
+\item Bank 2, Q12: three symmetric risk factors; solve $x/(x + \text{exactly two}) = r$ for the triple cell, then $\Prob(\text{none} \mid \cc{A}) = (\text{none})/(1 - \Prob(A))$.
+\item Bank 2, Q127: reverse one condition from the definition, $\Prob(B \mid C) = \Prob(C \mid B)\Prob(B)/\Prob(C)$, with both marginals given.
+\item Bank 2, Q132: $2 \times 2$ count table from a percentage marginal, a conditional, and a count marginal; read off a conditional on the unstated column.
+\item Bank 2, Q135: know-or-guess; $\Prob(K \mid C) = N/(N + g(n - N))$ with $g = 1/2$; cross-multiply and solve for the integer $N$.
+\end{itemize}
 
 \subsection{One-page summary}
 
@@ -512,6 +852,17 @@ policyholders are $A$'' is conditional; ``$x$\% of policyholders are $B$'' is ma
 the cell by that row or column total. Works for counts or proportions, not a mix.
 \item Rebuild the table from words: cell $= \text{marginal} \times \text{conditional}$;
 remaining cells by subtraction from marginals.
+\item Mixed information ($2 \times 2$ or $3 \times 2$): each conditional supplies one
+cell as conditional $\times$ its own marginal, in whichever direction it points;
+unstated totals by subtraction; convert to one unit (counts or proportions) first.
+\item Complement of a described group: $N(\cc{B}) = N - N(B)$ and
+$N(A \cap \cc{B}) = N(A) - N(A \cap B)$; with two disjoint described groups
+subtract both.
+\item Symmetric three-factor Venn with unknown triple $x$:
+$\Prob(\text{all} \mid A \cap B) = x/(x + \text{exactly two})$ fixes $x$;
+$\Prob(A) = \text{only} + 2(\text{exactly two}) + x$; none $= 1 - 3(\text{only}) - 3(\text{exactly two}) - x$.
+\item Know-or-guess: $\Prob(K \mid C) = kN/(kN + g(n - N))$ with $k = \Prob(C \mid K)$,
+$g = \Prob(C \mid \cc{K})$; cross-multiply and solve for the integer $N$.
 \item Venn: $\Prob(A \mid B) = (\text{regions in } A \cap B)/(\text{regions in } B)$;
 ``only'' regions by inclusion--exclusion.
 \item Tree: branch labels are conditionals; multiply along a path for the joint.

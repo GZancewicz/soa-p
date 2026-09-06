@@ -109,6 +109,31 @@ $A = (A\cap B) \cup (A\cap\cc{B})$ gives C6; $A \cup B = A \cup (B \cap \cc{A})$
 gives C7, and C7 applied twice gives C8. When the exam asks which statements
 ``must be true'', the answer is one of C1--C10 or an axiom.
 
+\paragraph{Identities from adding two inclusion-exclusion equations.}
+Some questions give probabilities of unions that involve complements, such as
+$\Prob(A \cup B)$ and $\Prob(A \cup \cc{B})$, and ask for $\Prob(A)$. Write
+inclusion-exclusion for each union and add. Since $\Prob(B) + \Prob(\cc{B}) = 1$ and
+$\Prob(A\cap B) + \Prob(A \cap \cc{B}) = \Prob(A)$ (C6), the sum collapses.
+
+\begin{keyfact}[Union-with-complement identities]
+\begin{align*}
+  \Prob(A \cup B) + \Prob(A \cup \cc{B}) &= 1 + \Prob(A), \\
+  \Prob(A \cup B) + \Prob(\cc{A} \cup B) &= 1 + \Prob(B), \\
+  \Prob(A \cup \cc{B}) &= 1 - \Prob(\cc{A} \cap B), \\
+  \Prob(\cc{A} \cup \cc{B}) &= 1 - \Prob(A \cap B), \\
+  \Prob(A \cup B) + \Prob(\cc{A} \cup \cc{B}) &= 1 + \Prob(\text{exactly one of } A, B), \\
+  \Prob(A \cup \cc{B}) + \Prob(\cc{A} \cup B) &= 2 - \Prob(\text{exactly one of } A, B).
+\end{align*}
+\end{keyfact}
+
+The third and fourth lines are De Morgan plus the complement rule: $A \cup \cc{B}$
+is the complement of $\cc{A} \cap B$, so its probability is one minus the
+``$B$ but not $A$'' region. Every identity in the box is also a statement about the
+$2\times 2$ table: $A \cup \cc{B}$ is three of the four cells (all but
+$\cc{A}\cap B$), so $\Prob(A \cup B) + \Prob(A \cup \cc{B})$ counts the two $A$ cells
+twice and the two $\cc{A}$ cells once, which is $\Prob(A) + 1$. When an identity is not
+remembered, fill the table with unknowns and add cells.
+
 \subsection{Venn diagram method}
 
 A Venn diagram partitions $S$ into disjoint regions, so the probability of any
@@ -157,6 +182,45 @@ When the problem gives ``none'' instead of ``all three'', the same table is solv
 in reverse: the sum of regions 1--7 equals $1 - \Prob(\text{none})$, which with
 inclusion-exclusion determines $\Prob(A \cap B \cap C)$.
 
+\paragraph{Binary classifications.}
+A problem that classifies each policyholder as young or old, male or female, and
+married or single is a three-event problem in disguise: pick one label from each
+pair as the event ($Y$, $M$, $R$ for young, male, married) and the other label is its
+complement. ``Young, female, single'' is the region $Y \cap \cc{M} \cap \cc{R}$,
+which is ``$Y$ only'' in the eight-region table. Counts work exactly like
+probabilities; the grand total replaces $1$.
+
+\paragraph{A disjoint pair inside a three-event problem.}
+When the problem states that two of the three events are mutually exclusive, say
+$B \cap C = \emptyset$, two regions vanish: ``$B$ and $C$ only'' and ``all three''.
+Six regions remain: $A$ only, $B$ only, $C$ only, $A \cap B$, $A \cap C$, and none.
+Name them with letters, translate every sentence of the problem into a linear
+equation in those letters, and solve. Useful translations:
+\begin{itemize}[nosep]
+  \item ``exactly two of the three'' is the sum $(A\cap B) + (A \cap C)$;
+  \item ``exactly one'' is $(A \text{ only}) + (B \text{ only}) + (C \text{ only})$;
+  \item ``$B$ but not $A$'' is $B$ only (because $B \cap C$ is empty);
+  \item ``not $A$'' is $(B \text{ only}) + (C \text{ only}) + (\text{none})$;
+  \item ``twice as many have $B$ as have $C$'' is $(B\text{ only}) + (A \cap B) = 2\bigl[(C \text{ only}) + (A \cap C)\bigr]$.
+\end{itemize}
+The total of the six regions is $1$ (or the population size). Five independent
+facts plus the total determine all six regions; the exam usually gives exactly
+enough, and the order of solving is: everything outside $A$ first, then the
+``exactly two'' total, then the ratio.
+
+\paragraph{A fourth set disjoint from the other three.}
+A survey may add a fourth category $D$ with the statement that no member of $D$
+belongs to $A$, $B$, or $C$. Then $D$ is disjoint from $A \cup B \cup C$, and
+by finite additivity
+\[
+  \Prob(A \cup B \cup C \cup D) = \Prob(A \cup B \cup C) + \Prob(D),
+\]
+so ``none of the four'' is $1 - \Prob(A\cup B\cup C) - \Prob(D)$. Run the
+three-event inclusion-exclusion for $A$, $B$, $C$, then add $D$ as a ninth region.
+Since $D$ overlaps nothing, ``exactly one of the four'' is ``exactly one of the
+three'' plus $\Prob(D)$, and ``exactly two of the four'' equals ``exactly two of the
+three''.
+
 \paragraph{From English to sets.}
 The two tables below are the translation dictionary; every phrase in them appears
 in exam questions. Write $p_A = \Prob(A)$, $p_B = \Prob(B)$, $p_{AB} = \Prob(A \cap B)$.
@@ -196,6 +260,74 @@ at most one                         & complement of ``at least two''            
 \end{center}
 Every three-event formula is a sum of regions from the eight-region table; when in
 doubt, fill the regions and add.
+
+\subsection{Countable additivity and geometric series}
+
+Axiom A3 covers infinite sequences of disjoint events, and the exam tests it with
+regions whose areas or probabilities form a geometric progression: the $i$th region
+has probability $r^i$ (or $k r^i$) for $i = 1, 2, \ldots$, with $0 < r < 1$. The regions
+are disjoint, so the probability of hitting one of the first $N$ is the sum of the
+first $N$ terms, and the probability of hitting any of infinitely many is the sum of
+the series.
+
+\begin{keyfact}[Geometric sums for disjoint regions]
+For $0 < r < 1$,
+\[
+  \sum_{i=1}^{N} r^i = \frac{r\,(1 - r^N)}{1 - r},
+  \qquad
+  \sum_{i=1}^{\infty} r^i = \frac{r}{1 - r},
+  \qquad
+  \sum_{i=0}^{\infty} r^i = \frac{1}{1 - r}.
+\]
+The infinite sum must not exceed $1$ (A3 with A2), so a design with areas $r^i$,
+$i \ge 1$, is admissible only when $r \le 1/2$. If the union of the regions is the
+whole space, the constant $k$ in $\Prob(A_i) = k r^i$ is fixed by
+$k\,r/(1-r) = 1$.
+\end{keyfact}
+
+The probability of missing all $N$ regions is $1 - r(1 - r^N)/(1-r)$, which decreases
+to the floor $1 - r/(1-r) = (1 - 2r)/(1-r)$ as $N \to \infty$. A ``minimum $N$ such
+that the miss probability is below $p$'' question is solved by setting the closed
+form below $p$, isolating $r^N$, and taking logarithms:
+\[
+  r^N < c \iff N > \frac{\ln c}{\ln r}
+  \qquad (\text{the inequality flips because } \ln r < 0),
+\]
+then rounding up to the next integer. If $p$ is at or below the floor, no finite
+$N$ works, and no infinite design works either.
+
+\subsection{Testing whether two described events are equal}
+
+A question may define $F$ and $G$ in words, list five events in words, and ask how
+many of the five equal $F \cap G$ (or $F \cup G$). Reading alone is unreliable; the
+descriptions are chosen to differ by one boundary case. The systematic method:
+\begin{enumerate}[nosep]
+  \item Choose coordinates for an outcome. For claims in two years, an outcome is
+        the pair $(N_1, N_2)$ of claim counts.
+  \item Coarsen each coordinate to the fewest classes that every description in the
+        list can still distinguish. If the descriptions mention ``none'', ``exactly
+        one'', and ``two or more'', use the classes $0$, $1$, $2^{+}$.
+  \item Draw the grid of classes and mark the cells that belong to the target event.
+  \item For each listed description, mark its cells and compare. Equal events have
+        identical cell sets; one differing cell settles the case.
+\end{enumerate}
+The listed descriptions are usually algebraic rewrites of the target, and each
+rewrite is right or wrong by one of the set laws:
+\begin{itemize}[nosep]
+  \item De Morgan: ``not ($\cc{F}$ and $\cc{G}$)'' equals $F \cup G$; ``not
+        ($\cc{F}$ or $\cc{G}$)'' equals $F \cap G$.
+  \item Disjoint decomposition: $F \cup G = F \cup (\cc{F} \cap G)$.
+  \item Absorption: $F \cup (F \cap H) = F$ and $F \cap (F \cup H) = F$; adding a
+        subset of $F$ to a union with $F$ changes nothing.
+  \item Distribution: $F \cap (G \cup H) = (F\cap G) \cup (F \cap H)$.
+  \item Given one coordinate, a condition on a total becomes a condition on the
+        other coordinate: with $N_1 = 1$ fixed, ``$N_1 + N_2 \ge 2$'' is
+        ``$N_2 \ge 1$''.
+\end{itemize}
+A description that is a proper subset of the target (it adds a condition) or a
+proper superset (it drops one) is not equal to it, even when it is ``almost'' the
+same. Watch for ``more than one'' (at least two) versus ``one or more'' (at least one),
+and for a condition on the two-year total that silently allows a year with zero.
 
 \subsection{Worked examples}
 
@@ -331,6 +463,199 @@ $65 + 55 = 120$. Check: $120 + 55 + 25 = 200$.
 Answer: (D).
 \end{solution}
 
+\begin{example}[Unions with complements]
+For a randomly selected policy in a commercial lines portfolio, let $A$ be the event
+that the policy carries general liability coverage and $B$ the event that it carries
+property coverage. You are given
+\[
+  \Prob(A \cup B) = 0.78, \qquad \Prob(A \cup \cc{B}) = 0.67, \qquad \Prob(B) = 0.55 .
+\]
+Calculate the probability that the policy carries both coverages.
+
+(A) 0.22 \qquad (B) 0.33 \qquad (C) 0.45 \qquad (D) 0.55 \qquad (E) 0.67
+\end{example}
+\begin{solution}
+Write inclusion-exclusion for each union and add:
+\begin{align*}
+  \Prob(A \cup B) &= \Prob(A) + \Prob(B) - \Prob(A \cap B), \\
+  \Prob(A \cup \cc{B}) &= \Prob(A) + \Prob(\cc{B}) - \Prob(A \cap \cc{B}), \\
+  0.78 + 0.67 &= 2\Prob(A) + 1 - \bigl[\Prob(A\cap B) + \Prob(A \cap \cc{B})\bigr]
+               = 2\Prob(A) + 1 - \Prob(A),
+\end{align*}
+so $\Prob(A) = 1.45 - 1 = 0.45$. Then
+$\Prob(A \cap B) = \Prob(A) + \Prob(B) - \Prob(A \cup B) = 0.45 + 0.55 - 0.78 = 0.22$.
+
+Shorter route: $A \cup \cc{B}$ is the complement of $\cc{A} \cap B$ (De Morgan), so
+$\Prob(\cc{A} \cap B) = 1 - 0.67 = 0.33$, and
+$\Prob(A \cap B) = \Prob(B) - \Prob(\cc{A}\cap B) = 0.55 - 0.33 = 0.22$.
+
+Table check: $A\cap B = 0.22$, $A \cap \cc{B} = 0.45 - 0.22 = 0.23$,
+$\cc{A} \cap B = 0.33$, neither $= 1 - 0.78 = 0.22$; the sum is $1.00$.
+
+Answer: (A).
+\end{solution}
+
+\begin{example}[Disjoint pair inside a three-product profile]
+An agent sells disability income insurance, term life insurance, and whole life
+insurance. No client holds both term life and whole life. The agent's client
+profile is:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item 20\% of clients hold none of the three products;
+  \item 63\% of clients hold disability income insurance;
+  \item three times as many clients hold term life as hold whole life;
+  \item 23\% of clients hold exactly two of the three products;
+  \item 12\% of clients hold term life but not disability income insurance.
+\end{enumerate}
+Calculate the percentage of clients who hold both disability income and whole life
+insurance.
+
+(A) 5\% \qquad (B) 8\% \qquad (C) 12\% \qquad (D) 15\% \qquad (E) 18\%
+\end{example}
+\begin{solution}
+Let $D$, $T$, $W$ be the three products. Since $T \cap W = \emptyset$, the regions
+$T \cap W$ only and $D \cap T \cap W$ are empty, leaving six regions: $d$ ($D$ only),
+$t$ ($T$ only), $w$ ($W$ only), $dt$, $dw$, and $n$ (none). Translate:
+\[
+  n = 0.20, \quad d + dt + dw = 0.63, \quad t + dt = 3(w + dw), \quad dt + dw = 0.23,
+  \quad t = 0.12 .
+\]
+Fact (v) gives $t$ directly because $T$ but not $D$ cannot include any $W$.
+Outside $D$ lie $t$, $w$, and $n$, with total $1 - 0.63 = 0.37$, so
+$w = 0.37 - 0.20 - 0.12 = 0.05$. Substitute into the ratio:
+$0.12 + dt = 3(0.05 + dw) = 0.15 + 3\,dw$, so $dt = 0.03 + 3\,dw$. With
+$dt + dw = 0.23$: $0.03 + 4\,dw = 0.23$, so $dw = 0.05$ and $dt = 0.18$.
+
+Check: $d = 0.63 - 0.18 - 0.05 = 0.40$, and
+$0.40 + 0.12 + 0.05 + 0.18 + 0.05 + 0.20 = 1.00$. Term life totals
+$0.12 + 0.18 = 0.30$, whole life $0.05 + 0.05 = 0.10$, ratio $3$.
+
+Answer: (A).
+\end{solution}
+
+\begin{example}[Three overlapping benefits and a fourth disjoint one]
+A company offers its 250 employees four voluntary benefits: dental, vision, legal,
+and a commuter plan. Enrollment records show:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item 96 are enrolled in dental, 58 in vision, and 40 in legal;
+  \item 27 are enrolled in dental and vision, 18 in dental and legal, and 12 in
+        vision and legal;
+  \item 7 are enrolled in all three of dental, vision, and legal;
+  \item 35 are enrolled in the commuter plan, and none of these is enrolled in
+        dental, vision, or legal.
+\end{enumerate}
+Calculate the number of employees enrolled in exactly one of the four benefits.
+
+(A) 71 \qquad (B) 101 \qquad (C) 114 \qquad (D) 136 \qquad (E) 179
+\end{example}
+\begin{solution}
+Let $D$, $V$, $L$, $K$ be the four benefits. For the three overlapping ones,
+$\Sigma_1 = 96 + 58 + 40 = 194$, $\Sigma_2 = 27 + 18 + 12 = 57$, $T = 7$.
+Exactly one of $D$, $V$, $L$ is $\Sigma_1 - 2\Sigma_2 + 3T = 194 - 114 + 21 = 101$.
+Region check: $D$ only $= 96 - 20 - 11 - 7 = 58$, $V$ only $= 58 - 20 - 5 - 7 = 26$,
+$L$ only $= 40 - 11 - 5 - 7 = 17$, total $101$.
+
+$K$ is disjoint from $D \cup V \cup L$, so every one of its 35 members has exactly one
+benefit, and none of them changes the count for $D$, $V$, $L$. Exactly one of the
+four: $101 + 35 = 136$.
+
+For reference, $|D \cup V \cup L| = 194 - 57 + 7 = 144$, $|D\cup V\cup L\cup K| = 144 + 35 = 179$
+by finite additivity, and none of the four $= 250 - 179 = 71$.
+
+Answer: (D).
+\end{solution}
+
+\begin{example}[Countable additivity with geometric areas]
+A carnival game uses a board of area 1 painted in red and blue regions. A
+blindfolded player marks a point on the board and wins if the point lies in a blue
+region. The board can be painted with any number of red regions, and the red regions
+are designed so that the $i$th red region has area $(2/5)^i$, $i = 1, 2, \ldots$.
+
+Calculate the minimum number of red regions that makes the probability of winning
+less than 34\%.
+
+(A) 2 \qquad (B) 3 \qquad (C) 4 \qquad (D) 5 \qquad (E) 6
+\end{example}
+\begin{solution}
+With $N$ red regions, the red regions are disjoint, so by additivity the losing
+probability is the sum of their areas and the winning probability is
+\[
+  w_N = 1 - \sum_{i=1}^{N} \Bigl(\frac{2}{5}\Bigr)^i
+      = 1 - \frac{(2/5)\bigl(1 - (2/5)^N\bigr)}{1 - 2/5}
+      = 1 - \frac{2}{3}\Bigl(1 - \Bigl(\frac{2}{5}\Bigr)^N\Bigr)
+      = \frac{1}{3} + \frac{2}{3}\Bigl(\frac{2}{5}\Bigr)^N .
+\]
+Require $w_N < 0.34$:
+\[
+  \frac{2}{3}\Bigl(\frac{2}{5}\Bigr)^N < 0.34 - \frac{1}{3} = \frac{1}{150}
+  \iff \Bigl(\frac{2}{5}\Bigr)^N < \frac{1}{100}
+  \iff N > \frac{\ln(0.01)}{\ln(0.4)} = 5.03 .
+\]
+The smallest integer is $N = 6$. Check: $w_5 = 1/3 + (2/3)(0.01024) = 0.3402$, not
+below $0.34$; $w_6 = 1/3 + (2/3)(0.004096) = 0.3361$.
+
+The winning probability never drops below the floor $1/3$: the infinite series of red
+areas sums to $(2/5)/(3/5) = 2/3$. A target of ``less than 33\%'' would have no
+answer, with any finite or infinite number of red regions.
+
+Answer: (E).
+\end{solution}
+
+\begin{example}[Which described events equal $F \cup G$]
+A policyholder holds an auto policy for two years. Let $F$ be the event that the
+policyholder has at most one accident in year one, and $G$ the event that the
+policyholder has no accidents in year two. Consider the following events:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item The policyholder has at most one accident in the two-year period.
+  \item It is not the case that the policyholder has two or more accidents in year
+        one and at least one accident in year two.
+  \item The policyholder has at most one accident in year one, or has two or more
+        accidents in year one and no accidents in year two.
+  \item The policyholder has at most one accident in year one, or has no accidents
+        in either year.
+  \item The policyholder has at most one accident in year one, or has more
+        accidents in year one than in year two and no accidents in year two.
+\end{enumerate}
+Determine the number of events from the list that are the same as $F \cup G$.
+
+(A) None \qquad (B) Exactly one \qquad (C) Exactly two \qquad (D) Exactly three \qquad (E) All
+\end{example}
+\begin{solution}
+Let $N_1$ and $N_2$ be the accident counts in the two years. Every description
+distinguishes only the classes $0$, $1$, and $2^{+}$ for each year, so the outcome
+grid has nine cells. $F$ is the rows $N_1 = 0$ and $N_1 = 1$; $G$ is the column
+$N_2 = 0$; $F \cup G$ is those two rows plus the cell $(2^{+}, 0)$, seven cells in all.
+A bullet marks membership.
+\begin{center}
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+$(N_1, N_2)$ & $F \cup G$ & (i) & (ii) & (iii) & (iv) & (v) \\
+\midrule
+$(0,0)$          & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\
+$(0,1)$          & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\
+$(0,2^{+})$      & $\bullet$ &           & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\
+$(1,0)$          & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\
+$(1,1)$          & $\bullet$ &           & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\
+$(1,2^{+})$      & $\bullet$ &           & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$ \\
+$(2^{+},0)$      & $\bullet$ &           & $\bullet$ & $\bullet$ &           & $\bullet$ \\
+$(2^{+},1)$      &           &           &           &           &           &           \\
+$(2^{+},2^{+})$  &           &           &           &           &           &           \\
+\bottomrule
+\end{tabular}
+\end{center}
+(i) is the event $N_1 + N_2 \le 1$, three cells; it omits $(0, 2^{+})$, which is in
+$F$. Not equal.
+(ii) is the complement of $\cc{F} \cap \cc{G}$, which by De Morgan is $F \cup G$. Equal.
+(iii) is $F \cup (\cc{F} \cap G)$, the disjoint decomposition of $F \cup G$. Equal.
+(iv) is $F \cup \{(0,0)\}$; the added cell is already in $F$, so this is just $F$,
+which lacks $(2^{+}, 0)$. Not equal.
+(v) is $F \cup \{N_1 > N_2,\ N_2 = 0\} = F \cup \{N_1 \ge 1,\ N_2 = 0\}$. The added
+cells are $(1,0)$, already in $F$, and $(2^{+},0)$; the result is $F \cup G$. Equal.
+
+Three of the five events equal $F \cup G$.
+
+Answer: (D).
+\end{solution}
+
 \subsection{Traps}
 
 \begin{trap}[``At least one'' versus ``exactly one'' versus ``at most one'']
@@ -362,6 +687,32 @@ $\Prob(A \cap H) = 0.15$, which includes the policyholders who also have life.
 The region ``auto and homeowners only'' is $\Prob(A\cap H) - \Prob(A\cap H\cap L)$.
 Conversely, when the problem says ``15\% have auto and homeowners but not life'',
 it is giving the region directly. Confusing the two shifts the answer by a multiple of $T$.
+\end{trap}
+
+\begin{trap}[$\Prob(A \cup \cc{B})$ is not $1 - \Prob(A \cup B)$]
+The complement of $A \cup B$ is $\cc{A} \cap \cc{B}$, not $A \cup \cc{B}$. The event
+$A \cup \cc{B}$ is three of the four cells of the $2 \times 2$ table (everything except
+$\cc{A} \cap B$), so its probability is $1 - \Prob(\cc{A} \cap B)$, and it is
+typically large. When two unions involving complements are given, add the two
+inclusion-exclusion equations rather than guessing a relation between them.
+\end{trap}
+
+\begin{trap}[An infinite union of disjoint regions has a floor, and a ceiling]
+With region probabilities $r^i$, $i \ge 1$, the probability of missing every
+region decreases toward $(1-2r)/(1-r)$, not toward $0$; a question that asks for a miss
+probability below that floor has no answer. In the other direction, the series must
+sum to at most $1$, so $r^i$ areas on a board of area $1$ require $r \le 1/2$. When
+solving $r^N < c$, dividing by $\ln r$ (negative) reverses the inequality, and the
+answer is the next integer above the bound, not the nearest integer.
+\end{trap}
+
+\begin{trap}[Coarsening the outcome grid too far]
+The classes $0$, $1$, $2^{+}$ are enough when every description compares a count
+to a fixed number. A description that compares the two years to each other (``more
+accidents in year one than in year two'') can split the $2^{+}$ class: the outcomes
+$(3,2)$ and $(2,3)$ both sit in the cell $(2^{+}, 2^{+})$ but fall on opposite sides of
+the comparison. Either refine the classes or test the ambiguous cell with explicit
+outcomes before declaring two events equal.
 \end{trap}
 
 \subsection{Practice problems}
@@ -437,6 +788,97 @@ Calculate the number of policyholders who have collision coverage only.
 (A) 80 \quad (B) 100 \quad (C) 160 \quad (D) 180 \quad (E) 220
 \end{practice}
 
+\begin{practice}
+For a randomly selected policyholder, let $A$ be the event that the policyholder
+files a claim this year and $B$ the event that the policyholder renews at year end.
+You are given
+\[
+  \Prob(A \cup B) = 0.85, \qquad \Prob(A \cup \cc{B}) = 0.75, \qquad \Prob(\cc{A} \cup B) = 0.90 .
+\]
+Calculate the probability that at most one of the events $A$ and $B$ occurs.
+
+(A) 0.15 \qquad (B) 0.25 \qquad (C) 0.35 \qquad (D) 0.40 \qquad (E) 0.50
+\end{practice}
+
+\begin{practice}
+An insurance agent sells auto, homeowners, and renters insurance. No client holds
+both homeowners and renters insurance. The agent's client profile is:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item 12\% of clients hold none of the three products;
+  \item 43\% of clients hold exactly one of the three products;
+  \item 73\% of clients hold auto insurance;
+  \item 5\% of clients hold renters insurance but not auto insurance;
+  \item twice as many clients hold both auto and homeowners insurance as hold both
+        auto and renters insurance.
+\end{enumerate}
+Calculate the percentage of clients who hold homeowners insurance.
+
+(A) 20\% \qquad (B) 28\% \qquad (C) 30\% \qquad (D) 38\% \qquad (E) 40\%
+\end{practice}
+
+\begin{practice}
+A bank surveys 400 customers about four products: a checking account, a savings
+account, a brokerage account, and a certificate of deposit. The survey finds:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item 130 hold a checking account, 100 a savings account, and 70 a brokerage
+        account;
+  \item 40 hold checking and savings, 30 hold checking and brokerage, and 20 hold
+        savings and brokerage;
+  \item 60 hold a certificate of deposit, and none of these holds a checking,
+        savings, or brokerage account;
+  \item 115 hold none of the four products.
+\end{enumerate}
+Calculate the number of customers who hold all three of the checking, savings, and
+brokerage accounts.
+
+(A) 15 \qquad (B) 25 \qquad (C) 30 \qquad (D) 45 \qquad (E) 60
+\end{practice}
+
+\begin{practice}
+Each incoming claim is assigned to exactly one adjuster from the sequence
+$A_1, A_2, A_3, \ldots$, and the probability that a claim is assigned to adjuster
+$A_i$ is $k\,(3/4)^i$ for $i = 1, 2, \ldots$, where $k$ is a constant.
+
+Calculate the smallest $n$ such that the probability that a claim is assigned to one
+of the first $n$ adjusters is at least $0.95$.
+
+(A) 9 \qquad (B) 10 \qquad (C) 11 \qquad (D) 12 \qquad (E) 13
+\end{practice}
+
+\begin{practice}
+A policyholder holds a policy for two years. Let $F$ be the event that the
+policyholder has no claims in year one and $G$ the event that the policyholder has
+at least two claims in year two. Consider the following events:
+\begin{enumerate}[nosep,label=(\roman*)]
+  \item The policyholder has at least one claim in year one and at most one claim in
+        year two.
+  \item It is not the case that the policyholder has no claims in year one or has at
+        least two claims in year two.
+  \item The policyholder has at least one claim in year one, and has either no claims
+        or exactly one claim in year two.
+  \item The policyholder has exactly one claim in year one and at most one claim in
+        year two, or has two or more claims in year one and at most one claim in
+        year two.
+  \item The policyholder has at least one claim in year one and at most one claim in
+        year two, or has exactly one claim in year one and no claims in year two.
+\end{enumerate}
+Determine the number of events from the list that are the same as $\cc{(F \cup G)}$.
+
+(A) None \qquad (B) Exactly one \qquad (C) Exactly two \qquad (D) Exactly three \qquad (E) All
+\end{practice}
+
+\begin{practice}
+An auto insurer has 5{,}000 policies. Each policy is classified as urban or rural,
+as covering a sedan or a truck, and as commuting use or pleasure use. Of these
+policies, 2{,}100 are urban, 2{,}800 cover sedans, and 3{,}200 are for commuting
+use. Further, 1{,}150 are urban sedans, 1{,}900 are commuting sedans, and 1{,}350
+are urban commuting policies. Finally, 600 policies are rural trucks for pleasure use.
+
+Calculate the number of policies that are urban trucks for pleasure use.
+
+(A) 300 \qquad (B) 450 \qquad (C) 650 \qquad (D) 700 \qquad (E) 950
+\end{practice}
+
 \subsection{Answers to practice problems}
 
 \begin{enumerate}[nosep,label=\textbf{\arabic*.}]
@@ -452,7 +894,38 @@ Calculate the number of policyholders who have collision coverage only.
         $\Prob(C \cup M) = 0.45 + 0.30 - 0.10 = 0.65$.
   \item \textbf{(B)}. At least one $= 440$; both $= 280 + 340 - 440 = 180$;
         collision only $= 280 - 180 = 100$.
+  \item \textbf{(E)}. $\Prob(A) = 0.85 + 0.75 - 1 = 0.60$; $\Prob(B) = 0.85 + 0.90 - 1 = 0.75$;
+        $\Prob(A \cap B) = 0.60 + 0.75 - 0.85 = 0.50$; at most one $= 1 - 0.50 = 0.50$.
+        (Neither $= 0.15$; exactly one $= 0.35$.)
+  \item \textbf{(E)}. Exactly two $= 1 - 0.12 - 0.43 = 0.45$; auto only $= 0.73 - 0.45 = 0.28$;
+        homeowners only $+$ renters only $= 0.43 - 0.28 = 0.15$, so homeowners only $= 0.10$;
+        auto-renters $= 0.15$ and auto-homeowners $= 0.30$ from the ratio;
+        homeowners $= 0.10 + 0.30 = 0.40$.
+  \item \textbf{(A)}. The certificate holders are disjoint from the other three, so
+        $|C \cup S \cup B| = 400 - 115 - 60 = 225 = 300 - 90 + T$, giving $T = 15$.
+  \item \textbf{(C)}. The union of all $A_i$ is $S$, so $k(3/4)/(1/4) = 3k = 1$ and $k = 1/3$.
+        $\Prob(A_1 \cup \cdots \cup A_n) = 1 - (3/4)^n \ge 0.95$ requires
+        $n \ge \ln(0.05)/\ln(0.75) = 10.41$, so $n = 11$.
+  \item \textbf{(E)}. The target is $\cc{F} \cap \cc{G} = \{N_1 \ge 1, N_2 \le 1\}$.
+        (i) is the direct statement; (ii) is De Morgan; (iii) splits $N_2 \le 1$ into
+        $N_2 = 0$ or $N_2 = 1$; (iv) splits $N_1 \ge 1$ into $N_1 = 1$ or $N_1 \ge 2$;
+        (v) adds the cell $(1, 0)$, already in the target, so absorption leaves it unchanged.
+  \item \textbf{(A)}. Union of urban, sedan, commuting $= 5000 - 600 = 4400 = 8100 - 4400 + T$,
+        so $T = 700$; urban only $= 2100 - 1150 - 1350 + 700 = 300$.
 \end{enumerate}
+
+\subsection{Sample exam cross-reference}
+
+After studying this section, test on the following questions from the sample exam.
+\begin{itemize}[nosep]
+  \item Bank 1, Q1: three-event inclusion-exclusion, none of the three (Example 1, Practice 1).
+  \item Bank 1, Q3: add $\Prob(A \cup B)$ and $\Prob(A \cup \cc{B})$ to isolate $\Prob(A)$ (Example 6, Practice 7).
+  \item Bank 1, Q5: three binary classifications as a three-event count; ``young, female, single'' is a single region (Example 2, Practice 12).
+  \item Bank 1, Q87: disjoint pair inside three products, six-region linear system with an ``exactly two'' constraint and a ratio (Example 7, Practice 8).
+  \item Bank 1, Q100: three overlapping sets plus a fourth disjoint from them; finite additivity for the union (Example 8, Practice 9).
+  \item Bank 1, Q108: countable additivity over disjoint regions with geometric areas; minimum $N$ by logarithms (Example 9, Practice 10).
+  \item Bank 1, Q153: event equality tested on an outcome grid; De Morgan, decomposition, absorption (Example 10, Practice 11).
+\end{itemize}
 
 \subsection{One-page summary}
 
@@ -479,6 +952,21 @@ Calculate the number of policyholders who have collision coverage only.
         intersection; ``not'' is complement; ``but not'' and ``only'' subtract the
         intersection; ``every policyholder has at least one'' means the union is $S$;
         ``no one has both'' means disjoint.
+  \item Unions with complements: $\Prob(A\cup B) + \Prob(A \cup \cc{B}) = 1 + \Prob(A)$;
+        $\Prob(A \cup \cc{B}) = 1 - \Prob(\cc{A} \cap B)$; $\Prob(\cc{A}\cup\cc{B}) = 1 - \Prob(A \cap B)$.
+        Derive any of these by adding two inclusion-exclusion equations.
+  \item Disjoint pair inside three events: two regions vanish; name the six that
+        remain, translate each fact into a linear equation, solve outside-in.
+        A fourth set disjoint from the other three adds by finite additivity:
+        $\Prob(A\cup B\cup C\cup D) = \Prob(A \cup B \cup C) + \Prob(D)$.
+  \item Geometric regions: $\sum_{i=1}^{N} r^i = r(1-r^N)/(1-r)$,
+        $\sum_{i=1}^{\infty} r^i = r/(1-r) \le 1$. Miss probability with $N$ regions
+        is $1 - r(1-r^N)/(1-r)$, floor $(1-2r)/(1-r)$; solve $r^N < c$ as
+        $N > \ln c / \ln r$ and round up.
+  \item Event equality: draw the outcome grid (classes $0$, $1$, $2^{+}$ per
+        coordinate), mark the target, mark each description; one differing cell
+        breaks equality. Rewrites that preserve equality: De Morgan,
+        $F \cup G = F \cup (\cc{F}\cap G)$, absorption $F \cup (F \cap H) = F$.
   \item Never assume disjointness or independence unless stated; check that the
         regions sum to $1$ (or to the stated count).
 \end{itemize}

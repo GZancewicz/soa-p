@@ -88,6 +88,44 @@ standard forms are:
   marginals: solve the two linear equations in $e_2$ and $e_3$.
 \end{enumerate}
 
+\begin{keyfact}[Difference rule and the four Venn regions]
+Two events cut the sample space into four disjoint regions: $A \cap B$ (both), $A \cap \cc{B}$
+($A$ only), $\cc{A} \cap B$ ($B$ only), and $\cc{A} \cap \cc{B}$ (neither). Their probabilities sum
+to $1$. Each marginal is the sum of the two regions inside it, which gives the difference rule
+\[
+\Prob(A \cap \cc{B}) = \Prob(A) - \Prob(A \cap B), \qquad
+\Prob(\cc{A} \cap B) = \Prob(B) - \Prob(A \cap B).
+\]
+Any two-event question is a set of linear equations in these four region probabilities. Given any
+three independent facts about them (marginals, ``both'', ``neither'', ``$A$ only'', a union, or
+``exactly one''), fill in the four regions and read off the answer. ``Neither'' is often the
+fastest route: $\Prob(\cc{A} \cap \cc{B}) = 1 - \Prob(A \text{ only}) - \Prob(B \text{ only}) - \Prob(\text{both})$.
+\end{keyfact}
+
+\begin{keyfact}[A relation between the marginals replaces a marginal]
+When the question gives ``both'' and ``neither'' but neither marginal, it supplies instead a
+relation between them: a difference, $\Prob(A) = \Prob(B) + d$, or a ratio, $\Prob(A) = k\,\Prob(B)$.
+Write $x = \Prob(B)$, substitute into inclusion-exclusion, and solve the single linear equation
+\[
+1 - \Prob(\text{neither}) = \Prob(A \cup B) = \Prob(A) + x - \Prob(A \cap B),
+\]
+with $\Prob(A) = x + d$ or $\Prob(A) = kx$. A difference gives $2x + d - \Prob(A \cap B)$ on the
+right; a ratio gives $(k+1)x - \Prob(A \cap B)$. Once $x$ is known, the other marginal and the
+``only'' regions follow from the difference rule.
+\end{keyfact}
+
+\begin{keyfact}[Data stated in complements]
+The exam often states every probability as ``no $A$'', ``no $B$'', and ``neither''. Convert first:
+$\Prob(A) = 1 - \Prob(\cc{A})$, $\Prob(B) = 1 - \Prob(\cc{B})$, and by De Morgan
+$\Prob(A \cup B) = 1 - \Prob(\cc{A} \cap \cc{B})$. Then inclusion-exclusion gives
+\[
+\Prob(A \cap B) = \Prob(A) + \Prob(B) - \Prob(A \cup B)
+ = \Prob(\cc{A} \cap \cc{B}) - \Prob(\cc{A}) - \Prob(\cc{B}) + 1.
+\]
+``At least one $A$ and at least one $B$'' is $\Prob(A \cap B)$ when $A$ is ``at least one $A$'';
+the phrase ``at least one'' inside each event does not change the algebra.
+\end{keyfact}
+
 \subsection{Multiplication rule}
 
 \begin{keyfact}[General multiplication rule, two events]
@@ -178,6 +216,33 @@ $0.70 \times 0.10 + 0.30 \times 0.30 = 0.07 + 0.09 = 0.16$.
 
 A question that gives conditional probabilities along a chain and asks for ``at least one'' over
 the chain is usually fastest through the ``none'' path: multiply along it and subtract from 1.
+
+\begin{keyfact}[Group rates over a two-event Venn]
+When each Venn region has its own rate for a second event $R$ (a renewal, a claim, a lapse),
+the overall rate is a weighted sum over the regions. The region sizes come from the difference
+rule, and the multiplication rule applies region by region:
+\begin{align*}
+\Prob(R) &= \Prob(A \text{ only})\,\Prob(R \mid A \text{ only})
+ + \Prob(B \text{ only})\,\Prob(R \mid B \text{ only})\\
+ &\quad + \Prob(\text{both})\,\Prob(R \mid \text{both})
+ + \Prob(\text{neither})\,\Prob(R \mid \text{neither}).
+\end{align*}
+Regions with no stated rate contribute zero only when the question makes that explicit (a
+policyholder with no policy cannot renew). If the overall rate is given and one region's rate is
+missing, the same equation is solved for the missing rate.
+\end{keyfact}
+
+\begin{keyfact}[Conditional on one group, marginal overall]
+A question may give $\Prob(M)$, the marginal $\Prob(S)$, and a conditional $\Prob(S \mid M)$ on one
+group only. The multiplication rule gives the joint on that group, $\Prob(S \cap M) =
+\Prob(M)\Prob(S \mid M)$, and the difference rule gives the joint on the complementary group,
+$\Prob(S \cap \cc{M}) = \Prob(S) - \Prob(M)\Prob(S \mid M)$. The four-region table then completes:
+\[
+\Prob(\cc{M} \cap \cc{S}) = 1 - \Prob(M) - \Prob(S) + \Prob(M)\Prob(S \mid M).
+\]
+If the conditional is stated for the complement of $S$ (``of those in $M$, 70\% have no claim''),
+take $\Prob(S \mid M) = 1 - 0.70$ before multiplying.
+\end{keyfact}
 
 \subsection{Worked examples}
 
@@ -304,6 +369,112 @@ conditional probabilities after a claim, so the paths containing a claim cannot 
 the complement route is the only one available.
 \end{solution}
 
+\begin{example}[Exactly one claim type from complement data]
+For a dental plan member in a given year, the probability of no preventive claim is $0.55$, the
+probability of no restorative claim is $0.72$, and the probability of neither a preventive claim
+nor a restorative claim is $0.42$.
+Calculate the probability that the member has exactly one of the two claim types during the year.
+\par\smallskip\noindent (A)~0.15 \qquad (B)~0.43 \qquad (C)~0.45 \qquad (D)~0.58 \qquad (E)~0.73
+\end{example}
+\begin{solution}
+Let $P$ and $R$ be the events of at least one preventive claim and at least one restorative claim.
+Convert every given quantity out of its complement: $\Prob(P) = 1 - 0.55 = 0.45$,
+$\Prob(R) = 1 - 0.72 = 0.28$, and by De Morgan $\Prob(P \cup R) = 1 - 0.42 = 0.58$.
+Inclusion-exclusion gives the intersection,
+\[
+\Prob(P \cap R) = 0.45 + 0.28 - 0.58 = 0.15,
+\]
+and exactly one is the union less the intersection, $0.58 - 0.15 = 0.43$. Answer \textbf{(B)}.
+The regions are $P$ only $0.30$, $R$ only $0.13$, both $0.15$, neither $0.42$; they sum to $1$.
+Choice (A) is the intersection, which answers ``both'' rather than ``exactly one''.
+\end{solution}
+
+\begin{example}[Ratio between the marginals]
+Among an auto insurer's policyholders, 20\% carry both roadside assistance and rental
+reimbursement, and 30\% carry neither. A policyholder is 1.5 times as likely to carry roadside
+assistance as to carry rental reimbursement.
+Calculate the probability that a randomly selected policyholder carries roadside assistance but not
+rental reimbursement.
+\par\smallskip\noindent (A)~0.16 \qquad (B)~0.30 \qquad (C)~0.34 \qquad (D)~0.36 \qquad (E)~0.54
+\end{example}
+\begin{solution}
+Let $R$ be roadside assistance and $E$ be rental reimbursement, and let $x = \Prob(E)$, so
+$\Prob(R) = 1.5x$. ``Neither'' gives the union, $\Prob(R \cup E) = 1 - 0.30 = 0.70$, and
+inclusion-exclusion becomes one equation in $x$:
+\[
+0.70 = 1.5x + x - 0.20 = 2.5x - 0.20 \quad\Longrightarrow\quad x = 0.36, \qquad \Prob(R) = 0.54.
+\]
+The difference rule gives roadside only: $\Prob(R \cap \cc{E}) = 0.54 - 0.20 = 0.34$.
+Answer \textbf{(C)}. Choice (D) is $\Prob(E)$ and choice (E) is $\Prob(R)$; both are intermediate
+values, not the region asked for. Check: $0.34 + 0.16 + 0.20 + 0.30 = 1$.
+\end{solution}
+
+\begin{example}[Neither claim type from an ``only'' region]
+For a class of auto policyholders, the probability of filing a collision claim in a year is
+$0.09$ and the probability of filing a comprehensive claim is $0.05$. The probability of filing a
+comprehensive claim but not a collision claim is $0.03$.
+Calculate the probability that a randomly selected policyholder in this class files no claim of
+either type during the year.
+\par\smallskip\noindent (A)~0.86 \qquad (B)~0.87 \qquad (C)~0.89 \qquad (D)~0.91 \qquad (E)~0.88
+\end{example}
+\begin{solution}
+Let $C$ be a collision claim and $M$ a comprehensive claim. The ``only'' region given is
+$\Prob(M \cap \cc{C}) = 0.03$, so the difference rule on $M$ gives the intersection,
+$\Prob(C \cap M) = 0.05 - 0.03 = 0.02$, and the difference rule on $C$ gives the other ``only''
+region, $\Prob(C \cap \cc{M}) = 0.09 - 0.02 = 0.07$. The four regions sum to $1$:
+\[
+\Prob(\text{neither}) = 1 - 0.07 - 0.02 - 0.03 = 0.88.
+\]
+Answer \textbf{(E)}. Equivalently, $\Prob(C \cup M) = 0.09 + 0.05 - 0.02 = 0.12$ and neither is
+$1 - 0.12 = 0.88$. Choice (A) results from subtracting both marginals without adding back the
+intersection, $1 - 0.09 - 0.05$.
+\end{solution}
+
+\begin{example}[Weighted rates over four Venn regions]
+An insurer's customers may hold an auto policy, a homeowners policy, both, or neither (customers
+with neither hold only a life policy). Records show that 60\% of customers hold an auto policy,
+45\% hold a homeowners policy, and 20\% hold both. The insurer estimates that next year 30\% of
+auto-only customers, 40\% of homeowners-only customers, 70\% of customers with both, and 10\% of
+customers with neither will contact the service centre.
+Calculate the percentage of customers expected to contact the service centre next year.
+\par\smallskip\noindent (A)~34.0\% \qquad (B)~36.0\% \qquad (C)~37.5\% \qquad (D)~41.5\% \qquad (E)~45.0\%
+\end{example}
+\begin{solution}
+Let $A$ and $H$ be the auto and homeowners events. The difference rule sizes the regions:
+auto only $0.60 - 0.20 = 0.40$, homeowners only $0.45 - 0.20 = 0.25$, both $0.20$, and neither
+$1 - 0.40 - 0.25 - 0.20 = 0.15$. The regions are disjoint and exhaust the customers, so the
+multiplication rule on each region followed by the addition rule gives
+\[
+0.40(0.30) + 0.25(0.40) + 0.20(0.70) + 0.15(0.10) = 0.120 + 0.100 + 0.140 + 0.015 = 0.375.
+\]
+Answer \textbf{(C)}. Weighting the marginals instead of the ``only'' regions, $0.60(0.30) +
+0.45(0.40) + \cdots$, counts the ``both'' customers in three regions and overstates the total.
+\end{solution}
+
+\begin{example}[Joint on the complementary group from a conditional on one group]
+An insurer examines its book of personal lines policyholders and finds:
+(i) every policyholder holds at least one policy;
+(ii) 60\% of policyholders hold more than one policy;
+(iii) 25\% of policyholders filed a claim last year;
+(iv) of the policyholders who hold more than one policy, 70\% filed no claim last year.
+Calculate the probability that a randomly selected policyholder holds exactly one policy and filed
+no claim last year.
+\par\smallskip\noindent (A)~0.07 \qquad (B)~0.15 \qquad (C)~0.18 \qquad (D)~0.28 \qquad (E)~0.33
+\end{example}
+\begin{solution}
+Let $M$ be ``more than one policy'' and $S$ be ``filed a claim''. By (i), $\cc{M}$ is ``exactly
+one policy''. Statement (iv) is a conditional on $M$ for the complement of $S$, so
+$\Prob(S \mid M) = 1 - 0.70 = 0.30$ and the multiplication rule gives
+$\Prob(S \cap M) = 0.60(0.30) = 0.18$. The difference rule moves to the other group:
+$\Prob(S \cap \cc{M}) = 0.25 - 0.18 = 0.07$. The target is the remaining region of $\cc{M}$,
+\[
+\Prob(\cc{M} \cap \cc{S}) = \Prob(\cc{M}) - \Prob(S \cap \cc{M}) = 0.40 - 0.07 = 0.33,
+\]
+or, in one line through De Morgan, $1 - \Prob(M \cup S) = 1 - 0.60 - 0.25 + 0.18 = 0.33$.
+Answer \textbf{(E)}. Choice (D) is $0.40 \times 0.70$, which treats the 70\% as if it applied to
+single-policy holders; the conditional was given for the other group.
+\end{solution}
+
 \subsection{Traps}
 
 \begin{trap}[Adding without subtracting the intersection]
@@ -399,6 +570,51 @@ year.
 \par\smallskip\noindent (A)~0.058 \quad (B)~0.065 \quad (C)~0.085 \quad (D)~0.103 \quad (E)~0.077
 \end{practice}
 
+\begin{practice}
+For a health plan member in a given year, the probability of no outpatient visit is $0.64$, the
+probability of no prescription claim is $0.55$, and the probability of neither an outpatient visit
+nor a prescription claim is $0.40$.
+Calculate the probability that the member has at least one outpatient visit but no prescription
+claim during the year.
+\par\smallskip\noindent (A)~0.09 \qquad (B)~0.21 \qquad (C)~0.24 \qquad (D)~0.15 \qquad (E)~0.39
+\end{practice}
+
+\begin{practice}
+Among the employees of a company, 12\% are enrolled in both the dental plan and the vision plan,
+and 28\% are enrolled in neither. An employee is twice as likely to be enrolled in the dental plan
+as in the vision plan.
+Calculate the percentage of employees enrolled in the vision plan but not the dental plan.
+\par\smallskip\noindent (A)~16\% \qquad (B)~28\% \qquad (C)~44\% \qquad (D)~56\% \qquad (E)~60\%
+\end{practice}
+
+\begin{practice}
+For a class of homeowners, the probability of filing a liability claim in a year is $0.05$, the
+probability of filing a liability claim but no property claim is $0.02$, and the probability of
+filing no claim of either type is $0.85$.
+Calculate the probability that a randomly selected homeowner in this class files a property claim
+during the year.
+\par\smallskip\noindent (A)~0.10 \qquad (B)~0.12 \qquad (C)~0.13 \qquad (D)~0.15 \qquad (E)~0.18
+\end{practice}
+
+\begin{practice}
+An insurer sells auto and homeowners policies, and every policyholder holds at least one of the
+two. Records show that 70\% of policyholders hold an auto policy and 55\% hold a homeowners
+policy. Next year, 20\% of auto-only policyholders and 30\% of homeowners-only policyholders are
+expected to qualify for a loyalty discount. Overall, 38\% of policyholders are expected to qualify.
+Calculate the percentage of policyholders holding both policies who are expected to qualify for
+the discount.
+\par\smallskip\noindent (A)~60\% \qquad (B)~70\% \qquad (C)~75\% \qquad (D)~80\% \qquad (E)~85\%
+\end{practice}
+
+\begin{practice}
+An insurer's auto customers each insure at least one vehicle. Of the customers, 55\% insure more
+than one vehicle and 30\% insure at least one vehicle that is subject to a lien. Of the customers
+who insure exactly one vehicle, 40\% insure a vehicle subject to a lien.
+Calculate the probability that a randomly selected customer insures more than one vehicle and none
+of the customer's vehicles is subject to a lien.
+\par\smallskip\noindent (A)~0.43 \qquad (B)~0.12 \qquad (C)~0.18 \qquad (D)~0.37 \qquad (E)~0.45
+\end{practice}
+
 \subsection{Answers to practice problems}
 
 \begin{enumerate}[leftmargin=2em]
@@ -416,7 +632,36 @@ year.
   $0.50 = 0.80 - 2x$ and $x = 0.15$.
   \item \textbf{(E)} $0.077$. Split by class and multiply along each path:
   $0.60(0.08) + 0.30(0.03) + 0.10(0.20) = 0.048 + 0.009 + 0.020 = 0.077$.
+  \item \textbf{(D)} $0.15$. Convert: $\Prob(O) = 0.36$, $\Prob(R) = 0.45$, $\Prob(O \cup R) = 0.60$.
+  Intersection $= 0.36 + 0.45 - 0.60 = 0.21$; outpatient but no prescription $= 0.36 - 0.21 = 0.15$.
+  \item \textbf{(A)} $16\%$. Let $x = \Prob(V)$, so $\Prob(D) = 2x$. Union $= 1 - 0.28 = 0.72 =
+  3x - 0.12$, so $x = 0.28$; vision only $= 0.28 - 0.12 = 0.16$.
+  \item \textbf{(C)} $0.13$. Both $= 0.05 - 0.02 = 0.03$; union $= 1 - 0.85 = 0.15$; the union is
+  liability-only plus property, so $\Prob(P) = 0.15 - 0.02 = 0.13$ (property only $0.10$).
+  \item \textbf{(D)} $80\%$. Union is $1$, so both $= 0.70 + 0.55 - 1 = 0.25$, auto only $0.45$,
+  homeowners only $0.30$. Then $0.45(0.20) + 0.30(0.30) + 0.25x = 0.38$ gives $0.25x = 0.20$, $x = 0.80$.
+  \item \textbf{(A)} $0.43$. Single-vehicle customers with a lien: $0.45(0.40) = 0.18$.
+  Multi-vehicle with a lien: $0.30 - 0.18 = 0.12$. Multi-vehicle without: $0.55 - 0.12 = 0.43$.
 \end{enumerate}
+
+\subsection{Sample exam cross-reference}
+
+\begin{itemize}[leftmargin=2em]
+  \item Bank 1, Q2: ``neither'' plus two marginals; De Morgan to the union, then inclusion-exclusion
+  for ``both'' (pattern 2; Example on exactly one claim type from complement data).
+  \item Bank 1, Q7: size the regions auto only, homeowners only, both by the difference rule, then
+  weight each region's renewal rate and add (Example on weighted rates over four Venn regions).
+  \item Bank 1, Q8: ``both'', ``neither'', and a difference between the marginals; one linear
+  equation in the unknown marginal (Example on ratio between the marginals, with $d$ in place of $k$).
+  \item Bank 1, Q99: liability, property, and ``liability but not property''; difference rule for
+  the intersection, then the four regions sum to $1$ for ``neither'' (Example on neither claim type
+  from an ``only'' region).
+  \item Bank 1, Q130: ``no ER'', ``no hospital'', ``neither''; convert complements, De Morgan for the
+  union, inclusion-exclusion for ``at least one of each'' (Key fact on data stated in complements).
+  \item Bank 2, Q9: $\Prob(M)$, $\Prob(S)$, and $\Prob(S \mid M)$ on one group; multiplication rule
+  for the joint on $M$, De Morgan for ``exactly one car and not sports'' (Example on the joint on the
+  complementary group).
+\end{itemize}
 
 \subsection{One-page summary}
 
@@ -428,6 +673,12 @@ year.
   \item Complement of the union is ``neither'' or ``none'':
   $\Prob(\cc{A} \cap \cc{B}) = 1 - \Prob(A \cup B)$. ``At least one'' $= 1 - \Prob(\text{none})$.
   \item Exactly one of two events: $\Prob(A) + \Prob(B) - 2\Prob(A \cap B) = \Prob(A \cup B) - \Prob(A \cap B)$.
+  \item Four Venn regions ($A$ only, $B$ only, both, neither) sum to $1$. Difference rule:
+  $\Prob(A \cap \cc{B}) = \Prob(A) - \Prob(A \cap B)$. Any three independent facts fix all four.
+  \item Marginals related by a difference or ratio: set $x = \Prob(B)$, write $\Prob(A) = x + d$ or
+  $kx$, and solve $1 - \Prob(\text{neither}) = \Prob(A) + x - \Prob(A \cap B)$ for $x$.
+  \item Data in complements: $\Prob(A) = 1 - \Prob(\cc{A})$, union $= 1 - \Prob(\text{neither})$,
+  then $\Prob(A \cap B) = \Prob(A) + \Prob(B) - \Prob(A \cup B)$.
   \item Three events with $e_1, e_2, e_3$ (exactly one, two, three): union $= e_1 + e_2 + e_3$ and
   sum of marginals $= e_1 + 2e_2 + 3e_3$.
   \item Multiplication rule: $\Prob(A \cap B) = \Prob(A)\Prob(B \mid A) = \Prob(B)\Prob(A \mid B)$.
@@ -441,6 +692,11 @@ year.
   product of its labels; an event's probability is the sum of its paths. Paths sum to 1.
   \item Two-stage problems: split into disjoint cases, multiply along each case, add. This is the
   law of total probability, $\Prob(A) = \sum_i \Prob(B_i)\Prob(A \mid B_i)$ (outcome (g)).
+  \item Rates by Venn region: size the regions with the difference rule, multiply each region by
+  its rate, add. Do not weight the marginals; ``both'' would be counted twice.
+  \item Conditional on one group only: $\Prob(S \cap M) = \Prob(M)\Prob(S \mid M)$, then
+  $\Prob(S \cap \cc{M}) = \Prob(S) - \Prob(S \cap M)$, and
+  $\Prob(\cc{M} \cap \cc{S}) = 1 - \Prob(M) - \Prob(S) + \Prob(M)\Prob(S \mid M)$.
   \item Joint versus conditional: $\Prob(A \cap B) = \Prob(A)\Prob(B \mid A) \le \Prob(B \mid A)$.
   A percentage ``of those with $A$'' is a conditional probability. With counts, divide by the
   total once at the end.
